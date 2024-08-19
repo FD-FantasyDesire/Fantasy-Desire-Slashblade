@@ -6,14 +6,9 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import tennouboshiuzume.mods.fantasydesire.client.renderer.entity.RenderDriveEx;
-import tennouboshiuzume.mods.fantasydesire.client.renderer.entity.RenderPhantomSwordEx;
-import tennouboshiuzume.mods.fantasydesire.client.renderer.entity.RenderPhantomSwordExBase;
+import tennouboshiuzume.mods.fantasydesire.client.renderer.entity.*;
 import tennouboshiuzume.mods.fantasydesire.common.CommonProxy;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityDriveEx;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
-import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
+import tennouboshiuzume.mods.fantasydesire.entity.*;
 import tennouboshiuzume.mods.fantasydesire.util.ItemUtils;
 
 /**
@@ -61,10 +56,23 @@ public class ClientProxy extends CommonProxy {
                     public Render<? super EntitySoulPhantomSword> createRenderFor(RenderManager manager) {
                         return new RenderPhantomSwordExBase(manager);
                     }
-                }
-        );
-
-
+                });
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityOverCharge.class,
+                new IRenderFactory<EntityOverCharge>() {
+                    @Override
+                    public Render<? super EntityOverCharge> createRenderFor(RenderManager manager) {
+                        return new RenderOverCharge(manager);
+                    }
+                });
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityOverChargeBFG.class,
+                new IRenderFactory<EntityOverChargeBFG>() {
+                    @Override
+                    public Render<? super EntityOverChargeBFG> createRenderFor(RenderManager manager) {
+                        return new RenderOverCharge(manager);
+                    }
+                });
     }
 
 

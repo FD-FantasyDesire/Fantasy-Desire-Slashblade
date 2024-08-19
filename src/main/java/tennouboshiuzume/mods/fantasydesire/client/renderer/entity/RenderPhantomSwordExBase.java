@@ -99,9 +99,10 @@ public class RenderPhantomSwordExBase extends Render {
         GL11.glRotatef(entity.getRoll(),0,0,1);
         //GL11.glRotatef(fRot, 0.0F, 1.0F, 0.0F);
 
-        float scale = 0.0045f;
+//        System.out.println(entity.getTrueScale());
+        float scale = 0.0045f*entity.getTrueScale();
         GL11.glScalef(scale, scale, scale);
-        GL11.glScalef(0.5f*entity.getScale(), 0.5f*entity.getScale(), 1.0f*entity.getScale());
+        GL11.glScalef(0.5f, 0.5f, 1.0f);
 
         //■スタート
         float lifetime = entity.getLifeTime();

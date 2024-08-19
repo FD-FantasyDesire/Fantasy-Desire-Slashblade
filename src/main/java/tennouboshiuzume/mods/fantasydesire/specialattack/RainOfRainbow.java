@@ -42,26 +42,33 @@ public class RainOfRainbow extends SpecialAttackBase {
         int rank = StylishRankManager.getStylishRank(player);
         if(5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level /5.0f));
-        Random random = player.getRNG();
+        Random random =player.getRNG();
 
         if (!world.isRemote) {
             List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player,60));
             if (!target.isEmpty()){
                 for (int i=0;i<target.size()*rains;i++){
-                    Vec3d pos = new Vec3d(player.getPosition());
                     EntityLivingBase targetEntity = TargetUtils.setTargetEntityFromListByEntity(i,target);
+                    Vec3d targetPos = targetEntity.getPositionVector();
+                    Vec3d spawnPos = new Vec3d(
+                            targetEntity.posX+random.nextGaussian(),
+                            targetEntity.posY+20f+random.nextGaussian()*2,
+                            targetEntity.posZ+random.nextGaussian());
+//                    Vec3d spawnPos = new Vec3d(player.posX,player.posY+20,player.posZ);
+
                     EntityPhantomSwordExBase entityDrive = new EntityPhantomSwordExBase(world,player,magicDamage);
                     entityDrive.setInitialPosition(
-                            targetEntity.posX+random.nextGaussian()*2,
-                            targetEntity.posY+20f+random.nextGaussian()*2,
-                            targetEntity.posZ+random.nextGaussian()*2,
-                            (float) (random.nextGaussian()*60f),
-                            89,
-                            0,
+                            spawnPos.x,
+                            spawnPos.y,
+                            spawnPos.z,
+//                            (float) (random.nextGaussian()*60),
+                            random.nextInt(360),
+                            (float) (90f+random.nextGaussian()*5),
+                            0f,
                             1.75f
                     );
                     entityDrive.setRoll((float) (random.nextGaussian()*30));
-                    entityDrive.setInterval(40);
+                    entityDrive.setInterval(40+5*(i%rains));
                     entityDrive.setColor(random.nextInt(16777215));
                     if (!target.isEmpty()){
                         entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromList(i,target));

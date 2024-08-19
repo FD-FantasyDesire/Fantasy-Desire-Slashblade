@@ -8,4 +8,5 @@ public class FdSEs {
     public static ISpecialEffect CheatRumble = SpecialEffects.register(new CheatRumble());
     public static ISpecialEffect TyrantStrike = SpecialEffects.register(new TyrantStrike());
     public static ISpecialEffect SoulShield = SpecialEffects.register(new SoulShield());
+    public static ISpecialEffect TripleBullet = SpecialEffects.register(new TripleBullet());
 }

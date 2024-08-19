@@ -45,6 +45,12 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
     protected ItemStack blade = ItemStack.EMPTY;
 
+    protected boolean isGrowing = false;
+
+    protected boolean isRolling = false;
+
+    protected float trueScale = 1f;
+
     /**
      * ★多段Hit防止用List
      */
@@ -82,7 +88,6 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
         //■撃った人
         setThrower(entityLiving);
-        System.out.println(thrower);
 
         blade = entityLiving.getHeldItem(EnumHand.MAIN_HAND);
         if(!blade.isEmpty() && !(blade.getItem() instanceof ItemSlashBlade)){
@@ -246,6 +251,27 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
     }
     public void setIsOverWall(boolean isOverWall){
         this.getDataManager().set(IS_OVER_WALL,isOverWall);
+    }
+
+    public boolean isGrowing(){
+        return isGrowing;
+    }
+    public void setIsGrowing(boolean value){
+        isGrowing = value;
+    }
+
+    public boolean isRolling(){
+        return isRolling;
+    }
+    public void setIsRolling(boolean value){
+        isRolling = value;
+    }
+
+    public final float getTrueScale(){
+        return trueScale;
+    }
+    public final void setTrueScale(float scale){
+        trueScale = scale;
     }
 
     public int getParticleVec(){
@@ -906,10 +932,24 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
             calculateSpeed();
 
             doRotation();
+            if (isRolling){
+                setRoll(getRoll()+18f);
+            }
+            if (isGrowing){
+                float percentage = (float) Math.min(Math.max((float) this.ticksExisted / this.getInterval(), 0.1), 1.0);
+
+                // Set the scale based on the percentage
+                float initialScale = 0.1f;
+                float finalScale = 1.0f;
+                trueScale = initialScale + (finalScale - initialScale) * percentage;
+                System.out.println(trueScale);
+            }
+            setTrueScale(trueScale * this.getScale());
+            System.out.println(trueScale);
 
             if(getInterval() < this.ticksExisted)
                 move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
-                playParticle();
+            playParticle();
 
             normalizeRotation();
 

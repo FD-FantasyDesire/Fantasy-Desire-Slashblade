@@ -16,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import tennouboshiuzume.mods.fantasydesire.entity.EntityOverCharge;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
 
@@ -43,7 +44,7 @@ public class tesSA extends SpecialAttackBase {
         if(!world.isRemote){
 
             ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
-
+            ItemSlashBlade.SpecialAttackType.set(tag, 201);
             Entity target = null;
 
             int entityId = ItemSlashBlade.TargetEntityId.get(tag);
@@ -88,32 +89,12 @@ public class tesSA extends SpecialAttackBase {
                 int count = 0;
 
                 if(!world.isRemote){
-                    for (int x=0;x<=4;x++){
-                        for (int z=0;z<=4;z++){
-                            count++;
-                            float yaw = -10f+x*5;
-                            float pitch = -10f+z*5;
-                            EntityPhantomSwordExBase entityDrive = new EntityPhantomSwordExBase(world, player, magicDamage,90.0f);
-                            if (entityDrive != null) {
-                                entityDrive.setLifeTime(400);
-                                entityDrive.setInterval(20+3*count);
-                                entityDrive.setPosition(
-                                        target.posX+random.nextInt(21)-10,
-                                        target.posY-15.0f+random.nextInt(11)-5,
-                                        target.posZ+random.nextInt(21)-10
-                                );
-                                entityDrive.setDriveVector(2.5f);
-                                entityDrive.setScale(5.0f);
-                                entityDrive.setIsOverWall(true);
-
-                                entityDrive.setColor(-0x010101);
-                                entityDrive.setTargetEntityId(target.getEntityId());
-
-                                world.spawnEntity(entityDrive);
-
-                            }
-                        }
-                    }
+                    EntityOverCharge entityDrive = new EntityOverCharge(world,player,magicDamage);
+                    entityDrive.setColor(0x00FF00);
+                    entityDrive.setHitScale(20f);
+                    entityDrive.setLifeTime(100);
+                    entityDrive.setIsOverWall(true);
+                    world.spawnEntity(entityDrive);
                 }
             }
         }

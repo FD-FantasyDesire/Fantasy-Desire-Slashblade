@@ -41,8 +41,8 @@ public class ChikaFlare {
         ItemFdSlashBlade.IsDefaultBewitched.set(tag, true);
         ItemFdSlashBlade.isFdBlade.set(tag, true);
         ItemFdSlashBlade.bladeType.set(tag, "fantasy");
-        ItemSlashBlade.TextureName.set(tag, "named/negorerouse/artemis");
-        ItemSlashBlade.ModelName.set(tag, "named/negorerouse/artemis");
+        ItemSlashBlade.TextureName.set(tag, "named/Chika");
+        ItemSlashBlade.ModelName.set(tag, "named/Chika");
         ItemSlashBlade.SpecialAttackType.set(tag, 200);
         ItemSlashBlade.StandbyRenderType.set(tag, 2);
         ItemSlashBlade.RepairCount.set(tag,67);

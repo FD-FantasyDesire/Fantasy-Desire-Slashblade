@@ -3,6 +3,7 @@ package tennouboshiuzume.mods.fantasydesire.specialattack;
 import mods.flammpfeil.slashblade.entity.EntitySummonedSwordBase;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.specialattack.SpecialAttackBase;
+import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,6 +28,9 @@ public class testSA02 extends SpecialAttackBase {
         Random random = new Random();
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
+        ItemSlashBlade.SpecialAttackType.set(tag, 202);
+        ItemSlashBlade.ProudSoul.set(tag,ItemSlashBlade.ProudSoul.get(tag)+2000);
+
         int count = 1;
         float magicDamage = 5f;
         if(!world.isRemote){

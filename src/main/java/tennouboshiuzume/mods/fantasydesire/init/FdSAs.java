@@ -9,8 +9,10 @@ public class FdSAs {
     }
     public void loadSAs(){
         ItemSlashBlade.specialAttacks.put(200, new WingToTheFutureSA());
-        ItemSlashBlade.specialAttacks.put(201, new testSA02());
-        ItemSlashBlade.specialAttacks.put(202, new tesSA());
+        ItemSlashBlade.specialAttacks.put(201, new ChargeShot());
+        ItemSlashBlade.specialAttacks.put(202, new OverCharge());
+//        ItemSlashBlade.specialAttacks.put(201, new testSA02());
+//        ItemSlashBlade.specialAttacks.put(202, new tesSA());
         ItemSlashBlade.specialAttacks.put(203, new CrossSaberSA());
         ItemSlashBlade.specialAttacks.put(204, new ShinMagnetStormSword());
         ItemSlashBlade.specialAttacks.put(205, new RainOfRainbow());

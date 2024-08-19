@@ -1,6 +1,7 @@
 package tennouboshiuzume.mods.fantasydesire.util;
 
 import mods.flammpfeil.slashblade.entity.selector.EntitySelectorAttackable;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TargetUtils {
-    public static List<EntityLivingBase> findAllHostileEntities(EntityPlayer player, float range) {
+    public static List<EntityLivingBase> findAllHostileEntities(Entity player, float range) {
         World world = player.world;
         List<EntityLivingBase> hostileEntities = new ArrayList<>();
 
@@ -26,7 +27,7 @@ public class TargetUtils {
     }
 
 
-    public static List<EntityLivingBase> findHostileEntitiesInFOV(EntityPlayer player, float fovAngle,float range) {
+    public static List<EntityLivingBase> findHostileEntitiesInFOV(Entity player, float fovAngle,float range) {
         World world = player.world;
         List<EntityLivingBase> hostileEntities = new ArrayList<>();
 

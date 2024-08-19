@@ -27,6 +27,8 @@ public class EntityDriveEx extends EntityBase
 
     private static final DataParameter<String> PARTICLE = EntityDataManager.<String>createKey(EntityDriveEx.class,DataSerializers.STRING);
 
+    private static final DataParameter<Integer> MULTHIT_TICK = EntityDataManager.<Integer>createKey(EntityDriveEx.class,DataSerializers.VARINT);
+
     /**
      * コンストラクタ
      *
@@ -103,6 +105,13 @@ public class EntityDriveEx extends EntityBase
     public void setParticle(EnumParticleTypes value){
         this.getDataManager().set(PARTICLE,value.toString());
     }
+
+    public int getMultiHitTick(){
+        return this.getDataManager().get(MULTHIT_TICK);
+    }
+    public void setMultiHitTick(int value){
+        this.getDataManager().set(MULTHIT_TICK,value);
+    }
     /**
      * エンティティの更新処理.
      *
@@ -113,8 +122,10 @@ public class EntityDriveEx extends EntityBase
     {
         if (!world.isRemote)
             detectCollision(getScale());
-        if(getInterval() < this.ticksExisted)
+        if(getInterval() < this.ticksExisted){
             move();
+            playParticle();
+        }
 
         if (this.ticksExisted >= getLifeTime())
             setDead();

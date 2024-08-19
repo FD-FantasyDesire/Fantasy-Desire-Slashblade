@@ -75,7 +75,7 @@ abstract class EntityBase extends Entity implements IThrowableEntity
     public EntityBase(World worldIn)
     {
         super(worldIn);
-
+        setSize(0.5F, 0.5F);
         // ※
         // 自分では使わないけど、
         // このコンストラクタを用意しておかないと、

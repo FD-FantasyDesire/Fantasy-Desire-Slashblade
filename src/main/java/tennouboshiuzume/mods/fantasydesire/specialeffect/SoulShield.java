@@ -1,15 +1,23 @@
 package tennouboshiuzume.mods.fantasydesire.specialeffect;
 
+import ibxm.Player;
 import mods.flammpfeil.slashblade.specialeffect.IRemovable;
 import mods.flammpfeil.slashblade.specialeffect.ISpecialEffect;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.advancements.critereon.UsedTotemTrigger;
+import net.minecraft.client.particle.ParticleTotem;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Enchantments;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
+import net.minecraftforge.client.event.sound.PlaySoundEvent;
+import net.minecraftforge.client.event.sound.SoundEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.util.SlashBladeEvent;
@@ -17,11 +25,12 @@ import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
+import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 
 /**
  * Created by Furia on 15/06/19.
  */
+
 public class SoulShield implements ISpecialEffect, IRemovable {
     private static final String EffectKey = "SoulShield";
 
@@ -61,10 +70,41 @@ public class SoulShield implements ISpecialEffect, IRemovable {
         player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION,20 * 5,4));
 
     }
+    @SubscribeEvent
+    public void onPlayerHurt(LivingHurtEvent event){
+        if (!(event.getEntityLiving() instanceof EntityPlayer)) return;
+        EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+        if (!(player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemSlashBlade)) return;
+        ItemStack blade = player.getHeldItem(EnumHand.MAIN_HAND);
+        NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(blade);
+        switch (SpecialEffects.isEffective(player,blade, FdSEs.SoulShield)){
+            /** 任何时候可触发 */
+            case None:
+                return;
+            /** 未达到所需等级 */
+            case NonEffective:
+                return;
+            /** 达到所需等级 */
+            case Effective:
+                break;
+        }
+        if (player.getRNG().nextInt(4) == 0) {
+            player.world.playSound(null,player.posX,player.posY,player.posZ,SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.PLAYERS,1.0f,2.0f);
+            event.setCanceled(true);
+            blade.damageItem(1,player);
+        }else{
+            float originalDamage = event.getAmount();
+            System.out.println(originalDamage);
+            float reducedDamage = Math.min(originalDamage,5f) ;
+            event.setAmount(reducedDamage);
+        }
+    }
+
 
     @Override
     public void register() {
         SlashBladeHooks.EventBus.register(this);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override

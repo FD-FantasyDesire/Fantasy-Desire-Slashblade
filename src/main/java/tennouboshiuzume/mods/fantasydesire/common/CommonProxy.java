@@ -4,6 +4,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import tennouboshiuzume.mods.fantasydesire.init.*;
+import tennouboshiuzume.mods.fantasydesire.named.BladeStandEvents;
 
 
 /**
@@ -20,7 +21,7 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent event){
-//        new NrSEEvent();
+        new BladeStandEvents();
 //        new SoulDropsEvent();
 //        ItemSoul.craft();
     }

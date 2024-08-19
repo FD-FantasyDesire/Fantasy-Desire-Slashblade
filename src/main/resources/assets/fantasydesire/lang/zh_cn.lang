@@ -1,12 +1,17 @@
 
 #Blade
 item.tennouboshiuzume.slashblade.ChikaFlare.name=§6希望的门票§b「奇克§e芙蕾雅」
+item.tennouboshiuzume.slashblade.MordernGunblade.name=§fYRM-67 §b智能枪刃
 
 
 #Desc
 tennouboshiuzume.slashblade.ChikaFlare.desc=§e嗨，是芙蕾雅酱！
 tennouboshiuzume.slashblade.ChikaFlare.desc1=§e带着神的力量出生，真的好累哦！
 tennouboshiuzume.slashblade.ChikaFlare.desc2=§e我到底会怎么样呢？
+
+tennouboshiuzume.slashblade.MordernGunblade.desc=§eWG-Zero 智能弹药系统：
+tennouboshiuzume.slashblade.MordernGunblade.desc1=  §f基于古代智能科技制作的枪刃系统
+tennouboshiuzume.slashblade.MordernGunblade.desc2=  §b挥砍时发射玩家等级÷10的智能幻影剑，最大连发5。
 
 #Special Attack
 flammpfeil.slashblade.specialattack.WingToTheFutureSA=§6§l翱向未来之翼
@@ -16,11 +21,12 @@ flammpfeil.slashblade.specialattack.CrossSaberSA=§9§l刃王·十圣刃星烈�
 slashblade.seffect.name.CheatRumble=§4作弊冲撞
 slashblade.seffect.name.TyrantStrike=§6暴君一击
 slashblade.seffect.name.SoulShield=§b灵魂联结
+slashblade.seffect.name.TripleBullet=§fWG-Zero 智能弹药系统
 
 #Misc
 itemGroup.FantasyDesire=幻想与欲望
 tennouboshiuzume.info.fantasy=§eYarimono
-
+tennouboshiuzume.info.Gunblade=§f白色之神
 
 #代码	官方名称
 #MOTD代码

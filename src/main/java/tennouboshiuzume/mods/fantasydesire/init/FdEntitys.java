@@ -3,10 +3,7 @@ package tennouboshiuzume.mods.fantasydesire.init;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityDriveEx;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
-import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
+import tennouboshiuzume.mods.fantasydesire.entity.*;
 
 import static tennouboshiuzume.mods.fantasydesire.FantasyDesire.MODID;
 
@@ -28,21 +25,21 @@ public class FdEntitys {
                 false
         );
         EntityRegistry.registerModEntity(
-                new ResourceLocation(MODID, "entityphantomswordex"), // 使用正确的命名空间前缀
+                new ResourceLocation(MODID, "entityphantomswordex"),
                 EntityPhantomSwordEx.class,
                 "EntityPhantomSwordEx",
                 2,
-                FantasyDesire.instance, // 确保传入的是你的Mod实例
+                FantasyDesire.instance,
                 64,
                 1,
                 false
         );
         EntityRegistry.registerModEntity(
-                new ResourceLocation(MODID, "entityphantomswordexbase"), // 使用正确的命名空间前缀
+                new ResourceLocation(MODID, "entityphantomswordexbase"),
                 EntityPhantomSwordExBase.class,
                 "EntityPhantomSwordExBase",
                 3,
-                FantasyDesire.instance, // 确保传入的是你的Mod实例
+                FantasyDesire.instance,
                 64,
                 1,
                 false
@@ -52,6 +49,26 @@ public class FdEntitys {
                 EntitySoulPhantomSword.class,
                 "EntitySoulPhantomSword",
                 4,
+                FantasyDesire.instance,
+                64,
+                1,
+                false
+        );
+        EntityRegistry.registerModEntity(
+                new ResourceLocation(MODID,"entityovercharge"),
+                EntityOverCharge.class,
+                "EntityOverCharge",
+                5,
+                FantasyDesire.instance,
+                64,
+                1,
+                false
+        );
+        EntityRegistry.registerModEntity(
+                new ResourceLocation(MODID,"entityoverchargebfg"),
+                EntityOverChargeBFG.class,
+                "EntityOverChargeBFG",
+                5,
                 FantasyDesire.instance,
                 64,
                 1,

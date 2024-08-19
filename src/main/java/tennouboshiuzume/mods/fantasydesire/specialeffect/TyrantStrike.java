@@ -50,11 +50,11 @@ public class TyrantStrike implements ISpecialEffect, IRemovable {
             case None:
                 return;
             case Effective:
-                if (event.target.getRNG().nextInt(10) != 0) return;
                 break;
             case NonEffective:
                 return;
         }
+        if (event.target.getRNG().nextInt(10) != 0) return;
         World world = player.world;
         ItemStack stack = event.blade;
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
@@ -126,8 +126,6 @@ public class TyrantStrike implements ISpecialEffect, IRemovable {
         int check = haste != null ? haste.getAmplifier() != 1 ? 3 : 4 : 2;
 
         if (player.swingProgressInt != check) return;
-
-        player.addPotionEffect(new PotionEffect(MobEffects.HASTE,20 * 15,1));
         player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION,20 * 5,2));
 
     }
