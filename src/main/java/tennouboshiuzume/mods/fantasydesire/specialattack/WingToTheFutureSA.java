@@ -41,6 +41,8 @@ public class WingToTheFutureSA extends SpecialAttackBase{
 
         int wingcount = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel))-5, 1),3);
 
+        StylishRankManager.setNextAttackType(player, StylishRankManager.AttackTypes.PhantomSword);
+
         int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
         float baseModif = blade.getBaseAttackModifiers(tag);
         float magicDamage = 1.0f + (baseModif/2.0f);

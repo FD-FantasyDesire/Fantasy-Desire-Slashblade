@@ -67,8 +67,6 @@ public class SoulShield implements ISpecialEffect, IRemovable {
 
         player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE,20 * 30, 0));
         player.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING,20 * 30,0));
-        player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION,20 * 5,4));
-
     }
     @SubscribeEvent
     public void onPlayerHurt(LivingHurtEvent event){
@@ -92,6 +90,7 @@ public class SoulShield implements ISpecialEffect, IRemovable {
             player.world.playSound(null,player.posX,player.posY,player.posZ,SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.PLAYERS,1.0f,2.0f);
             event.setCanceled(true);
             blade.damageItem(1,player);
+            player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION,20 * 5,4));
         }else{
             float originalDamage = event.getAmount();
             System.out.println(originalDamage);

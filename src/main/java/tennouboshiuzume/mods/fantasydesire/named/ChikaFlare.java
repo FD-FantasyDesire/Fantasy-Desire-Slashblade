@@ -54,9 +54,9 @@ public class ChikaFlare {
         NBTTagCompound displayTag = new NBTTagCompound();
         customblade.setTagInfo("display",displayTag);
         NBTTagList loreList = new NBTTagList();
-        loreList.appendTag(new NBTTagString(String.format(I18n.format("tennouboshiuzume.slashblade.ChikaFlare.desc"))));
-        loreList.appendTag(new NBTTagString(String.format(I18n.format("tennouboshiuzume.slashblade.ChikaFlare.desc1"))));
-        loreList.appendTag(new NBTTagString(String.format(I18n.format("tennouboshiuzume.slashblade.ChikaFlare.desc2"))));
+        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.ChikaFlare.desc")));
+        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.ChikaFlare.desc1")));
+        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.ChikaFlare.desc2")));
         displayTag.setTag("Lore", loreList);
         customblade.addEnchantment(Enchantments.UNBREAKING, 10);
         customblade.addEnchantment(Enchantments.SHARPNESS,7);
@@ -83,7 +83,7 @@ public class ChikaFlare {
         ItemStack targetBlade = BladeUtils.findItemStack(SlashBlade.modid,materialName,1);
         if(!event.blade.getUnlocalizedName().equals(targetBlade.getUnlocalizedName())) return;
 
-        ItemStack resultBlade = WorldBladeStandCrafting.crafting(targetBlade,name);
+        ItemStack resultBlade = WorldBladeStandCrafting.crafting(event.blade,name);
 
         event.entityBladeStand.setBlade(resultBlade);
     }

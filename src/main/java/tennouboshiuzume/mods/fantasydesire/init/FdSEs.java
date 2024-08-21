@@ -9,4 +9,7 @@ public class FdSEs {
     public static ISpecialEffect TyrantStrike = SpecialEffects.register(new TyrantStrike());
     public static ISpecialEffect SoulShield = SpecialEffects.register(new SoulShield());
     public static ISpecialEffect TripleBullet = SpecialEffects.register(new TripleBullet());
+    public static ISpecialEffect EnergyBullet = SpecialEffects.register(new EnergyBullet());
+    public static ISpecialEffect CrimsonStrike = SpecialEffects.register(new CrimsonStrike());
+    public static ISpecialEffect BloodDrain = SpecialEffects.register(new BloodDrain());
 }

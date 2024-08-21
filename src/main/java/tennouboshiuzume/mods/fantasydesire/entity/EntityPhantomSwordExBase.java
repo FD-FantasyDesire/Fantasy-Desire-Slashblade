@@ -45,12 +45,9 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
     protected ItemStack blade = ItemStack.EMPTY;
 
-    protected boolean isGrowing = false;
-
-    protected boolean isRolling = false;
-
     protected float trueScale = 1f;
 
+    protected SoundEvent sound = null;
     /**
      * ★多段Hit防止用List
      */
@@ -246,6 +243,9 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         this.getDataManager().set(SCALE,scale);
     }
 
+    public final void setSound(SoundEvent sound){
+        this.sound = sound;
+    }
     public boolean isOverWall(){
         return this.getDataManager().get(IS_OVER_WALL);
     }
@@ -253,25 +253,11 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         this.getDataManager().set(IS_OVER_WALL,isOverWall);
     }
 
-    public boolean isGrowing(){
-        return isGrowing;
-    }
-    public void setIsGrowing(boolean value){
-        isGrowing = value;
-    }
-
-    public boolean isRolling(){
-        return isRolling;
-    }
-    public void setIsRolling(boolean value){
-        isRolling = value;
-    }
-
     public final float getTrueScale(){
-        return trueScale;
+        return this.trueScale;
     }
     public final void setTrueScale(float scale){
-        trueScale = scale;
+        this.trueScale = scale;
     }
 
     public int getParticleVec(){
@@ -932,20 +918,17 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
             calculateSpeed();
 
             doRotation();
-            if (isRolling){
-                setRoll(getRoll()+18f);
-            }
-            if (isGrowing){
-                float percentage = (float) Math.min(Math.max((float) this.ticksExisted / this.getInterval(), 0.1), 1.0);
 
-                // Set the scale based on the percentage
-                float initialScale = 0.1f;
-                float finalScale = 1.0f;
-                trueScale = initialScale + (finalScale - initialScale) * percentage;
-                System.out.println(trueScale);
-            }
-            setTrueScale(trueScale * this.getScale());
-            System.out.println(trueScale);
+            float percentage = (float) Math.min(Math.max((float) this.ticksExisted / getInterval(), 0.1), 1.0);
+
+            // Set the scale based on the percentage
+            float initialScale = 0.1f*getScale();
+            float finalScale = getScale();
+            float scale = initialScale + (finalScale - initialScale) * percentage;
+            setTrueScale(scale);
+
+            if (sound!=null&&this.ticksExisted==getInterval())
+                this.playSound(sound,3f,2.0f);
 
             if(getInterval() < this.ticksExisted)
                 move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
@@ -1195,18 +1178,11 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         String particle = getParticle();
         if (particle != null && !particle.equals("")) {
             Random rand = new Random();
-            double var2 = rand.nextGaussian() * 0.02f;
-            double var4 = rand.nextGaussian() * 0.02f;
-            double var6 = rand.nextGaussian() * 0.02f;
+            double var2 = rand.nextGaussian() * 0.02D;
+            double var4 = rand.nextGaussian() * 0.02D;
+            double var6 = rand.nextGaussian() * 0.02D;
             double var8 = 10.0D;
-            this.world.spawnParticle(EnumParticleTypes.valueOf(particle),
-                    this.posX + (rand.nextFloat() * this.width * 2.0F) - this.width - var2 * var8,
-                    this.posY + (rand.nextFloat() * this.height) - var4 * var8,
-                    this.posZ + (rand.nextFloat() * this.width * 2.0F) - this.width - var6 * var8,
-                    var2*getParticleVec(),
-                    var4*getParticleVec(),
-                    var6*getParticleVec()
-            );
+            this.world.spawnParticle(EnumParticleTypes.valueOf(particle), this.posX + (rand.nextFloat() * this.width * 2.0F) - this.width - var2 * var8, this.posY + (rand.nextFloat() * this.height) - var4 * var8, this.posZ + (rand.nextFloat() * this.width * 2.0F) - this.width - var6 * var8, var2, var4, var6);
         }
     }
 }

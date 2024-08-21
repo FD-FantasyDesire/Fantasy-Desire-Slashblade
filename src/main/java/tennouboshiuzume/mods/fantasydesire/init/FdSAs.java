@@ -17,6 +17,7 @@ public class FdSAs {
         ItemSlashBlade.specialAttacks.put(204, new ShinMagnetStormSword());
         ItemSlashBlade.specialAttacks.put(205, new RainOfRainbow());
         ItemSlashBlade.specialAttacks.put(206, new SpikeOfAbyss());
+        ItemSlashBlade.specialAttacks.put(207, new CrimsonStorm());
 //            System.out.println("SA registed!");
     }
 }

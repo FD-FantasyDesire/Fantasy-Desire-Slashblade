@@ -53,7 +53,7 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
         if(swordType.contains(SwordType.Enchanted)){
             if(swordType.contains(SwordType.Bewitched)){
                 if (isFdBlade.get(tag)){
-                    par3List.add(String.format( I18n.format("tennouboshiuzume.info."+bladeType.get(tag))));
+                    par3List.add(I18n.format("tennouboshiuzume.info."+bladeType.get(tag)));
                 } else if(tag.hasUniqueId("Owner")) {
                     par3List.add(String.format("¡ì6%s", I18n.format("flammpfeil.swaepon.info.bewitched")));
                 } else {

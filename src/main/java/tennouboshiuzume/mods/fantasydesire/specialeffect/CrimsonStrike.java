@@ -31,19 +31,19 @@ import java.util.List;
 import java.util.Random;
 
 
-public class TripleBullet implements ISpecialEffect
+public class CrimsonStrike implements ISpecialEffect
 {
-    private static final String EffectKey = "TripleBullet";
+    private static final String EffectKey = "CrimsonStrike";
 
     /**
      * 使用コスト
      */
-    private static final int COST = 2;
+    private static final int COST = 0;
 
     /**
      * コスト不足時の刀へのダメージ
      */
-    private static final int NO_COST_DAMAGE = 1;
+    private static final int NO_COST_DAMAGE = 0;
 
     private boolean useBlade(ItemSlashBlade.ComboSequence sequence)
     {
@@ -86,7 +86,6 @@ public class TripleBullet implements ISpecialEffect
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
         World world = player.world;
 
-        if (ItemSlashBlade.SpecialAttackType.get(tag)!=201) return;
         if (!ItemSlashBlade.ProudSoul.tryAdd(tag, -COST, false)) {
             ItemSlashBlade.damageItem(stack, NO_COST_DAMAGE, player);
             return;
@@ -98,36 +97,21 @@ public class TripleBullet implements ISpecialEffect
         float baseModif = ((ItemSlashBlade)stack.getItem()).getBaseAttackModifiers(tag);
         int level = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
 
-        float magicDamage = baseModif + level;
+        float magicDamage = baseModif / 10f;
         int rank = StylishRankManager.getStylishRank(player);
         if (rank >= 5) {
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag)*(level/5.0 + 0.5f);
         }
-        Random random = player.getRNG();
-//            追踪弹
-        List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player,60,30f);
-        int round = Math.min(Math.max(player.experienceLevel/10,1),5);
-        for (int i=0;i<round;i++){
-            EntityPhantomSwordEx entityDrive = new EntityPhantomSwordEx(world, player, magicDamage);
-            entityDrive.setInterval(1+i);
-            entityDrive.setScale(0.2f);
-            entityDrive.setSound(SoundEvents.ENTITY_ARROW_SHOOT);
-            entityDrive.setColor(0x00CCCC);
-            entityDrive.setInitialPosition(player.getLookVec().x+player.posX,
-                    player.getLookVec().y+player.posY+1.2f,
-                    player.getLookVec().z+player.posZ,
-                    (float) (player.rotationYaw+random.nextGaussian()),
-                    (float) (player.rotationPitch+random.nextGaussian()),
-                    random.nextInt(180),
-                    3f);
-            entityDrive.setLifeTime(100+i);
-            entityDrive.setParticle(EnumParticleTypes.FIREWORKS_SPARK);
-            if (!target.isEmpty()){
-                entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromList(i,target));
-                TargetUtils.setTargetEntityFromListByEntity(i,target).addPotionEffect(new PotionEffect(MobEffects.GLOWING,20*6,0));
-            }
+        for (int i=0;i<2;i++){
+            EntityDriveEx entityDrive = new EntityDriveEx(world,player,magicDamage);
+            entityDrive.setInitialPosition(player.posX,player.posY+player.height/2,player.posZ, player.rotationYaw, player.rotationPitch,setCombo.swingDirection+(i%2==0? 0:90f),0.3f);
+            entityDrive.setColor(0xFF0000);
+            entityDrive.setLifeTime(60);
+            entityDrive.setScale((i%2==0? 0.5f:1.5f));
+            entityDrive.setIsOverWall(true);
             world.spawnEntity(entityDrive);
         }
+
     }
 
     @Override

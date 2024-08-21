@@ -208,15 +208,4 @@ public class EntityOverCharge extends EntityBase
             this.world.spawnParticle(EnumParticleTypes.valueOf(particle), this.posX + (rand.nextFloat() * this.width * 2.0F) - this.width - var2 * var8, this.posY + (rand.nextFloat() * this.height) - var4 * var8, this.posZ + (rand.nextFloat() * this.width * 2.0F) - this.width - var6 * var8, var2, var4, var6);
         }
     }
-//    public void playParticle() {
-//        String particle = getParticle();
-//        if (particle != null && !particle.equals("")) {
-//            ParticleUtils.spawnParticle(world,EnumParticleTypes.valueOf(particle),
-//                    false,
-//                    this.posX,
-//                    this.posY+0.25,
-//                    this.posZ,
-//                    10,0.25,0.25,0.25,0);
-//        }
-//    }
 }

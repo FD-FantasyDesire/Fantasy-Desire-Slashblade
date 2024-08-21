@@ -22,6 +22,7 @@ public class FdBlades {
     public void loadBlade(){
         loadBlade(new ChikaFlare());
         loadBlade(new ModernGunblade());
+        loadBlade(new CrimsonScythe());
     }
 
 

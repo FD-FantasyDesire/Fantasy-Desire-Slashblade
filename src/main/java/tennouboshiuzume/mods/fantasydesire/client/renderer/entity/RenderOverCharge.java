@@ -102,8 +102,6 @@ public class RenderOverCharge extends Render{
         double baseAlpha = Math.sin(Math.PI * 0.5 * (Math.min(deathTime, (lifetime - (entity.ticksExisted) - partialRenderTick)) / deathTime));
         int seed = entity.getEntityData().getInteger("seed");
 
-        //todo: lifetime
-
         int baseColor = color;
         Color col = new Color(baseColor);
         float[] hsb = Color.RGBtoHSB(col.getRed(),col.getGreen(),col.getBlue(), null);

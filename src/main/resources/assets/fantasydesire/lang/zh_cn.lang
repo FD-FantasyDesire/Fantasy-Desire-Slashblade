@@ -2,31 +2,46 @@
 #Blade
 item.tennouboshiuzume.slashblade.ChikaFlare.name=§6希望的门票§b「奇克§e芙蕾雅」
 item.tennouboshiuzume.slashblade.MordernGunblade.name=§fYRM-67 §b智能枪刃
-
+item.tennouboshiuzume.slashblade.CrimsonScythe.name=§cDK-922 §4深红恶魔
 
 #Desc
 tennouboshiuzume.slashblade.ChikaFlare.desc=§e嗨，是芙蕾雅酱！
 tennouboshiuzume.slashblade.ChikaFlare.desc1=§e带着神的力量出生，真的好累哦！
 tennouboshiuzume.slashblade.ChikaFlare.desc2=§e我到底会怎么样呢？
 
-tennouboshiuzume.slashblade.MordernGunblade.desc=§eWG-Zero 智能弹药系统：
-tennouboshiuzume.slashblade.MordernGunblade.desc1=  §f基于古代智能科技制作的枪刃系统
-tennouboshiuzume.slashblade.MordernGunblade.desc2=  §b挥砍时发射玩家等级÷10的智能幻影剑，最大连发5。
+tennouboshiuzume.slashblade.MordernGunblade.desc=§bWG-Zero 智能弹药系统：
+tennouboshiuzume.slashblade.MordernGunblade.desc1=  §f挥砍时发射玩家等级÷10的智能幻影剑，最大连发5
+tennouboshiuzume.slashblade.MordernGunblade.desc2=§aWG-Omega 冲击波发射器：
+tennouboshiuzume.slashblade.MordernGunblade.desc3=  §f挥砍时发射可穿透障碍的高速能量球
+tennouboshiuzume.slashblade.MordernGunblade.desc4=§7通过使用SA来切换两种SE的激活
+
+tennouboshiuzume.slashblade.CrimsonScythe.desc=§c幻猎 Type-X 能量刃
+tennouboshiuzume.slashblade.CrimsonScythe.desc1=  §f挥砍时发射可穿透障碍的剑气，造成10%%剑刃伤害
+tennouboshiuzume.slashblade.CrimsonScythe.desc2=§d狩魂 Type-VI 资源回收系统
+tennouboshiuzume.slashblade.CrimsonScythe.desc3=  §f攻击命中时回复生命值和饱食度，增加耀魂获取率
+
 
 #Special Attack
 flammpfeil.slashblade.specialattack.WingToTheFutureSA=§6§l翱向未来之翼
 flammpfeil.slashblade.specialattack.CrossSaberSA=§9§l刃王·十圣刃星烈斩
+flammpfeil.slashblade.specialattack.ChargeShot=§b§l蓄能射击
+flammpfeil.slashblade.specialattack.OverCharge=§a§l超载充能
+flammpfeil.slashblade.specialattack.CrimsonStorm=§4§l深红强袭
 
 #Special Effect
 slashblade.seffect.name.CheatRumble=§4作弊冲撞
 slashblade.seffect.name.TyrantStrike=§6暴君一击
 slashblade.seffect.name.SoulShield=§b灵魂联结
 slashblade.seffect.name.TripleBullet=§fWG-Zero 智能弹药系统
+slashblade.seffect.name.EnergyBullet=§fWG-Omega 冲击波发射器
+slashblade.seffect.name.CrimsonStrike=§c幻猎 Type-X
+slashblade.seffect.name.BloodDrain=§d狩魂 Type-VI
 
 #Misc
 itemGroup.FantasyDesire=幻想与欲望
 tennouboshiuzume.info.fantasy=§eYarimono
 tennouboshiuzume.info.Gunblade=§f白色之神
+tennouboshiuzume.info.CrimsonScythe=§4深红收割者
 
 #代码	官方名称
 #MOTD代码

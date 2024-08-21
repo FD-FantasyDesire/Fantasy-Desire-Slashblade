@@ -31,14 +31,14 @@ import java.util.List;
 import java.util.Random;
 
 
-public class TripleBullet implements ISpecialEffect
+public class EnergyBullet implements ISpecialEffect
 {
-    private static final String EffectKey = "TripleBullet";
+    private static final String EffectKey = "EnergyBullet";
 
     /**
      * 使用コスト
      */
-    private static final int COST = 2;
+    private static final int COST = 5;
 
     /**
      * コスト不足時の刀へのダメージ
@@ -86,7 +86,7 @@ public class TripleBullet implements ISpecialEffect
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
         World world = player.world;
 
-        if (ItemSlashBlade.SpecialAttackType.get(tag)!=201) return;
+        if (ItemSlashBlade.SpecialAttackType.get(tag)!=202) return;
         if (!ItemSlashBlade.ProudSoul.tryAdd(tag, -COST, false)) {
             ItemSlashBlade.damageItem(stack, NO_COST_DAMAGE, player);
             return;
@@ -101,33 +101,19 @@ public class TripleBullet implements ISpecialEffect
         float magicDamage = baseModif + level;
         int rank = StylishRankManager.getStylishRank(player);
         if (rank >= 5) {
-            magicDamage += ItemSlashBlade.AttackAmplifier.get(tag)*(level/5.0 + 0.5f);
+            magicDamage += ItemSlashBlade.AttackAmplifier.get(tag)*(level/5.0f + 0.5f);
         }
         Random random = player.getRNG();
-//            追踪弹
-        List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player,60,30f);
-        int round = Math.min(Math.max(player.experienceLevel/10,1),5);
-        for (int i=0;i<round;i++){
-            EntityPhantomSwordEx entityDrive = new EntityPhantomSwordEx(world, player, magicDamage);
-            entityDrive.setInterval(1+i);
-            entityDrive.setScale(0.2f);
-            entityDrive.setSound(SoundEvents.ENTITY_ARROW_SHOOT);
-            entityDrive.setColor(0x00CCCC);
-            entityDrive.setInitialPosition(player.getLookVec().x+player.posX,
-                    player.getLookVec().y+player.posY+1.2f,
-                    player.getLookVec().z+player.posZ,
-                    (float) (player.rotationYaw+random.nextGaussian()),
-                    (float) (player.rotationPitch+random.nextGaussian()),
-                    random.nextInt(180),
-                    3f);
-            entityDrive.setLifeTime(100+i);
-            entityDrive.setParticle(EnumParticleTypes.FIREWORKS_SPARK);
-            if (!target.isEmpty()){
-                entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromList(i,target));
-                TargetUtils.setTargetEntityFromListByEntity(i,target).addPotionEffect(new PotionEffect(MobEffects.GLOWING,20*6,0));
-            }
-            world.spawnEntity(entityDrive);
-        }
+        EntityOverChargeBFG entityDrive = new EntityOverChargeBFG(world,player,magicDamage);
+        entityDrive.setInitialPosition(player.getLookVec().x+player.posX,player.getLookVec().y+player.posY+1.3f,player.getLookVec().z+player.posZ, player.rotationYaw, player.rotationPitch,0f,2f);
+        entityDrive.setInterval(0);
+        entityDrive.setIsOverWall(true);
+        entityDrive.setMultiHit(true);
+        entityDrive.setHitScale(3f);
+        entityDrive.setParticle(EnumParticleTypes.VILLAGER_HAPPY);
+        entityDrive.setLifeTime(100);
+        entityDrive.setColor(0x99FF00);
+        world.spawnEntity(entityDrive);
     }
 
     @Override
