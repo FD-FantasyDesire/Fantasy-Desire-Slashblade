@@ -27,17 +27,15 @@ public class BladeStandEvents {
 
 //        是否为单刀挂架
         if(EntityBladeStand.getType(event.entityBladeStand) != EntityBladeStand.StandType.Single) return;
-        System.out.println(event.damageSource.damageType);
         if(!event.damageSource.damageType.equals("anvil")) return;
 
 
         NBTTagCompound req = ItemSlashBlade.getItemTagCompound(event.blade);
         int proundSoul = ItemSlashBlade.ProudSoul.get(req);
-        int refine = ItemSlashBlade.RepairCount.get(req);
-        if (proundSoul > 1000){
-            proundSoul-=1000;
-            ItemSlashBlade.ProudSoul.set(req,proundSoul);
-            ItemSlashBlade.RepairCount.set(req,refine+1);
+        if (proundSoul > 11000){
+            int count = (proundSoul-10000)/1000;
+            ItemSlashBlade.ProudSoul.tryAdd(req,-1000*count,false);
+            ItemSlashBlade.RepairCount.tryAdd(req, count, false);
         }
     }
 }

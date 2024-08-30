@@ -23,6 +23,8 @@ public class EntityOverChargeBFG extends EntityOverCharge{
     private static final DataParameter<Float> EXP_RADIUS = EntityDataManager.<Float>createKey(EntityOverChargeBFG.class,DataSerializers.FLOAT);
 
     private static final DataParameter<Boolean> IS_BFG = EntityDataManager.<Boolean>createKey(EntityOverChargeBFG.class, DataSerializers.BOOLEAN);
+
+    private static final DataParameter<Boolean> IS_BLACKHOLE = EntityDataManager.<Boolean>createKey(EntityOverChargeBFG.class, DataSerializers.BOOLEAN);
     @Override
     protected void entityInit()
     {
@@ -31,16 +33,19 @@ public class EntityOverChargeBFG extends EntityOverCharge{
         manager.register(IS_BLAST,false);
         manager.register(EXP_RADIUS,5f);
         manager.register(IS_BFG, false);
+        manager.register(IS_BLACKHOLE, false);
     }
-
-    // 获取 IS_BFG 的值
     public boolean getIsBFG() {
         return this.getDataManager().get(IS_BFG);
     }
-
-    // 设置 IS_BFG 的值
     public void setBFG(boolean isBFG) {
         this.getDataManager().set(IS_BFG, isBFG);
+    }
+    public boolean getIsBlackHole() {
+        return this.getDataManager().get(IS_BLACKHOLE);
+    }
+    public void setIsBlackhole(boolean isBlackhole) {
+        this.getDataManager().set(IS_BLACKHOLE, isBlackhole);
     }
 
     public boolean getIsBlast(){
@@ -114,7 +119,7 @@ public class EntityOverChargeBFG extends EntityOverCharge{
 
             for (Entity target : list)
             {
-                if (!getIsBFG()){
+                if (!getIsBFG()&&!getIsBlackHole()){
                     onImpact(target,damage);
                     ((WorldServer)this.world).spawnParticle(EnumParticleTypes.TOTEM,
                             true,
@@ -126,6 +131,10 @@ public class EntityOverChargeBFG extends EntityOverCharge{
                 }
                 if (this.ticksExisted%4==0&&getIsBFG()){
                     BFG(target,damage);
+                }
+                if (this.ticksExisted%2==0&&getIsBlackHole()){
+
+                    pullEntityTowards(target,this.posX,this.posY,this.posZ,0.5);
                 }
             }
         }
@@ -162,7 +171,8 @@ public class EntityOverChargeBFG extends EntityOverCharge{
         world.spawnEntity(entityDrive);
     }
     private void Blast(){
-        world.newExplosion(thrower_,this.posX,this.posY+this.height/2f,this.posZ,getExpRadius(),false,false);
+        world.createExplosion(thrower_,this.posX,this.posY+this.height/2f,this.posZ,getExpRadius(),false);
+
         ((WorldServer)this.world).spawnParticle(EnumParticleTypes.END_ROD,
                 true,
                 this.posX,
@@ -170,4 +180,27 @@ public class EntityOverChargeBFG extends EntityOverCharge{
                 this.posZ,
                 (int) (20*getExpRadius()), 0, 0, 0, 0.05*getExpRadius());
     }
+    private void pullEntityTowards(Entity entity, double targetX, double targetY, double targetZ, double strength) {
+        // 计算目标位置和实体当前位置之间的向量
+        double dx = targetX - entity.posX;
+        double dy = targetY - entity.posY;
+        double dz = targetZ - entity.posZ;
+
+        // 计算距离
+        double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+        if (distance > 0) {
+            // 计算拉力的比例因子
+            double pullFactor = strength / distance;
+
+            // 设置实体的速度，使其朝目标位置移动
+            entity.motionX += dx * pullFactor;
+            entity.motionY += dy * pullFactor;
+            entity.motionZ += dz * pullFactor;
+
+            // 如果想立即更新实体的速度，调用以下方法
+            entity.velocityChanged = true;
+        }
+    }
+
 }

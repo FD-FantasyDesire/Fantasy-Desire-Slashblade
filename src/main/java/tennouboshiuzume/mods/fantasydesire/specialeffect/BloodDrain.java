@@ -23,6 +23,7 @@ import net.minecraft.potion.PotionEffect;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
 import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
+import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 
 import java.util.Random;
 
@@ -59,7 +60,8 @@ public class BloodDrain implements ISpecialEffect, IRemovable {
         ItemStack stack = event.blade;
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
         ItemSlashBlade.ProudSoul.tryAdd(tag,5,false);
-
+        Integer proudSoul = ItemSlashBlade.ProudSoul.get(tag);
+        ItemSlashBlade.setBaseAttackModifier(tag,24 + (float)  proudSoul/1000);
         player.setHealth(player.getHealth()+1);
         player.addPotionEffect(new PotionEffect(MobEffects.SATURATION,1,1));
         event.target.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS,20*3,3));

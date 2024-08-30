@@ -104,32 +104,6 @@ public class TyrantStrike implements ISpecialEffect, IRemovable {
 
     }
 
-    @SubscribeEvent
-    public void onUpdateItemSlashBlade(SlashBladeEvent.OnUpdateEvent event){
-
-        if(!SpecialEffects.isPlayer(event.entity)) return;
-        EntityPlayer player = (EntityPlayer) event.entity;
-
-        NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
-        if(!useBlade(ItemSlashBlade.getComboSequence(tag))) return;
-
-        switch (SpecialEffects.isEffective(player,event.blade,this)){
-            case None:
-                return;
-            case NonEffective:
-                return;
-            case Effective:
-                break;
-        }
-
-        PotionEffect haste = player.getActivePotionEffect(MobEffects.MINING_FATIGUE);
-        int check = haste != null ? haste.getAmplifier() != 1 ? 3 : 4 : 2;
-
-        if (player.swingProgressInt != check) return;
-        player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION,20 * 5,2));
-
-    }
-
     @Override
     public void register() {
         SlashBladeHooks.EventBus.register(this);

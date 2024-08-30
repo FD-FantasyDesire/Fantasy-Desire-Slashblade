@@ -23,6 +23,7 @@ public class FdBlades {
         loadBlade(new ChikaFlare());
         loadBlade(new ModernGunblade());
         loadBlade(new CrimsonScythe());
+        loadBlade(new TwinBlade());
     }
 
 

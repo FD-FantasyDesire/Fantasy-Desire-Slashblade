@@ -11,6 +11,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.client.event.sound.SoundEvent;
@@ -26,6 +27,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
+import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 
 /**
  * Created by Furia on 15/06/19.
@@ -88,12 +90,12 @@ public class SoulShield implements ISpecialEffect, IRemovable {
         }
         if (player.getRNG().nextInt(4) == 0) {
             player.world.playSound(null,player.posX,player.posY,player.posZ,SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.PLAYERS,1.0f,2.0f);
+            ParticleUtils.spawnParticle(player.world, EnumParticleTypes.END_ROD,false,player.posX,player.posY+player.height/2,player.posZ,2,0 ,0 ,0,0.2f);
             event.setCanceled(true);
             blade.damageItem(1,player);
             player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION,20 * 5,4));
         }else{
             float originalDamage = event.getAmount();
-            System.out.println(originalDamage);
             float reducedDamage = Math.min(originalDamage,5f) ;
             event.setAmount(reducedDamage);
         }

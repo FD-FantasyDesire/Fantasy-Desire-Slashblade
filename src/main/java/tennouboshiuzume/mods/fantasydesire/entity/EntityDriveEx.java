@@ -144,7 +144,7 @@ public class EntityDriveEx extends EntityBase
                 this.posY + AMBIT,
                 this.posZ + AMBIT);
         // ----- 射撃物の迎撃
-        intercept(bb, false);
+        intercept(bb    , false);
 
         // ----- 敵エンティティへの攻撃
         final boolean isMultiHit = isMultiHit();

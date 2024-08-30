@@ -12,4 +12,6 @@ public class FdSEs {
     public static ISpecialEffect EnergyBullet = SpecialEffects.register(new EnergyBullet());
     public static ISpecialEffect CrimsonStrike = SpecialEffects.register(new CrimsonStrike());
     public static ISpecialEffect BloodDrain = SpecialEffects.register(new BloodDrain());
+    public static ISpecialEffect ImmortalSoul = SpecialEffects.register(new ImmortalSoul());
+    public static ISpecialEffect TwinSet = SpecialEffects.register(new TwinSet());
 }

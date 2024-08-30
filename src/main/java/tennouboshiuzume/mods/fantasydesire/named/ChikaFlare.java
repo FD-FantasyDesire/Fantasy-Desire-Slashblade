@@ -37,7 +37,7 @@ public class ChikaFlare {
         NBTTagCompound tag = new NBTTagCompound();
         customblade.setTagCompound(tag);
         ItemFdSlashBlade.CurrentItemName.set(tag, name);
-        ItemFdSlashBlade.CustomMaxDamage.set(tag, 50);
+        ItemFdSlashBlade.CustomMaxDamage.set(tag, 66);
         ItemFdSlashBlade.IsDefaultBewitched.set(tag, true);
         ItemFdSlashBlade.isFdBlade.set(tag, true);
         ItemFdSlashBlade.bladeType.set(tag, "fantasy");
@@ -46,11 +46,12 @@ public class ChikaFlare {
         ItemSlashBlade.SpecialAttackType.set(tag, 200);
         ItemSlashBlade.StandbyRenderType.set(tag, 2);
         ItemSlashBlade.RepairCount.set(tag,67);
-        ItemSlashBlade.BaseAttackModifier.set(tag, 33.0F);
+        ItemSlashBlade.BaseAttackModifier.set(tag, 2.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xFFFF00);
         SpecialEffects.addEffect(customblade, FdSEs.CheatRumble);
         SpecialEffects.addEffect(customblade, FdSEs.TyrantStrike);
         SpecialEffects.addEffect(customblade, FdSEs.SoulShield);
+        SpecialEffects.addEffect(customblade, FdSEs.ImmortalSoul);
         NBTTagCompound displayTag = new NBTTagCompound();
         customblade.setTagInfo("display",displayTag);
         NBTTagList loreList = new NBTTagList();

@@ -47,40 +47,52 @@ public class RainOfRainbow extends SpecialAttackBase {
         if (!world.isRemote) {
             List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player,60));
             if (!target.isEmpty()){
-                for (int i=0;i<target.size()*rains;i++){
-                    EntityLivingBase targetEntity = TargetUtils.setTargetEntityFromListByEntity(i,target);
-                    Vec3d targetPos = targetEntity.getPositionVector();
-                    Vec3d spawnPos = new Vec3d(
-                            targetEntity.posX+random.nextGaussian(),
-                            targetEntity.posY+20f+random.nextGaussian()*2,
-                            targetEntity.posZ+random.nextGaussian());
+                int count=0;
+                for (int z=0;z<target.size();z++){
+                    for (int i=0;i<rains;i++){
+                        count++;
+                        EntityLivingBase targetEntity = TargetUtils.setTargetEntityFromListByEntity(z,target);
+                        Vec3d targetPos = targetEntity.getPositionVector();
+                        Vec3d spawnPos = new Vec3d(
+                                targetEntity.posX+random.nextGaussian(),
+                                targetEntity.posY+20f+random.nextGaussian()*2,
+                                targetEntity.posZ+random.nextGaussian());
 //                    Vec3d spawnPos = new Vec3d(player.posX,player.posY+20,player.posZ);
 
-                    EntityPhantomSwordExBase entityDrive = new EntityPhantomSwordExBase(world,player,magicDamage);
-                    entityDrive.setInitialPosition(
-                            spawnPos.x,
-                            spawnPos.y,
-                            spawnPos.z,
+                        EntityPhantomSwordExBase entityDrive = new EntityPhantomSwordExBase(world,player,magicDamage);
+                        entityDrive.setInitialPosition(
+                                spawnPos.x,
+                                spawnPos.y,
+                                spawnPos.z,
 //                            (float) (random.nextGaussian()*60),
-                            random.nextInt(360),
-                            (float) (90f+random.nextGaussian()*5),
-                            0f,
-                            1.75f
-                    );
-                    entityDrive.setRoll((float) (random.nextGaussian()*30));
-                    entityDrive.setInterval(40+5*(i%rains));
-                    entityDrive.setColor(random.nextInt(16777215));
-                    if (!target.isEmpty()){
-                        entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromList(i,target));
+                                random.nextInt(360),
+                                (float) (90f+random.nextGaussian()*5),
+                                0f,
+                                1.75f
+                        );
+                        entityDrive.setRoll((float) (random.nextGaussian()*30));
+                        entityDrive.setInterval(40+5*i);
+                        entityDrive.setColor(color[i]);
+                        entityDrive.setTargetEntityId(targetEntity.getEntityId());
+                        entityDrive.setIsOverWall(true);
+                        entityDrive.setScale(2f);
+                        entityDrive.setLifeTime(200);
+                        world.spawnEntity(entityDrive);
                     }
-                    entityDrive.setScale(2f);
-                    entityDrive.setParticle(EnumParticleTypes.TOTEM);
-                    entityDrive.setLifeTime(200);
-                    world.spawnEntity(entityDrive);
                 }
             }
         }
-
         ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.Kiriage);
     }
+    private int[] color = new int[] {
+            0xFF0000,
+            0xFFAA00,
+            0xFFFF00,
+            0x00FF00,
+            0x00CC00,
+            0x00CCFF,
+            0x0000FF,
+            0xFF00FF
+    };
+
 }
