@@ -1,22 +1,43 @@
 package tennouboshiuzume.mods.fantasydesire.named.item;
 
 import mods.flammpfeil.slashblade.ItemSlashBladeNamed;
+import mods.flammpfeil.slashblade.SlashBlade;
 import mods.flammpfeil.slashblade.TagPropertyAccessor;
+import mods.flammpfeil.slashblade.ability.SoulEater;
+import mods.flammpfeil.slashblade.ability.StylishRankManager;
+import mods.flammpfeil.slashblade.ability.Taunt;
+import mods.flammpfeil.slashblade.ability.UpthrustBlast;
+import mods.flammpfeil.slashblade.entity.selector.EntitySelectorAttackable;
+import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.specialattack.IJustSpecialAttack;
 import mods.flammpfeil.slashblade.specialattack.SpecialAttackBase;
+import mods.flammpfeil.slashblade.util.InventoryUtility;
+import mods.flammpfeil.slashblade.util.SilentUpdateItem;
+import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils.*;
 
@@ -40,6 +61,7 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
     public static TagPropertyAccessor.TagPropertyBoolean isInCreativeTab = new TagPropertyAccessor.TagPropertyBoolean("isInCreativeTab");
     public static TagPropertyAccessor.TagPropertyBoolean isFdBlade = new TagPropertyAccessor.TagPropertyBoolean("isFdBlade");
     public static TagPropertyAccessor.TagPropertyString bladeType = new TagPropertyAccessor.TagPropertyString("bladeType");
+    public static TagPropertyAccessor.TagPropertyFloat lockRange = new TagPropertyAccessor.TagPropertyFloat("lockRange");
 
     /** œ‘ æ…Òµ∂ */
     @Override

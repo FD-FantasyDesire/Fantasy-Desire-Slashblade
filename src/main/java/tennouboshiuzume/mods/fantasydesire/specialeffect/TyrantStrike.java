@@ -96,7 +96,7 @@ public class TyrantStrike implements ISpecialEffect, IRemovable {
                 world.spawnEntity(entityDrive);
             }
         }
-        event.target.playSound(SoundEvents.ITEM_FIRECHARGE_USE,32.0f,2.0f);
+        event.target.playSound(SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE,2.5f,2.0f);
 
         player.onEnchantmentCritical(event.target);
         event.target.addPotionEffect(new PotionEffect(MobEffects.GLOWING,20*5,0));

@@ -108,11 +108,10 @@ public class CrossSaberSA extends SpecialAttackBase {
                                 entityDrive.setLifeTime(400);
                                 entityDrive.setInterval(20+3*count);
 //                                entityDrive.setDriveVector(2.5f);
-                                entityDrive.setScale(0.75f);
+                                entityDrive.setScale(1.5f);
                                 entityDrive.setParticle(EnumParticleTypes.END_ROD);
                                 entityDrive.setParticleVec(1);
-                                int color = random.nextInt(16777216);
-                                entityDrive.setColor(color);
+                                entityDrive.setColor(color[i%color.length]);
                                 entityDrive.setTargetEntityId(target.getEntityId());
                                 world.spawnEntity(entityDrive);
                             }
@@ -148,6 +147,17 @@ public class CrossSaberSA extends SpecialAttackBase {
         }
         return target;
     }
-
+    private int[] color = new int[] {
+            0xFF0000,//Fire
+            0x0000FF,//Water
+            0xFFFF00,//Thunder
+            0x996600,//Earth
+            0xFF00FF,//Sonic
+            0x66FF66,//Wind
+            0xEEEEEE,//Light
+            0x00DDDD,//Time
+            0xDDDD00,//Smoke
+            0xCC00FF //Dark
+    };
 
 }

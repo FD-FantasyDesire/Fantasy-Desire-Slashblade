@@ -111,7 +111,7 @@ public class TripleBullet implements ISpecialEffect
             EntityPhantomSwordEx entityDrive = new EntityPhantomSwordEx(world, player, magicDamage);
             entityDrive.setInterval(1+i);
             entityDrive.setScale(0.2f);
-            entityDrive.setSound(SoundEvents.ENTITY_ARROW_SHOOT);
+            entityDrive.setSound(SoundEvents.ENTITY_WITHER_SHOOT,3f,2f);
             entityDrive.setColor(0x00CCCC);
             entityDrive.setInitialPosition(player.getLookVec().x+player.posX,
                     player.getLookVec().y+player.posY+1.2f,

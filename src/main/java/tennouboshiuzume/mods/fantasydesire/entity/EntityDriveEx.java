@@ -11,11 +11,16 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class EntityDriveEx extends EntityBase
 {
+
+    protected SoundEvent sound = null;
+    protected float volume = 1;
+    protected float rate = 1;
     /** 当たり判定の大きさ */;
     private static final double OriginAMBIT = 1.5;
     /** パラメータ：多段Hitの有無 */
@@ -99,6 +104,12 @@ public class EntityDriveEx extends EntityBase
         this.getDataManager().set(INTERVAL,value);
     }
 
+    public final void setSound(SoundEvent sound,float volume,float rate){
+        this.sound = sound;
+        this.volume = volume;
+        this.rate = rate;
+    }
+
     public String getParticle(){
         return this.getDataManager().get(PARTICLE);
     }
@@ -126,6 +137,8 @@ public class EntityDriveEx extends EntityBase
             move();
             playParticle();
         }
+        if (sound!=null&&this.ticksExisted==getInterval())
+            this.playSound(sound,volume,rate);
 
         if (this.ticksExisted >= getLifeTime())
             setDead();

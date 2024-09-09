@@ -4,6 +4,7 @@ import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.entity.selector.EntitySelectorAttackable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -76,10 +77,13 @@ public class EntityOverChargeBFG extends EntityOverCharge{
     {
         if (!world.isRemote)
             detectCollision(getScale(),getHitScale());
-        if(getInterval() < this.ticksExisted){
+        if(getInterval() < this.ticksExisted)
             move();
-            playParticle();
+        playParticle();
+        if (sound!=null&&this.ticksExisted==getInterval()+1){
+            this.playSound(sound,volume,rate);
         }
+
 
         if (this.ticksExisted >= getLifeTime()){
             if (getIsBlast()){
@@ -130,11 +134,12 @@ public class EntityOverChargeBFG extends EntityOverCharge{
 
                 }
                 if (this.ticksExisted%4==0&&getIsBFG()){
+                    this.playSound(SoundEvents.ENTITY_LIGHTNING_THUNDER,3,2f);
                     BFG(target,damage);
                 }
-                if (this.ticksExisted%2==0&&getIsBlackHole()){
-
-                    pullEntityTowards(target,this.posX,this.posY,this.posZ,0.5);
+                if (this.ticksExisted%10==0&&getIsBlackHole()){
+                    this.playSound(SoundEvents.ITEM_FIRECHARGE_USE,3,0.5f);
+                    pullEntityTowards(target,this.posX,this.posY,this.posZ,1);
                 }
             }
         }

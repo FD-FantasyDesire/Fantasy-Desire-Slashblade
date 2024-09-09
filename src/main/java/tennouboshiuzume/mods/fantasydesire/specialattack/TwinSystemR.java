@@ -10,6 +10,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextComponentString;
@@ -93,18 +94,22 @@ public class TwinSystemR extends SpecialAttackBase {
                 entityDrive.setScale(5f);
                 entityDrive.setHitScale(count);
                 entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, 0, 0, 0, 0);
+                entityDrive.setIsOverWall(true);
                 entityDrive.setMultiHit(true);
                 entityDrive.setColor(0x5555FF);
-                entityDrive.setLifeTime(20);
+                entityDrive.setLifeTime(80);
                 world.spawnEntity(entityDrive);
             }
             {
                 EntityOverCharge entityDrive = new EntityOverCharge(world, player, magicDamage);
                 entityDrive.setScale(3f);
                 entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, 90, 90, 0, 0);
+                entityDrive.setIsOverWall(true);
                 entityDrive.setMultiHit(true);
                 entityDrive.setColor(0xFF5555);
-                entityDrive.setLifeTime(20);
+                entityDrive.setInterval(0);
+                entityDrive.setSound(SoundEvents.ENTITY_WITHER_BREAK_BLOCK,3,0.5f);
+                entityDrive.setLifeTime(80);
                 world.spawnEntity(entityDrive);
             }
         }

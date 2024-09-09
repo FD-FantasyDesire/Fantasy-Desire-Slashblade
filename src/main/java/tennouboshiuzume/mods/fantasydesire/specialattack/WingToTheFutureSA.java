@@ -208,11 +208,11 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
         ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
 
-        final int cost = -2000;
-        if(!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)){
-            return;
-        }
-        stack.setItemDamage(stack.getMaxDamage()/2);
+//        final int cost = -2000;
+//        if(!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)){
+//            return;
+//        }
+//        stack.setItemDamage(stack.getMaxDamage()/2);
 
         int wingcount = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel))-5, 1),5);
 
@@ -274,8 +274,8 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
                                 (float) (random.nextInt(20)-90),
                                 (float) (random.nextGaussian()*30),
                                 2f);
-                        entityDrive.setInterval(20+countdownValue*2);
-                        entityDrive.setLifeTime(200+countdownValue*2);
+                        entityDrive.setInterval(20+countdownValue*1);
+                        entityDrive.setLifeTime(200+countdownValue*1);
                         entityDrive.setScale(1.5f);
                         entityDrive.setIsOverWall(true);
                         entityDrive.setParticle(EnumParticleTypes.END_ROD);

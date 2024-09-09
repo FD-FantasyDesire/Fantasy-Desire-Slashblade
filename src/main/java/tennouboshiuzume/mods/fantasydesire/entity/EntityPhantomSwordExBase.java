@@ -48,6 +48,8 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
     protected float trueScale = 1f;
 
     protected SoundEvent sound = null;
+    protected float volume = 1;
+    protected float rate = 1;
     /**
      * ★多段Hit防止用List
      */
@@ -243,8 +245,10 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         this.getDataManager().set(SCALE,scale);
     }
 
-    public final void setSound(SoundEvent sound){
+    public final void setSound(SoundEvent sound,float volume,float rate){
         this.sound = sound;
+        this.volume = volume;
+        this.rate = rate;
     }
     public boolean isOverWall(){
         return this.getDataManager().get(IS_OVER_WALL);
@@ -927,8 +931,9 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
             float scale = initialScale + (finalScale - initialScale) * percentage;
             setTrueScale(scale);
 
-            if (sound!=null&&this.ticksExisted==getInterval())
-                this.playSound(sound,3f,2.0f);
+            if (sound!=null&&this.ticksExisted==getInterval()+1){
+                this.playSound(sound,volume,rate);
+            }
 
             if(getInterval() < this.ticksExisted)
                 move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);

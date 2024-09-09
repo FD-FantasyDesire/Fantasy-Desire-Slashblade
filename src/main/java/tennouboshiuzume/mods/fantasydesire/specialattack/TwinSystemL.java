@@ -11,9 +11,11 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityDriveEx;
@@ -75,7 +77,7 @@ public class TwinSystemL extends SpecialAttackBase {
             playerDist *= 0.33f;
         ReflectionAccessHelper.setVelocity(player,
                 -Math.sin(Math.toRadians(player.rotationYaw)) * playerDist,
-                -Math.sin(Math.toRadians(player.rotationPitch)) * playerDist,
+                -Math.sin(Math.toRadians(MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f))) * playerDist,
                 Math.cos(Math.toRadians(player.rotationYaw)) * playerDist);
 
         ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
@@ -97,21 +99,23 @@ public class TwinSystemL extends SpecialAttackBase {
             for (int i = 0;i<count;i++){
                 {
                     EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
-                    entityDrive.setInitialPosition(player.posX, player.posY + player.height / 2, player.posZ, player.rotationYaw, player.rotationPitch, 45, 3f);
+                    entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), 45, 3f);
                     entityDrive.setScale(3f);
                     entityDrive.setInterval(i*2);
                     entityDrive.setLifeTime(100+i*2);
                     entityDrive.setColor(0xFF5555);
+                    entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,0.5f);
                     entityDrive.setParticle(EnumParticleTypes.END_ROD);
                     world.spawnEntity(entityDrive);
                 }
                 {
                     EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
-                    entityDrive.setInitialPosition(player.posX, player.posY + player.height / 2, player.posZ, player.rotationYaw, player.rotationPitch, -45, 3f);
+                    entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), -45, 3f);
                     entityDrive.setScale(3f);
                     entityDrive.setInterval(i*2);
                     entityDrive.setLifeTime(100+i*2);
                     entityDrive.setColor(0x5555FF);
+                    entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,2f);
                     entityDrive.setParticle(EnumParticleTypes.END_ROD);
                     world.spawnEntity(entityDrive);
                 }

@@ -110,6 +110,7 @@ public class EnergyBullet implements ISpecialEffect
         entityDrive.setIsOverWall(true);
         entityDrive.setMultiHit(true);
         entityDrive.setHitScale(3f);
+        entityDrive.setSound(SoundEvents.ENTITY_SHULKER_SHOOT,2,2f);
         entityDrive.setParticle(EnumParticleTypes.VILLAGER_HAPPY);
         entityDrive.setLifeTime(100);
         entityDrive.setColor(0x99FF00);

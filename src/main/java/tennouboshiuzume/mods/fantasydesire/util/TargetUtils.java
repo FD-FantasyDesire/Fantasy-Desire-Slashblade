@@ -58,6 +58,8 @@ public class TargetUtils {
 
         return hostileEntities;
     }
+
+
     public static EntityLivingBase setTargetEntityFromListByEntity(int i, List<EntityLivingBase> enemies) {
         // 通过取模操作获取当前要操作的敌人
         int index = i % enemies.size();

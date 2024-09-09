@@ -86,7 +86,7 @@ public class RainOfRainbow extends SpecialAttackBase {
     }
     private int[] color = new int[] {
             0xFF0000,
-            0xFFAA00,
+            0xEE9900,
             0xFFFF00,
             0x00FF00,
             0x00CC00,

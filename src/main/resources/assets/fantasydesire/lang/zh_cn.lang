@@ -22,19 +22,17 @@ tennouboshiuzume.slashblade.CrimsonScythe.desc2=§d狩魂 Type-VI 资源回收�
 tennouboshiuzume.slashblade.CrimsonScythe.desc3=  §f攻击命中时回复生命值和饱食度，耀魂可以提升伤害
 
 tennouboshiuzume.slashblade.TwinBlade.desc=§9MOOD§f/§4DOOM §5情感增幅系统
-tennouboshiuzume.slashblade.TwinBlade.desc1=    §f当双持拥有该属性的拔刀时，每次斩击都会提升连击评级
+tennouboshiuzume.slashblade.TwinBlade.desc1=    §f当双持拥有该属性的拔刀时，随评级提升获得额外追击效果
 tennouboshiuzume.slashblade.TwinBlade.desc2=§1MOOD-A §9激昂
-tennouboshiuzume.slashblade.TwinBlade.desc3=    §f发动SA时，向前突进并施放数道交叉斩击，切换模式至§4DOOM-Z §c陨灭
+tennouboshiuzume.slashblade.TwinBlade.desc3=    §f向前突进并施放数道交叉斩击
 tennouboshiuzume.slashblade.TwinBlade.desc4=§4DOOM-Z §c陨灭
-tennouboshiuzume.slashblade.TwinBlade.desc5=    §f发动SA时，向前突进并施放漩涡拉近敌人，切换模式至§1MOOD-A §9激昂
-
-
-
+tennouboshiuzume.slashblade.TwinBlade.desc5=    §f向前突进并施放漩涡拉近敌人
 
 #Special Attack
 flammpfeil.slashblade.specialattack.WingToTheFutureSA=§6§l翱向未来之翼
+flammpfeil.slashblade.specialattack.ShinMagnetStormSword=§b§l磁暴幻影剑§f§l·§1§l「限制解除」
 flammpfeil.slashblade.specialattack.CrossSaberSA=§9§l刃王·十圣刃星烈斩
-flammpfeil.slashblade.specialattack.ChargeShot=§b§l蓄能射击
+flammpfeil.slashblade.specialattack.ChargeShot=§b§l充能扫射
 flammpfeil.slashblade.specialattack.OverCharge=§a§l超载充能
 flammpfeil.slashblade.specialattack.CrimsonStorm=§4§l深红强袭
 flammpfeil.slashblade.specialattack.TwinSystemL=§9§l双子系统：激昂
@@ -52,10 +50,14 @@ slashblade.seffect.name.CrimsonStrike=§c幻猎 Type-X
 slashblade.seffect.name.BloodDrain=§d狩魂 Type-VI
 slashblade.seffect.name.TwinSet=§9MOOD§f/§4DOOM §5情感增幅系统
 
+#Text
+tennouboshiuzume.info.ImmortalSoulActive=§e
+tennouboshiuzume.info.ImmortalSoulActive1=§4
+
 #Misc
 itemGroup.FantasyDesire=幻想与欲望
 tennouboshiuzume.info.fantasy=§eYarimono
-tennouboshiuzume.info.Gunblade=§f白神纪-2000年
+tennouboshiuzume.info.Gunblade=§f白神纪-2070年
 tennouboshiuzume.info.CrimsonScythe=§4深红收割者
 tennouboshiuzume.info.TwinBladeL=§1MOOD-A §9激昂
 tennouboshiuzume.info.TwinBladeR=§4DOOM-Z §c陨灭

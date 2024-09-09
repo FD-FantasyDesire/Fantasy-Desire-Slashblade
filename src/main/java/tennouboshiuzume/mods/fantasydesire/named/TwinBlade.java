@@ -60,21 +60,4 @@ public class TwinBlade {
     public void postinit(LoadEvent.PostInitEvent event){
         SlashBladeHooks.EventBus.register(this);
     }
-    //      通过将阎魔刀放置于刀架上并且雷击来制造
-//    @SubscribeEvent
-//    public void onBladeStandAttack(SlashBladeEvent.BladeStandAttack event){
-////      是否有刀
-//        if(!event.entityBladeStand.hasBlade()) return;
-////      是否为单刀挂架
-//        if(EntityBladeStand.getType(event.entityBladeStand) != EntityBladeStand.StandType.Single) return;
-////      是否为雷击造成伤害
-//        if(!event.damageSource.damageType.equals("lightningBolt")) return;
-//
-//        ItemStack targetBlade = BladeUtils.findItemStack(SlashBlade.modid,materialName,1);
-//        if(!event.blade.getUnlocalizedName().equals(targetBlade.getUnlocalizedName())) return;
-//
-//        ItemStack resultBlade = WorldBladeStandCrafting.crafting(event.blade,name);
-//
-//        event.entityBladeStand.setBlade(resultBlade);
-//    }
 }

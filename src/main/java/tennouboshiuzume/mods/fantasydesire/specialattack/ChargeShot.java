@@ -9,8 +9,10 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverCharge;
@@ -55,47 +57,57 @@ public class ChargeShot extends SpecialAttackBase {
             ItemSlashBlade.SummonedSwordColor.set(tag,0x99FF99);
             ItemSlashBlade.SpecialAttackType.set(tag,202);
 
-            List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findHostileEntitiesInFOV(player,60,45f));
+            List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player,30));
 
             int swordcount = 0;
-            for (int j=0;j<ringcount;j++){
-                int rings = j+1;
-                double radius = 0.5+(0.5*j);
-                int points = 3*rings;
-                Boolean isBurst =(rings%2==0);
+            for (int j = 0; j < ringcount; j++) {
+                int rings = j + 1;
+                double radius = 0.5 + (0.2 * j);
+                int points = 3 * rings;
+                boolean isBurst = (rings % 2 == 0);
                 Vec3d playerPos = player.getPositionVector();
                 float yaw = player.rotationYaw;
+
+                // 计算在XZ平面上的方向向量
                 Vec3d lookVec = new Vec3d(
                         -Math.sin(Math.toRadians(yaw)),
                         0,
                         Math.cos(Math.toRadians(yaw))
                 ).normalize();
-                Vec3d upVec = new Vec3d(0, 1, 0);
-                Vec3d rightVec = lookVec.crossProduct(upVec).normalize();
-                Vec3d forwardVec = rightVec.crossProduct(lookVec).normalize();
+                Vec3d rightVec = new Vec3d(
+                        Math.cos(Math.toRadians(yaw)),
+                        0,
+                        Math.sin(Math.toRadians(yaw))
+                ).normalize();
 
                 for (int i = 0; i < points; i++) {
                     swordcount++;
                     double angle = 2 * Math.PI * i / points;
+
+                    // 修改为在XZ平面上计算偏移
                     double xOffset = radius * Math.cos(angle);
-                    double yOffset = radius * Math.sin(angle);
-                    Vec3d circlePoint = playerPos.add(rightVec.scale(xOffset)).add(forwardVec.scale(yOffset));
+                    double zOffset = radius * Math.sin(angle);
+
+                    // 根据偏移量在XZ平面上生成圆形分布
+                    Vec3d circlePoint = playerPos.add(rightVec.scale(xOffset)).add(lookVec.scale(zOffset));
                     EntityPhantomSwordEx entityDrive = new EntityPhantomSwordEx(world, player, magicDamage);
 
-                    entityDrive.setInitialPosition(circlePoint.x, circlePoint.y + player.getEyeHeight(), circlePoint.z, player.rotationYaw-90, i * (360f/points) -180f,0,3f);
+                    entityDrive.setInitialPosition(circlePoint.x, playerPos.y + player.getEyeHeight(), circlePoint.z, i * (360f / points) +player.rotationYaw -90, 0, 0, 3f);
                     entityDrive.setLifeTime(160);
                     entityDrive.setColor(isBurst ? 0x00FFFF : 0xFFFFFF);
-//                    entityDrive.setBurst(isBurst);
-//                    entityDrive.setExpRadius(2);
+                    entityDrive.setSound(SoundEvents.ENTITY_WITHER_BREAK_BLOCK, 2f, 2f);
+                    entityDrive.setScale(0.2f);
                     entityDrive.setIsOverWall(true);
-                    entityDrive.setInterval(10+swordcount);
-//                    entityDrive.setRoll(i * -(360f/points) +90f);
-                    if (!target.isEmpty()){
-                        entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromList(i,target));;
+                    entityDrive.setInterval(1 + rings);
+
+                    if (!target.isEmpty()) {
+                        entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromList(i, target));
                     }
                     world.spawnEntity(entityDrive);
                 }
             }
+
+
         }
 
         ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.Kiriage);
