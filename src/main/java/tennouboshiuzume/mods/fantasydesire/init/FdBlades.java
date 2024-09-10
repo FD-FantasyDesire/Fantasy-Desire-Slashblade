@@ -24,6 +24,7 @@ public class FdBlades {
         loadBlade(new ModernGunblade());
         loadBlade(new CrimsonScythe());
         loadBlade(new TwinBlade());
+        loadBlade(new OverCold());
     }
 
 

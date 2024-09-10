@@ -39,7 +39,7 @@ public class CrimsonScythe {
         NBTTagCompound tag = new NBTTagCompound();
         customblade.setTagCompound(tag);
         ItemFdSlashBlade.CurrentItemName.set(tag, name);
-        ItemFdSlashBlade.CustomMaxDamage.set(tag, 50);
+        ItemFdSlashBlade.CustomMaxDamage.set(tag, 512 );
         ItemFdSlashBlade.IsDefaultBewitched.set(tag, true);
         ItemFdSlashBlade.isFdBlade.set(tag, true);
         ItemFdSlashBlade.bladeType.set(tag, "CrimsonScythe");
@@ -47,7 +47,7 @@ public class CrimsonScythe {
         ItemSlashBlade.ModelName.set(tag, "named/CrimsonScythe");
         ItemSlashBlade.SpecialAttackType.set(tag, 207);
         ItemSlashBlade.StandbyRenderType.set(tag, 2);
-        ItemSlashBlade.BaseAttackModifier.set(tag, 24.0F);
+        ItemSlashBlade.BaseAttackModifier.set(tag, 12.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xFF0000);
         SpecialEffects.addEffect(customblade,FdSEs.CrimsonStrike);
         SpecialEffects.addEffect(customblade,FdSEs.BloodDrain);

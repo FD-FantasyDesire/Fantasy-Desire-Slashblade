@@ -30,8 +30,8 @@ import java.util.Random;
 /**
  * Created by Furia on 15/06/19.
  */
-public class BloodDrain implements ISpecialEffect, IRemovable {
-    private static final String EffectKey = "BloodDrain";
+public class OutCosmos implements ISpecialEffect, IRemovable {
+    private static final String EffectKey = "OutCosmos";
 
     private boolean useBlade(ItemSlashBlade.ComboSequence sequence){
         if(sequence.useScabbard) return false;
@@ -42,9 +42,6 @@ public class BloodDrain implements ISpecialEffect, IRemovable {
 
     @SubscribeEvent
     public void onImpactEffectEvent(SlashBladeEvent.ImpactEffectEvent event){
-
-//        if(!useBlade(event.sequence)) return;
-
         if(!SpecialEffects.isPlayer(event.user)) return;
         EntityPlayer player = (EntityPlayer) event.user;
 
@@ -56,15 +53,7 @@ public class BloodDrain implements ISpecialEffect, IRemovable {
             case NonEffective:
                 return;
         }
-        World world = player.world;
-        ItemStack stack = event.blade;
-        NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
-        ItemSlashBlade.ProudSoul.tryAdd(tag,2,false);
-        Integer proudSoul = ItemSlashBlade.ProudSoul.get(tag);
-        ItemSlashBlade.setBaseAttackModifier(tag,12 + (float)  proudSoul/2000);
-        player.setHealth(player.getHealth()+1);
-        player.addPotionEffect(new PotionEffect(MobEffects.SATURATION,1,1));
-        event.target.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS,20*3,3));
+
     }
 
     @Override
@@ -74,7 +63,7 @@ public class BloodDrain implements ISpecialEffect, IRemovable {
 
     @Override
     public int getDefaultRequiredLevel() {
-        return 60;
+        return 120;
     }
 
     @Override

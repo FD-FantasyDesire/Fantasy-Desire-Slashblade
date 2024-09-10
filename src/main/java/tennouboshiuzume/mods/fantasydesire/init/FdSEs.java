@@ -14,4 +14,5 @@ public class FdSEs {
     public static ISpecialEffect BloodDrain = SpecialEffects.register(new BloodDrain());
     public static ISpecialEffect ImmortalSoul = SpecialEffects.register(new ImmortalSoul());
     public static ISpecialEffect TwinSet = SpecialEffects.register(new TwinSet());
+    public static ISpecialEffect OutCosmos = SpecialEffects.register(new OutCosmos());
 }

@@ -44,7 +44,7 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
         float magicDamage = (baseModif/2.0f);
 
         int rank = StylishRankManager.getStylishRank(player);
-        float scale = Math.min(Math.max(player.experienceLevel/10,3),10);
+        float scale = Math.min(Math.max(player.experienceLevel/10,3),6);
         if(5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level /5.0f));
 
@@ -77,7 +77,7 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
         float magicDamage = (baseModif/2.0f);
 
         int rank = StylishRankManager.getStylishRank(player);
-        float scale = Math.min(Math.max(player.experienceLevel/10,3),10)*1.5f;
+        float scale = Math.min(Math.max(player.experienceLevel/10,3),8f)*1.2f;
         if(5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level /5.0f));
         Entity target = getEntityToWatch(player);
@@ -138,7 +138,7 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
     private Entity getEntityToWatch(EntityPlayer player){
         World world = player.world;
         Entity target = null;
-        for(int dist = 2; dist < 30; dist+=2){
+        for(int dist = 2; dist < 60; dist+=2){
             AxisAlignedBB bb = player.getEntityBoundingBox();
             Vec3d vec = player.getLookVec();
             vec = vec.normalize();
@@ -146,7 +146,7 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
             bb = bb.offset(vec.x*(float)dist,vec.y*(float)dist,vec.z*(float)dist);
 
             List<Entity> list = world.getEntitiesInAABBexcluding(player, bb, EntitySelectorAttackable.getInstance());
-            float distance = 30.0f;
+            float distance = 60.0f;
             for(Entity curEntity : list){
                 float curDist = curEntity.getDistance(player);
                 if(curDist < distance)
