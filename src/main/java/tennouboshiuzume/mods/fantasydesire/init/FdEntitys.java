@@ -74,5 +74,15 @@ public class FdEntitys {
                 1,
                 false
         );
+        EntityRegistry.registerModEntity(
+                new ResourceLocation(MODID,"entityseeksoulphantomsword"),
+                EntitySeekSoulPhantomSword.class,
+                "EntitySeekSoulPhantomSword",
+                6,
+                FantasyDesire.instance,
+                64,
+                1,
+                false
+        );
     }
 }

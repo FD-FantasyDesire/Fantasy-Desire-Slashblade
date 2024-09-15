@@ -25,6 +25,7 @@ public class FdBlades {
         loadBlade(new CrimsonScythe());
         loadBlade(new TwinBlade());
         loadBlade(new OverCold());
+        loadBlade(new PureSnow());
     }
 
 

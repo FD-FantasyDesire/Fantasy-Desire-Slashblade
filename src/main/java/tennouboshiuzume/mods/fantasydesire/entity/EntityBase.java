@@ -67,6 +67,8 @@ abstract class EntityBase extends Entity implements IThrowableEntity
     /** パラメータ：色 */
     private static final DataParameter<Integer> COLOR = EntityDataManager.<Integer>createKey(EntityBase.class, DataSerializers.VARINT);
 
+    private static final DataParameter<Boolean> NonPlayer = EntityDataManager.<Boolean>createKey(EntityBase.class, DataSerializers.BOOLEAN);
+
     /**
      * コンストラクタ
      *
@@ -123,6 +125,7 @@ abstract class EntityBase extends Entity implements IThrowableEntity
         manager.register(SCALE, 1.0f);
         manager.register(LIFETIME, 20);
         manager.register(COLOR, 0x3333ff);
+        manager.register(NonPlayer,false);
     }
 
     /**
@@ -217,10 +220,11 @@ abstract class EntityBase extends Entity implements IThrowableEntity
 
         if (blade_.isEmpty() || !(target instanceof EntityLivingBase))
             return false;
-
-        blade_.getItem().hitEntity(blade_,
-                (EntityLivingBase)target,
-                thrower_);
+        if (!getIsNonPlayer()) {
+            blade_.getItem().hitEntity(blade_,
+                    (EntityLivingBase)target,
+                    thrower_);
+        }
         return true;
     }
 
@@ -416,6 +420,12 @@ abstract class EntityBase extends Entity implements IThrowableEntity
         this.getDataManager().set(SCALE,scale);
     }
 
+    public boolean getIsNonPlayer(){
+        return this.getDataManager().get(NonPlayer);
+    }
+    public void setIsNonPlayer(boolean value){
+        this.getDataManager().set(NonPlayer,value);
+    }
 
     // =====================================================
 

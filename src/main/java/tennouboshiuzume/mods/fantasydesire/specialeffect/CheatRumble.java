@@ -1,8 +1,10 @@
 package tennouboshiuzume.mods.fantasydesire.specialeffect;
 
+import mods.flammpfeil.slashblade.ability.UntouchableTime;
 import mods.flammpfeil.slashblade.specialeffect.IRemovable;
 import mods.flammpfeil.slashblade.specialeffect.ISpecialEffect;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -39,12 +41,13 @@ public class CheatRumble implements ISpecialEffect, IRemovable {
             case NonEffective:
                 return;
         }
-        DamageSource ds = new EntityDamageSource("CheatDamage",player).setDamageBypassesArmor().setDamageIsAbsolute().setDamageAllowedInCreativeMode();
-        event.target.attackEntityFrom(ds,Float.MAX_VALUE);
+        DamageSource CheatRumble = new DamageSource("CheatDamage").setDamageBypassesArmor().setDamageIsAbsolute().setDamageAllowedInCreativeMode();
+        event.target.attackEntityFrom(CheatRumble,Float.MAX_VALUE);
         event.target.setHealth(0f);
 //        event.target.setDead();
         System.out.println(String.format(player.getName()+"use ChikaFlare special ability killed"+ event.target.getName()));
         player.onEnchantmentCritical(event.target);
+        UntouchableTime.setUntouchableTime(player, 200);
 
     }
 
@@ -71,7 +74,7 @@ public class CheatRumble implements ISpecialEffect, IRemovable {
 
         if (player.swingProgressInt != check) return;
 
-        player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE,20 * 60,5));
+        UntouchableTime.setUntouchableTime(player, 200);
 
     }
 

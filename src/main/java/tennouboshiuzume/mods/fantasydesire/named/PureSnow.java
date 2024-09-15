@@ -17,8 +17,8 @@ import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 
-public class TwinBlade {
-    String name = "tennouboshiuzume.slashblade.TwinBlade";
+public class PureSnow {
+    String name = "tennouboshiuzume.slashblade.PureSnow";
     String materialName = "flammpfeil.slashblade.named.yamato";
     @SubscribeEvent
     public void init(LoadEvent.InitEvent event){
@@ -29,29 +29,25 @@ public class TwinBlade {
         ItemFdSlashBlade.CustomMaxDamage.set(tag, 50);
         ItemFdSlashBlade.IsDefaultBewitched.set(tag, true);
         ItemFdSlashBlade.isFdBlade.set(tag, true);
-        ItemFdSlashBlade.bladeType.set(tag, "TwinBladeL");
-        ItemSlashBlade.TextureName.set(tag, "named/TwinBladeLeft");
-        ItemSlashBlade.ModelName.set(tag, "named/TwinBlade");
-        ItemSlashBlade.SpecialAttackType.set(tag, 208);
-        ItemSlashBlade.StandbyRenderType.set(tag, 2);
+        ItemFdSlashBlade.bladeType.set(tag, "PureSnow");
+        ItemSlashBlade.TextureName.set(tag,"named/PureSnow");
+        ItemSlashBlade.ModelName.set(tag,"named/PureSnow");
+        ItemSlashBlade.SpecialAttackType.set(tag, 0);
+        ItemSlashBlade.StandbyRenderType.set(tag, 1);
         ItemSlashBlade.BaseAttackModifier.set(tag, 7.0F);
-        ItemSlashBlade.SummonedSwordColor.set(tag, 0x00C8FF);
-        SpecialEffects.addEffect(customblade,FdSEs.TwinSet);
-        customblade.addEnchantment(Enchantments.INFINITY,1);
-        customblade.addEnchantment(Enchantments.FLAME,5);
-        customblade.addEnchantment(Enchantments.BLAST_PROTECTION,3);
-        customblade.addEnchantment(Enchantments.FIRE_PROTECTION,3);
+        ItemSlashBlade.SummonedSwordColor.set(tag, 0xFFFFFF);
 
-        NBTTagCompound displayTag = new NBTTagCompound();
-        customblade.setTagInfo("display",displayTag);
-        NBTTagList loreList = new NBTTagList();
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.TwinBlade.desc")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.TwinBlade.desc1")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.TwinBlade.desc2")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.TwinBlade.desc3")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.TwinBlade.desc4")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.TwinBlade.desc5")));
-        displayTag.setTag("Lore", loreList);
+//        NBTTagCompound tag = new NBTTagCompound();
+//        customblade.setTagInfo("display",displayTag);
+//        NBTTagList loreList = new NBTTagList();
+//        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.PureSnow.desc")));
+//        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.PureSnow.desc1")));
+//        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.PureSnow.desc2")));
+//        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.PureSnow.desc3")));
+//        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.PureSnow.desc4")));
+//        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.PureSnow.desc5")));
+//        displayTag.setTag("Lore", loreList);
+        customblade.addEnchantment(Enchantments.SILK_TOUCH,1);
 
         BladeUtils.registerCustomItemStack(name, customblade);
         BladeUtils.FdNamedBlades.add(name);

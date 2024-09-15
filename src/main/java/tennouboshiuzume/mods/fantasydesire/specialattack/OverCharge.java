@@ -37,11 +37,11 @@ public class OverCharge extends SpecialAttackBase {
 
             float baseModif = blade.getBaseAttackModifiers(tag);
             int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
-            float magicDamage = (baseModif/2.0f);
-
+            float magicDamage = 1.0f+(baseModif/2.0f);
             int rank = StylishRankManager.getStylishRank(player);
             if(5 <= rank)
                 magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level /5.0f));
+            
             EntityOverChargeBFG entityDrive = new EntityOverChargeBFG(world,player,magicDamage);
             entityDrive.setColor(0x99FF00);
             entityDrive.setBFG(true);

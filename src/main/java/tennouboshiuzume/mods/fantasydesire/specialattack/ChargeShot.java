@@ -1,5 +1,6 @@
 package tennouboshiuzume.mods.fantasydesire.specialattack;
 
+import mods.flammpfeil.slashblade.ability.UntouchableTime;
 import mods.flammpfeil.slashblade.entity.EntityDrive;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
@@ -107,6 +108,7 @@ public class ChargeShot extends SpecialAttackBase {
                 }
             }
 
+            UntouchableTime.setUntouchableTime(player, 20);
 
         }
 

@@ -1,5 +1,6 @@
 package tennouboshiuzume.mods.fantasydesire.specialeffect;
 
+import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.specialeffect.IRemovable;
 import mods.flammpfeil.slashblade.specialeffect.ISpecialEffect;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
@@ -67,8 +68,13 @@ public class TyrantStrike implements ISpecialEffect, IRemovable {
             ((EntityLivingBase) target).hurtTime = 0;
             ((EntityLivingBase) target).hurtResistantTime = 0;
         }
+
         int level = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
-        float magicDamage = 1.0f + ItemSlashBlade.AttackAmplifier.get(tag) * (level / 5.0f);
+        float magicDamage = 1.0f + ItemSlashBlade.BaseAttackModifier.get(tag) * (level / 5.0f);
+        int rank = StylishRankManager.getStylishRank(player);
+        if (5 <= rank){
+            magicDamage += ItemSlashBlade.BaseAttackModifier.get(tag);
+        }
         magicDamage += event.target.getMaxHealth()/4;
 //        System.out.println(magicDamage);
 //        生成尖碑幻影剑

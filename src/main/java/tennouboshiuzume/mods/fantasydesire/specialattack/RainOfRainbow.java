@@ -3,6 +3,7 @@ package tennouboshiuzume.mods.fantasydesire.specialattack;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.entity.EntityPhantomSwordBase;
 import mods.flammpfeil.slashblade.entity.selector.EntitySelectorAttackable;
+import mods.flammpfeil.slashblade.event.ScheduleEntitySpawner;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.specialattack.SpecialAttackBase;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -45,12 +46,10 @@ public class RainOfRainbow extends SpecialAttackBase {
         Random random =player.getRNG();
 
         if (!world.isRemote) {
-            List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player,60));
+            List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player,30));
             if (!target.isEmpty()){
-                int count=0;
-                for (int z=0;z<target.size();z++){
+                for (int z=0;z<Math.min(20,target.size());z++){
                     for (int i=0;i<rains;i++){
-                        count++;
                         EntityLivingBase targetEntity = TargetUtils.setTargetEntityFromListByEntity(z,target);
                         Vec3d targetPos = targetEntity.getPositionVector();
                         Vec3d spawnPos = new Vec3d(

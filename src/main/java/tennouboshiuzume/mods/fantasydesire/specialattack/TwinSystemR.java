@@ -1,5 +1,6 @@
 package tennouboshiuzume.mods.fantasydesire.specialattack;
 
+import mods.flammpfeil.slashblade.ability.UntouchableTime;
 import mods.flammpfeil.slashblade.entity.EntityDrive;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
@@ -39,7 +40,7 @@ public class TwinSystemR extends SpecialAttackBase {
             ItemSlashBlade.SpecialAttackType.set(tag,208);
             ItemFdSlashBlade.bladeType.set(tag,"TwinBladeL");
             ItemSlashBlade.TextureName.set(tag,"named/TwinBladeLeft");
-            ItemSlashBlade.SummonedSwordColor.set(tag, 0x5555FF);
+            ItemSlashBlade.SummonedSwordColor.set(tag, 0x00C8FF);
         }
         if (!(player.getHeldItemOffhand().getItem() instanceof ItemSlashBlade))return;
         NBTTagCompound offTag = ItemSlashBlade.getItemTagCompound(offBlade);
@@ -48,7 +49,7 @@ public class TwinSystemR extends SpecialAttackBase {
             ItemSlashBlade.SpecialAttackType.set(offTag,209);
             ItemFdSlashBlade.bladeType.set(offTag,"TwinBladeR");
             ItemSlashBlade.TextureName.set(offTag,"named/TwinBladeRight");
-            ItemSlashBlade.SummonedSwordColor.set(offTag, 0xFF5555);
+            ItemSlashBlade.SummonedSwordColor.set(offTag, 0xFF0089);
         }
 
         switch (SpecialEffects.isEffective(player, offBlade, FdSEs.TwinSet)){
@@ -96,7 +97,7 @@ public class TwinSystemR extends SpecialAttackBase {
                 entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, 0, 0, 0, 0);
                 entityDrive.setIsOverWall(true);
                 entityDrive.setMultiHit(true);
-                entityDrive.setColor(0x5555FF);
+                entityDrive.setColor(0x00C8FF);
                 entityDrive.setLifeTime(80);
                 world.spawnEntity(entityDrive);
             }
@@ -106,13 +107,15 @@ public class TwinSystemR extends SpecialAttackBase {
                 entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, 90, 90, 0, 0);
                 entityDrive.setIsOverWall(true);
                 entityDrive.setMultiHit(true);
-                entityDrive.setColor(0xFF5555);
+                entityDrive.setColor(0xFF0089);
                 entityDrive.setInterval(0);
                 entityDrive.setSound(SoundEvents.ENTITY_WITHER_BREAK_BLOCK,3,0.5f);
                 entityDrive.setLifeTime(80);
                 world.spawnEntity(entityDrive);
             }
         }
+
+        UntouchableTime.setUntouchableTime(player, 20);
 
         ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.ReturnEdge);
     }

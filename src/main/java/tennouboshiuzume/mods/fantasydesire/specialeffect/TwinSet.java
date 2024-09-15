@@ -96,18 +96,25 @@ public class TwinSet implements ISpecialEffect
         int offSoul = ItemSlashBlade.ProudSoul.get(offtag);
         int offKill = ItemSlashBlade.KillCount.get(offtag);
         //均分资源
-        ItemSlashBlade.ProudSoul.set(tag,(mainSoul+offSoul)/2);
-        ItemSlashBlade.ProudSoul.set(offtag,(mainSoul+offSoul)/2);
+        int avgSoul = (mainSoul+offSoul)/2;
+        int avgKill = (mainKill+offKill)/2;
 
-        ItemSlashBlade.KillCount.set(tag,(mainKill+offKill)/2);
-        ItemSlashBlade.KillCount.set(offtag,(mainKill+offKill)/2);
+        ItemSlashBlade.ProudSoul.set(tag,avgSoul);
+        ItemSlashBlade.ProudSoul.set(offtag,avgSoul);
+
+        ItemSlashBlade.KillCount.set(tag,avgKill);
+        ItemSlashBlade.KillCount.set(offtag,avgKill);
 
         ItemSlashBlade blade = (ItemSlashBlade)event.blade.getItem();
+        int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, event.blade));
         float baseModif = blade.getBaseAttackModifiers(tag);
+        float magicDamage = 1.0f + (baseModif/2.0f);
+        int rank = StylishRankManager.getStylishRank(player);
+        if(5 <= rank)
+            magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
         EntityLivingBase target = event.target;
         Random random = target.getRNG();
 
-        int rank = StylishRankManager.getStylishRank(player);
 //        B以上回复耐久
         if (rank >= 3){
             event.blade.setItemDamage(event.blade.getItemDamage() - 3);
@@ -117,7 +124,7 @@ public class TwinSet implements ISpecialEffect
         if (rank >= 5){
             ParticleUtils.spawnParticle((WorldServer)target.world,EnumParticleTypes.SWEEP_ATTACK,true,target.posX,target.posY,target.posZ,10,1,1,1, 0.75f);
             DamageSource ts = new DamageSource("TwinSet").setDamageIsAbsolute().setDamageBypassesArmor();
-            target.attackEntityFrom(ts, baseModif);
+            target.attackEntityFrom(ts, magicDamage);
             target.playSound(SoundEvents.BLOCK_GLASS_BREAK,2,2f);
             player.onEnchantmentCritical(target);
         }

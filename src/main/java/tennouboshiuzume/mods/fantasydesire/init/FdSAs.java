@@ -20,6 +20,7 @@ public class FdSAs {
         ItemSlashBlade.specialAttacks.put(207, new CrimsonStorm());
         ItemSlashBlade.specialAttacks.put(208, new TwinSystemL());
         ItemSlashBlade.specialAttacks.put(209, new TwinSystemR());
+        ItemSlashBlade.specialAttacks.put(210, new FreezeZero());
 //            System.out.println("SA registed!");
     }
 }

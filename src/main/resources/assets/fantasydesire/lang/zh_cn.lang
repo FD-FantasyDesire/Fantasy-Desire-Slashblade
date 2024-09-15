@@ -3,8 +3,9 @@
 item.tennouboshiuzume.slashblade.ChikaFlare.name=§6希望的门票§b「奇克§e芙蕾雅」
 item.tennouboshiuzume.slashblade.MordernGunblade.name=§fYRM-67 §b智能枪刃
 item.tennouboshiuzume.slashblade.CrimsonScythe.name=§cDK-001 §4深红恶魔
-item.tennouboshiuzume.slashblade.TwinBlade.name=§9MOOD§f/§4DOOM §5双子圣灵
-item.tennouboshiuzume.slashblade.OverCold.name=§1寒流刃§f·§b「冻霜心能」
+item.tennouboshiuzume.slashblade.TwinBlade.name=§bMOOD§f/§dDOOM §5双子圣灵
+item.tennouboshiuzume.slashblade.OverCold.name=§3Crystallization-11² §1永冻纪元
+item.tennouboshiuzume.slashblade.PureSnow.name=§f素雪§3「云音」
 
 #Desc
 tennouboshiuzume.slashblade.ChikaFlare.desc=§e嗨，是芙蕾雅酱！
@@ -24,10 +25,15 @@ tennouboshiuzume.slashblade.CrimsonScythe.desc3=  §f攻击命中时回复生命
 
 tennouboshiuzume.slashblade.TwinBlade.desc=§9MOOD§f/§4DOOM §5情感增幅系统
 tennouboshiuzume.slashblade.TwinBlade.desc1=    §f当双持拥有该属性的拔刀时，随评级提升获得额外追击效果,使用SA切换模式
-tennouboshiuzume.slashblade.TwinBlade.desc2=§1MOOD-A §9激昂
+tennouboshiuzume.slashblade.TwinBlade.desc2=§bMOOD-A §9激燃
 tennouboshiuzume.slashblade.TwinBlade.desc3=    §f向前突进并施放数道交叉斩击
-tennouboshiuzume.slashblade.TwinBlade.desc4=§4DOOM-Z §c陨灭
+tennouboshiuzume.slashblade.TwinBlade.desc4=§dDOOM-Z §c厄陨
 tennouboshiuzume.slashblade.TwinBlade.desc5=    §f向前突进并施放漩涡拉近敌人
+
+tennouboshiuzume.slashblade.OverCold.desc=§1寒流散逸
+tennouboshiuzume.slashblade.OverCold.desc1=     §f攻击时短暂冻结敌人，绑定主人后扔出可以释放冻结气场
+tennouboshiuzume.slashblade.OverCold.desc2=§b冰河IV型 低温序列
+tennouboshiuzume.slashblade.OverCold.desc3=     §f随着耀魂的增长进化，获得额外效果的同时还会提升§1寒流外溢§f的气场范围
 
 #Special Attack
 flammpfeil.slashblade.specialattack.WingToTheFutureSA=§6§l翱向未来之翼
@@ -36,13 +42,14 @@ flammpfeil.slashblade.specialattack.CrossSaberSA=§9§l刃王·十圣刃星烈�
 flammpfeil.slashblade.specialattack.ChargeShot=§b§l充能扫射
 flammpfeil.slashblade.specialattack.OverCharge=§a§l超载充能
 flammpfeil.slashblade.specialattack.CrimsonStorm=§4§l深红强袭
-flammpfeil.slashblade.specialattack.TwinSystemL=§9§l双子系统：激昂
-flammpfeil.slashblade.specialattack.TwinSystemR=§c§l双子系统：陨灭
+flammpfeil.slashblade.specialattack.TwinSystemL=§6§l启动程式§f§l：§b§l激燃
+flammpfeil.slashblade.specialattack.TwinSystemR=§6§l终结程式§f§l：§d§l厄陨
 flammpfeil.slashblade.specialattack.RainOfRainbow=§l§4天§6穹§e虹§a彩§b星§1光§5雨
+flammpfeil.slashblade.specialattack.FreezeZero=§3§kΩ§b永冻§3§kΩ§f：§9零世代
 
 #Special Effect
 slashblade.seffect.name.CheatRumble=§4作弊冲撞
-slashblade.seffect.name.TyrantStrike=§6暴君一击
+slashblade.seffect.name.TyrantStrike=§6暴虐一击
 slashblade.seffect.name.ImmortalSoul=§e不屈之魂
 slashblade.seffect.name.SoulShield=§b灵魂之盾
 slashblade.seffect.name.TripleBullet=§bWG-Zero 智能弹药系统
@@ -50,20 +57,31 @@ slashblade.seffect.name.EnergyBullet=§aWG-Omega 冲击波发射器
 slashblade.seffect.name.CrimsonStrike=§c幻猎 Type-X
 slashblade.seffect.name.BloodDrain=§d狩魂 Type-VI
 slashblade.seffect.name.TwinSet=§9MOOD§f/§4DOOM §5情感增幅系统
-slashblade.seffect.name.OutCosmos=§1千宙深寒
+slashblade.seffect.name.ColdLeak=§1寒流散逸
+slashblade.seffect.name.EvolutionIce=§b冰河IV型 低温序列
+slashblade.seffect.name.RainbowFlux=§4虹§a光§3通§7量
+slashblade.seffect.name.Pure=§f纯净无暇
 
 #Text
-tennouboshiuzume.info.ImmortalSoulActive=§e
-tennouboshiuzume.info.ImmortalSoulActive1=§4
+tennouboshiuzume.info.ImmortalSoulActive=§e同伴灵魂的炽热传达了过来……
+tennouboshiuzume.info.ImmortalSoulActive1=§6同伴灵魂的炽热传达了过来……§6没有下次了！
 
 #Misc
-itemGroup.FantasyDesire=幻想与欲望
+itemGroup.FantasyDesire=幻想塑愿
 tennouboshiuzume.info.fantasy=§eYarimono
 tennouboshiuzume.info.Gunblade=§f白神纪-2070年
 tennouboshiuzume.info.CrimsonScythe=§4深红收割者
 tennouboshiuzume.info.TwinBladeL=§1MOOD-A §9激昂
 tennouboshiuzume.info.TwinBladeR=§4DOOM-Z §c陨灭
-tennouboshiuzume.info.OverCold=§b天外奇迹造物
+tennouboshiuzume.info.OverCold_0=§e纪元-α§f：§bKaroo
+tennouboshiuzume.info.OverCold_1=§e纪元-Θ§f：§3Andean-Saharan
+tennouboshiuzume.info.OverCold_2=§e纪元-∏§f：§9Cryogenian
+tennouboshiuzume.info.OverCold_3=§e纪元-Ω§f：§1Huronian
+tennouboshiuzume.info.PureSnow=§f纯净无瑕的奇迹造物
+
+#Secret
+
+
 
 #代码	官方名称
 #MOTD代码

@@ -79,6 +79,7 @@ public class ShinMagnetStormSword extends SpecialAttackBase {
                     entityDrive.setIsOverWall(true);
                     entityDrive.setInterval(2+2*rings);
                     entityDrive.setRoll(i * -(360f/points) +90f);
+                    entityDrive.setIsNonPlayer(true);
                     if (!target.isEmpty()){
                         entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromList(i,target));;
                     }

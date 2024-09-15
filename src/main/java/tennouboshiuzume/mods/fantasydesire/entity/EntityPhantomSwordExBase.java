@@ -156,6 +156,9 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
     private static final DataParameter<Boolean> IS_OVER_WALL = EntityDataManager.<Boolean>createKey(EntityPhantomSwordExBase.class, DataSerializers.BOOLEAN);
     private static final DataParameter<String> PARTICLE = EntityDataManager.<String>createKey(EntityPhantomSwordExBase.class,DataSerializers.STRING);
     private static final DataParameter<Integer> PARTICLE_VEC = EntityDataManager.<Integer>createKey(EntityPhantomSwordExBase.class,DataSerializers.VARINT);
+    private static final DataParameter<Boolean> Burst = EntityDataManager.<Boolean>createKey(EntityPhantomSwordExBase .class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> NonPlayer = EntityDataManager.<Boolean>createKey(EntityPhantomSwordExBase .class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Float> ExpRadius = EntityDataManager.<Float>createKey(EntityPhantomSwordExBase .class, DataSerializers.FLOAT);
     /**
      * ■イニシャライズ
      */
@@ -187,6 +190,33 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         this.getDataManager().register(PARTICLE, "");
 
         this.getDataManager().register(PARTICLE_VEC,1);
+
+        this.getDataManager().register(Burst, false);
+
+        this.getDataManager().register(ExpRadius, 1.0f);
+
+        this.getDataManager().register(NonPlayer,false);
+    }
+
+    public boolean getBurst(){
+        return this.getDataManager().get(Burst);
+    }
+    public void setBurst(boolean value){
+        this.getDataManager().set(Burst,value);
+    }
+
+    public boolean getIsNonPlayer(){
+        return this.getDataManager().get(NonPlayer);
+    }
+    public void setIsNonPlayer(boolean value){
+        this.getDataManager().set(NonPlayer,value);
+    }
+
+    public float getExpRadius(){
+        return this.getDataManager().get(ExpRadius);
+    }
+    public void setExpRadius(float value){
+        this.getDataManager().set(ExpRadius,value);
     }
 
     public String getParticle(){
@@ -570,7 +600,9 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
                     if(!blade.isEmpty() && ridingEntity instanceof EntityLivingBase){
                         if(thrower != null){
                             StylishRankManager.setNextAttackType(this.thrower ,StylishRankManager.AttackTypes.BreakPhantomSword);
-                            ((ItemSlashBlade)blade.getItem()).hitEntity(blade,(EntityLivingBase)ridingEntity,(EntityLivingBase)thrower);
+                            if (!getIsNonPlayer()) {
+                                ((ItemSlashBlade)blade.getItem()).hitEntity(blade,(EntityLivingBase)ridingEntity,(EntityLivingBase)thrower);
+                            }
                         }
 
                         ReflectionAccessHelper.setVelocity(ridingEntity, 0, 0, 0);
@@ -798,8 +830,9 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
             if(!blade.isEmpty() && target instanceof EntityLivingBase && thrower != null && thrower instanceof EntityLivingBase){
                 StylishRankManager.setNextAttackType(this.thrower ,StylishRankManager.AttackTypes.PhantomSword);
-                ((ItemSlashBlade)blade.getItem()).hitEntity(blade,(EntityLivingBase)target,(EntityLivingBase)thrower);
-
+                if (!getIsNonPlayer()) {
+                    ((ItemSlashBlade) blade.getItem()).hitEntity(blade, (EntityLivingBase) target, (EntityLivingBase) thrower);
+                }
                 ReflectionAccessHelper.setVelocity(target, 0, 0, 0);
                 target.addVelocity(0.0, 0.1D, 0.0);
 
@@ -819,7 +852,9 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
             if(!blade.isEmpty() && target instanceof EntityLivingBase && thrower != null && thrower instanceof EntityLivingBase){
                 StylishRankManager.setNextAttackType(this.thrower ,StylishRankManager.AttackTypes.PhantomSword);
-                ((ItemSlashBlade)blade.getItem()).hitEntity(blade,(EntityLivingBase)target,(EntityLivingBase)thrower);
+                if(!getIsNonPlayer()){
+                    ((ItemSlashBlade)blade.getItem()).hitEntity(blade,(EntityLivingBase)target,(EntityLivingBase)thrower);
+                }
 
                 ReflectionAccessHelper.setVelocity(target, 0, 0, 0);
                 target.addVelocity(0.0, 0.1D, 0.0);

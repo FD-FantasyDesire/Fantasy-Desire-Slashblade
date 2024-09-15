@@ -1,21 +1,11 @@
 package tennouboshiuzume.mods.fantasydesire.named;
 
 
-import ibxm.Player;
-import mods.flammpfeil.slashblade.SlashBlade;
-import mods.flammpfeil.slashblade.entity.EntityBladeStand;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.named.event.LoadEvent;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
-import mods.flammpfeil.slashblade.util.SlashBladeEvent;
 import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,10 +16,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tennouboshiuzume.mods.fantasydesire.init.FdBlades;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
-import tennouboshiuzume.mods.fantasydesire.specialeffect.OutCosmos;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
-import tennouboshiuzume.mods.fantasydesire.util.EnchantmentTransfer;
-import tennouboshiuzume.mods.fantasydesire.util.WorldBladeStandCrafting;
 
 public class OverCold {
     String name = "tennouboshiuzume.slashblade.OverCold";
@@ -43,15 +30,15 @@ public class OverCold {
         ItemFdSlashBlade.CustomMaxDamage.set(tag, 512 );
         ItemFdSlashBlade.IsDefaultBewitched.set(tag, true);
         ItemFdSlashBlade.isFdBlade.set(tag, true);
-        ItemFdSlashBlade.bladeType.set(tag, "OverCold");
+        ItemFdSlashBlade.bladeType.set(tag, "OverCold_0");
         ItemSlashBlade.TextureName.set(tag, "named/OverCold");
-        ItemSlashBlade.ModelName.set(tag, "named/OverCold");
-        ItemSlashBlade.ProudSoul.set(tag,250000);
-        ItemSlashBlade.SpecialAttackType.set(tag, 1);
-        ItemSlashBlade.StandbyRenderType.set(tag, 4);
+        ItemSlashBlade.ModelName.set(tag, "named/OverCold_0");
+        ItemSlashBlade.SpecialAttackType.set(tag, 210);
+        ItemSlashBlade.StandbyRenderType.set(tag, 3);
         ItemSlashBlade.BaseAttackModifier.set(tag, 12.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xAAFFFF);
-        SpecialEffects.addEffect(customblade, "OutCosmos",5);
+        SpecialEffects.addEffect(customblade, FdSEs.ColdLeak);
+        SpecialEffects.addEffect(customblade, FdSEs.EvolutionIce);
         NBTTagCompound displayTag = new NBTTagCompound();
         customblade.setTagInfo("display",displayTag);
         NBTTagList loreList = new NBTTagList();

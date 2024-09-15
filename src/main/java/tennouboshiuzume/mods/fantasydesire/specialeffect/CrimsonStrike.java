@@ -2,6 +2,7 @@ package tennouboshiuzume.mods.fantasydesire.specialeffect;
 
 import javafx.scene.effect.Effect;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
+import mods.flammpfeil.slashblade.ability.UntouchableTime;
 import mods.flammpfeil.slashblade.entity.EntityDrive;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.specialeffect.ISpecialEffect;
@@ -100,7 +101,7 @@ public class CrimsonStrike implements ISpecialEffect
         float magicDamage = baseModif / 10f;
         int rank = StylishRankManager.getStylishRank(player);
         if (rank >= 5) {
-            magicDamage += ItemSlashBlade.AttackAmplifier.get(tag)*(level/5.0 + 0.5f);
+            magicDamage += (float) (ItemSlashBlade.AttackAmplifier.get(tag)*(level/5.0 + 0.5f));
         }
         for (int i=0;i<2;i++){
             EntityDriveEx entityDrive = new EntityDriveEx(world,player,magicDamage);
@@ -111,6 +112,8 @@ public class CrimsonStrike implements ISpecialEffect
             entityDrive.setIsOverWall(true);
             world.spawnEntity(entityDrive);
         }
+
+        UntouchableTime.setUntouchableTime(player, 40);
 
     }
 

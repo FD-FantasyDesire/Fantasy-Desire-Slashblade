@@ -73,6 +73,15 @@ public class ClientProxy extends CommonProxy {
                         return new RenderOverCharge(manager);
                     }
                 });
+
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntitySeekSoulPhantomSword.class,
+                new IRenderFactory<EntitySeekSoulPhantomSword>() {
+                    @Override
+                    public Render<? super EntitySeekSoulPhantomSword> createRenderFor(RenderManager manager) {
+                        return new RenderPhantomSwordEx(manager);
+                    }
+                });
     }
 
 
