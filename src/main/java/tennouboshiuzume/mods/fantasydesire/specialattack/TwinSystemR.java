@@ -7,6 +7,7 @@ import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.specialattack.SpecialAttackBase;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import mods.flammpfeil.slashblade.util.ReflectionAccessHelper;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,10 +17,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverCharge;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverChargeBFG;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
+import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 
 /**
  * Created by Furia on 14/05/27.
@@ -42,8 +45,14 @@ public class TwinSystemR extends SpecialAttackBase {
             ItemSlashBlade.TextureName.set(tag,"named/TwinBladeLeft");
             ItemSlashBlade.SummonedSwordColor.set(tag, 0x00C8FF);
         }
-        if (!(player.getHeldItemOffhand().getItem() instanceof ItemSlashBlade))return;
+        if (!(offBlade.getItem() instanceof ItemSlashBlade))return;
         NBTTagCompound offTag = ItemSlashBlade.getItemTagCompound(offBlade);
+
+        if (!offBlade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.TwinBlade", 1).getUnlocalizedName())
+        ){
+            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.TwinSetFail")),true);
+            return;
+        }
 
         if ((ItemSlashBlade.SpecialAttackType.get(offTag)==208)){
             ItemSlashBlade.SpecialAttackType.set(offTag,209);

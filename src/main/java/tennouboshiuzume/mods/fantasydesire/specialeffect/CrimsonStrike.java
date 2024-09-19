@@ -39,7 +39,7 @@ public class CrimsonStrike implements ISpecialEffect
     /**
      * 使用コスト
      */
-    private static final int COST = 0;
+    private static final int COST = 1;
 
     /**
      * コスト不足時の刀へのダメージ
@@ -105,9 +105,9 @@ public class CrimsonStrike implements ISpecialEffect
         }
         for (int i=0;i<2;i++){
             EntityDriveEx entityDrive = new EntityDriveEx(world,player,magicDamage);
-            entityDrive.setInitialPosition(player.posX,player.posY+player.height/2,player.posZ, player.rotationYaw, player.rotationPitch,setCombo.swingDirection+(i%2==0? 0:90f),0.3f);
-            entityDrive.setColor(0xFF0000);
-            entityDrive.setLifeTime(60);
+            entityDrive.setInitialPosition(player.posX,player.posY+player.height/2,player.posZ, player.rotationYaw, player.rotationPitch,setCombo.swingDirection+(i%2==0? 0:90f),3f);
+            entityDrive.setColor(i%2==0? 0xFF00FF : 0xFF0000);
+            entityDrive.setLifeTime(10);
             entityDrive.setScale((i%2==0? 0.5f:1.5f));
             entityDrive.setIsOverWall(true);
             world.spawnEntity(entityDrive);

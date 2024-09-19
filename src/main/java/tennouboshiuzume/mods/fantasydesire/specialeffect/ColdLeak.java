@@ -124,7 +124,9 @@ public class ColdLeak implements ISpecialEffect, IRemovable {
                 range = 3;
             }
 
-            List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(event.entityBladeStand, range);
+            List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(event.entityBladeStand, range, player,false);
+            target.remove(player);
+            System.out.println(target);
 
             Boolean isDone = false;
 

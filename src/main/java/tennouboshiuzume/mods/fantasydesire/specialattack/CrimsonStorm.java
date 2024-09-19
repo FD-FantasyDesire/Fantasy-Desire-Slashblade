@@ -118,7 +118,7 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level /5.0f));
 
         if(!world.isRemote){
-            List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(player,30f);
+            List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(player,20f,false);
             for (int i=0;i < target.size();i++){
                 EntityLivingBase targetEntity = TargetUtils.setTargetEntityFromListByEntity(i,target);
                 Random random = targetEntity.getRNG();

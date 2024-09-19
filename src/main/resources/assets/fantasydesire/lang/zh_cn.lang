@@ -1,16 +1,17 @@
 
 #Blade
-item.tennouboshiuzume.slashblade.ChikaFlare.name=§6希望的门票§b「奇克§e芙蕾雅」
+item.tennouboshiuzume.slashblade.ChikeFlare.name=§6希望的门票§b「奇克§e芙蕾雅」
 item.tennouboshiuzume.slashblade.MordernGunblade.name=§fYRM-67 §b智能枪刃
 item.tennouboshiuzume.slashblade.CrimsonScythe.name=§cDK-001 §4深红恶魔
-item.tennouboshiuzume.slashblade.TwinBlade.name=§bMOOD§f/§dDOOM §5双子圣灵
+item.tennouboshiuzume.slashblade.TwinBlade.name=§bMOOD§f/§dDOOM §6双子圣灵
 item.tennouboshiuzume.slashblade.OverCold.name=§3Crystallization-11² §1永冻纪元
 item.tennouboshiuzume.slashblade.PureSnow.name=§f素雪§3「云音」
+item.tennouboshiuzume.slashblade.Eshahar.name=§a艾夏哈尔
 
 #Desc
-tennouboshiuzume.slashblade.ChikaFlare.desc=§e嗨，是芙蕾雅酱！
-tennouboshiuzume.slashblade.ChikaFlare.desc1=§e带着神的力量出生，真的好累哦！
-tennouboshiuzume.slashblade.ChikaFlare.desc2=§e我到底会怎么样呢？
+tennouboshiuzume.slashblade.ChikeFlare.desc=§e嗨，是芙蕾雅酱！
+tennouboshiuzume.slashblade.ChikeFlare.desc1=§e带着神的力量出生，真的好累哦！
+tennouboshiuzume.slashblade.ChikeFlare.desc2=§e我到底会怎么样呢？
 
 tennouboshiuzume.slashblade.MordernGunblade.desc=§bWG-Zero 智能弹药系统：
 tennouboshiuzume.slashblade.MordernGunblade.desc1=  §f挥砍时发射玩家等级÷10的智能幻影剑，最大连发5
@@ -19,15 +20,15 @@ tennouboshiuzume.slashblade.MordernGunblade.desc3=  §f挥砍时发射可穿透�
 tennouboshiuzume.slashblade.MordernGunblade.desc4=§7通过使用SA来切换两种SE的激活
 
 tennouboshiuzume.slashblade.CrimsonScythe.desc=§c幻猎 Type-X 能量刃
-tennouboshiuzume.slashblade.CrimsonScythe.desc1=  §f挥砍时发射可穿透障碍的剑气，造成10%%剑刃伤害
+tennouboshiuzume.slashblade.CrimsonScythe.desc1=  §f挥砍时发射可穿透障碍的剑气，造成20%%直击伤害
 tennouboshiuzume.slashblade.CrimsonScythe.desc2=§d狩魂 Type-VI 资源回收系统
 tennouboshiuzume.slashblade.CrimsonScythe.desc3=  §f攻击命中时回复生命值和饱食度，耀魂可以提升伤害
 
-tennouboshiuzume.slashblade.TwinBlade.desc=§9MOOD§f/§4DOOM §5情感增幅系统
+tennouboshiuzume.slashblade.TwinBlade.desc=§bMOOD§f/§dDOOM §6情感增幅系统
 tennouboshiuzume.slashblade.TwinBlade.desc1=    §f当双持拥有该属性的拔刀时，随评级提升获得额外追击效果,使用SA切换模式
 tennouboshiuzume.slashblade.TwinBlade.desc2=§bMOOD-A §9激燃
 tennouboshiuzume.slashblade.TwinBlade.desc3=    §f向前突进并施放数道交叉斩击
-tennouboshiuzume.slashblade.TwinBlade.desc4=§dDOOM-Z §c厄陨
+tennouboshiuzume.slashblade.TwinBlade.desc4=§dDOOM-Z §5厄陨
 tennouboshiuzume.slashblade.TwinBlade.desc5=    §f向前突进并施放漩涡拉近敌人
 
 tennouboshiuzume.slashblade.OverCold.desc=§1寒流散逸
@@ -56,28 +57,32 @@ slashblade.seffect.name.TripleBullet=§bWG-Zero 智能弹药系统
 slashblade.seffect.name.EnergyBullet=§aWG-Omega 冲击波发射器
 slashblade.seffect.name.CrimsonStrike=§c幻猎 Type-X
 slashblade.seffect.name.BloodDrain=§d狩魂 Type-VI
-slashblade.seffect.name.TwinSet=§9MOOD§f/§4DOOM §5情感增幅系统
+slashblade.seffect.name.TwinSet=§bMOOD§f/§dDOOM §6情感增幅系统
 slashblade.seffect.name.ColdLeak=§1寒流散逸
 slashblade.seffect.name.EvolutionIce=§b冰河IV型 低温序列
 slashblade.seffect.name.RainbowFlux=§4虹§a光§3通§7量
 slashblade.seffect.name.Pure=§f纯净无暇
 
 #Text
-tennouboshiuzume.info.ImmortalSoulActive=§e同伴灵魂的炽热传达了过来……
-tennouboshiuzume.info.ImmortalSoulActive1=§6同伴灵魂的炽热传达了过来……§6没有下次了！
+tennouboshiuzume.tip.ImmortalSoulActive=§e同伴灵魂的炽热传达了过来……
+tennouboshiuzume.tip.ImmortalSoulActive1=§6同伴灵魂的炽热传达了过来……§4没有下次了！
+tennouboshiuzume.tip.TwinSetFail=§5没有同时装备对应的另一把双子拔刀…
+tennouboshiuzume.tip.BloodDrainEv=§d§l狩魂 Type-VI：§4§l+%s初始伤害
 
 #Misc
 itemGroup.FantasyDesire=幻想塑愿
 tennouboshiuzume.info.fantasy=§eYarimono
 tennouboshiuzume.info.Gunblade=§f白神纪-2070年
 tennouboshiuzume.info.CrimsonScythe=§4深红收割者
-tennouboshiuzume.info.TwinBladeL=§1MOOD-A §9激昂
-tennouboshiuzume.info.TwinBladeR=§4DOOM-Z §c陨灭
+tennouboshiuzume.info.TwinBladeL=§bMOOD-A §9激燃
+tennouboshiuzume.info.TwinBladeR=§dDOOM-Z §5厄陨
 tennouboshiuzume.info.OverCold_0=§e纪元-α§f：§bKaroo
 tennouboshiuzume.info.OverCold_1=§e纪元-Θ§f：§3Andean-Saharan
 tennouboshiuzume.info.OverCold_2=§e纪元-∏§f：§9Cryogenian
 tennouboshiuzume.info.OverCold_3=§e纪元-Ω§f：§1Huronian
 tennouboshiuzume.info.PureSnow=§f纯净无瑕的奇迹造物
+tennouboshiuzume.info.Eshahar=§b永恒璀璨彗星
+
 
 #Secret
 

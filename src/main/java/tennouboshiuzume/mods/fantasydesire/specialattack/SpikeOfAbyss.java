@@ -50,7 +50,7 @@ public class SpikeOfAbyss extends SpecialAttackBase {
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
         Random random = player.getRNG();
         if (!world.isRemote) {
-            List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player,60));
+            List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player,60,true));
             if (!target.isEmpty()){
                 for (int i=0;i<target.size()*rains;i++){
 

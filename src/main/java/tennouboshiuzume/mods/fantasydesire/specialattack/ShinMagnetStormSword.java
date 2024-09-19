@@ -17,6 +17,7 @@ import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -45,8 +46,8 @@ public class ShinMagnetStormSword extends SpecialAttackBase {
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
 
         if (!world.isRemote) {
-            List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findHostileEntitiesInFOV(player,60,45f));
-
+            List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findHostileEntitiesInFOV(player,60,45f,true));
+            Collections.shuffle(target);
             int swordcount = 0;
             for (int j=0;j<ringcount;j++){
                 int rings = j+1;
@@ -76,7 +77,7 @@ public class ShinMagnetStormSword extends SpecialAttackBase {
                     entityDrive.setColor(isBurst ? 0x00FFFF : 0xFFFFFF);
 //                    entityDrive.setBurst(isBurst);
 //                    entityDrive.setExpRadius(2);
-                    entityDrive.setIsOverWall(true);
+                    entityDrive.setIsOverWall(false);
                     entityDrive.setInterval(2+2*rings);
                     entityDrive.setRoll(i * -(360f/points) +90f);
                     entityDrive.setIsNonPlayer(true);

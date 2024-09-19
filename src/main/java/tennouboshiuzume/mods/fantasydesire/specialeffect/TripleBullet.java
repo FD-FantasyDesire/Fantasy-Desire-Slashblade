@@ -105,7 +105,7 @@ public class TripleBullet implements ISpecialEffect
         }
         Random random = player.getRNG();
 //            追踪弹
-        List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player,60,30f);
+        List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player,60,30f,true);
         int round = Math.min(Math.max(player.experienceLevel/10,1),5);
         for (int i=0;i<round;i++){
             EntityPhantomSwordEx entityDrive = new EntityPhantomSwordEx(world, player, magicDamage);

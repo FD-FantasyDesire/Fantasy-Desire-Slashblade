@@ -4,6 +4,7 @@ import mods.flammpfeil.slashblade.SlashBlade;
 import mods.flammpfeil.slashblade.specialeffect.IRemovable;
 import mods.flammpfeil.slashblade.specialeffect.ISpecialEffect;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,6 +13,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
@@ -61,7 +63,12 @@ public class BloodDrain implements ISpecialEffect, IRemovable {
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
         ItemSlashBlade.ProudSoul.tryAdd(tag,2,false);
         Integer proudSoul = ItemSlashBlade.ProudSoul.get(tag);
-        ItemSlashBlade.setBaseAttackModifier(tag,12 + (float)  proudSoul/2000);
+        float addDamage = (float)  proudSoul/2000;
+        ItemSlashBlade.setBaseAttackModifier(tag,12 + addDamage);
+//        状态栏提示
+        String formattedDamage = String.format("%.2f", addDamage);
+        player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.BloodDrainEv", formattedDamage)), true);
+//        吸血
         player.setHealth(player.getHealth()+1);
         player.addPotionEffect(new PotionEffect(MobEffects.SATURATION,1,1));
         event.target.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS,20*3,3));

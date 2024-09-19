@@ -15,7 +15,7 @@ apply plugin: 'maven-publish'
 
 version = 'r1-mc1.12.2'
 group = 'TennouboshiUzume' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'ChikaFlare'
+archivesBaseName = 'ChikeFlare'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 

@@ -16,7 +16,6 @@ import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
-
 public class CheatRumble implements ISpecialEffect, IRemovable {
     private static final String EffectKey = "CheatRumble";
 
@@ -45,7 +44,7 @@ public class CheatRumble implements ISpecialEffect, IRemovable {
         event.target.attackEntityFrom(CheatRumble,Float.MAX_VALUE);
         event.target.setHealth(0f);
 //        event.target.setDead();
-        System.out.println(String.format(player.getName()+"use ChikaFlare special ability killed"+ event.target.getName()));
+        System.out.println(String.format(player.getName()+"use ChikeFlare special ability killed"+ event.target.getName()));
         player.onEnchantmentCritical(event.target);
         UntouchableTime.setUntouchableTime(player, 200);
 

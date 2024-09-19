@@ -41,7 +41,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
 
     @Override
     public void doSpacialAttack(ItemStack stack, EntityPlayer player) {
-        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikaFlare", 1).getUnlocalizedName()))
+        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))
             return;
         World world = player.world;
 
@@ -63,7 +63,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
         int countdown = 1;
         if(!world.isRemote){
 
-            List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player,30,45f);
+            List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player,30,45f,true);
             for (int i=0;i < wingCount;i++){
 
                 int count = 1;
@@ -127,7 +127,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
 
     @Override
     public void doJustSpacialAttack(ItemStack stack, EntityPlayer player) {
-        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikaFlare", 1).getUnlocalizedName()))
+        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))
             return;
         World world = player.world;
 
@@ -207,7 +207,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
 
     @Override
     public void doSuperSpecialAttack(ItemStack stack, EntityPlayer player) {
-        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikaFlare", 1).getUnlocalizedName()))
+        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))
             return;
 
         World world = player.world;
@@ -236,7 +236,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
         int countdown = 1;
         if(!world.isRemote){
 
-            List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player,90,45f);
+            List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player,120f,45f,false);
 
             int wingCount = Math.max(4,target.size()/16);
 

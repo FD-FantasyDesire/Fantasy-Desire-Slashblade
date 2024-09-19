@@ -19,7 +19,7 @@ public class FdTabs {
         @SideOnly(Side.CLIENT)
         public ItemStack getTabIconItem()
         {
-            return (BladeUtils.findItemStack(FantasyDesire.MODID,"tennouboshiuzume.slashblade.ChikaFlare",1));
+            return (BladeUtils.findItemStack(FantasyDesire.MODID,"tennouboshiuzume.slashblade.ChikeFlare",1));
         }
     };
 }

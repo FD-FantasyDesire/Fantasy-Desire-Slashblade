@@ -22,6 +22,7 @@ import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -37,40 +38,41 @@ public class RainOfRainbow extends SpecialAttackBase {
         World world = player.world;
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
-        int rains = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel))-2, 1),8);
+        int rains = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel)) - 2, 1), 8);
         int level = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
         float magicDamage = 1.0f + ItemSlashBlade.AttackAmplifier.get(tag) * (level / 5.0f);
         int rank = StylishRankManager.getStylishRank(player);
-        if(5 <= rank)
-            magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level /5.0f));
-        Random random =player.getRNG();
+        if (5 <= rank)
+            magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+        Random random = player.getRNG();
 
         if (!world.isRemote) {
-            List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player,30));
-            if (!target.isEmpty()){
-                for (int z=0;z<Math.min(20,target.size());z++){
-                    for (int i=0;i<rains;i++){
-                        EntityLivingBase targetEntity = TargetUtils.setTargetEntityFromListByEntity(z,target);
+            List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player, 30, player, true));
+            Collections.shuffle(target);
+            if (!target.isEmpty()) {
+                for (int z = 0; z < Math.min(20, target.size()); z++) {
+                    for (int i = 0; i < rains; i++) {
+                        EntityLivingBase targetEntity = TargetUtils.setTargetEntityFromListByEntity(z, target);
                         Vec3d targetPos = targetEntity.getPositionVector();
                         Vec3d spawnPos = new Vec3d(
-                                targetEntity.posX+random.nextGaussian(),
-                                targetEntity.posY+20f+random.nextGaussian()*2,
-                                targetEntity.posZ+random.nextGaussian());
+                                targetEntity.posX + random.nextGaussian(),
+                                targetEntity.posY + 20f + random.nextGaussian() * 2,
+                                targetEntity.posZ + random.nextGaussian());
 //                    Vec3d spawnPos = new Vec3d(player.posX,player.posY+20,player.posZ);
 
-                        EntityPhantomSwordExBase entityDrive = new EntityPhantomSwordExBase(world,player,magicDamage);
+                        EntityPhantomSwordExBase entityDrive = new EntityPhantomSwordExBase(world, player, magicDamage);
                         entityDrive.setInitialPosition(
                                 spawnPos.x,
                                 spawnPos.y,
                                 spawnPos.z,
 //                            (float) (random.nextGaussian()*60),
                                 random.nextInt(360),
-                                (float) (90f+random.nextGaussian()*5),
+                                (float) (90f + random.nextGaussian() * 5),
                                 0f,
                                 1.75f
                         );
-                        entityDrive.setRoll((float) (random.nextGaussian()*30));
-                        entityDrive.setInterval(40+5*i);
+                        entityDrive.setRoll((float) (random.nextGaussian() * 30));
+                        entityDrive.setInterval(40 + 5 * i);
                         entityDrive.setColor(color[i]);
                         entityDrive.setTargetEntityId(targetEntity.getEntityId());
                         entityDrive.setIsOverWall(true);
@@ -83,7 +85,8 @@ public class RainOfRainbow extends SpecialAttackBase {
         }
         ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.Kiriage);
     }
-    private int[] color = new int[] {
+
+    private int[] color = new int[]{
             0xFF0000,
             0xEE9900,
             0xFFFF00,

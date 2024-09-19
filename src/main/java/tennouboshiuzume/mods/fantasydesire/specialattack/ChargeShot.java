@@ -58,7 +58,7 @@ public class ChargeShot extends SpecialAttackBase {
             ItemSlashBlade.SummonedSwordColor.set(tag,0x99FF99);
             ItemSlashBlade.SpecialAttackType.set(tag,202);
 
-            List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player,30));
+            List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player,30,player,false));
 
             int swordcount = 0;
             for (int j = 0; j < ringcount; j++) {

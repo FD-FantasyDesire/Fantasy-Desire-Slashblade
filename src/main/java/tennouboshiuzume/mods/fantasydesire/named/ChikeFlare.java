@@ -8,10 +8,6 @@ import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import mods.flammpfeil.slashblade.util.SlashBladeEvent;
 import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,13 +19,10 @@ import tennouboshiuzume.mods.fantasydesire.init.FdBlades;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
-import tennouboshiuzume.mods.fantasydesire.util.EnchantmentTransfer;
 import tennouboshiuzume.mods.fantasydesire.util.WorldBladeStandCrafting;
 
-import java.util.Map;
-
-public class ChikaFlare {
-    String name = "tennouboshiuzume.slashblade.ChikaFlare";
+public class ChikeFlare {
+    String name = "tennouboshiuzume.slashblade.ChikeFlare";
     String materialName = "flammpfeil.slashblade.named.yamato";
     @SubscribeEvent
     public void init(LoadEvent.InitEvent event){
@@ -41,8 +34,8 @@ public class ChikaFlare {
         ItemFdSlashBlade.IsDefaultBewitched.set(tag, true);
         ItemFdSlashBlade.isFdBlade.set(tag, true);
         ItemFdSlashBlade.bladeType.set(tag, "fantasy");
-        ItemSlashBlade.TextureName.set(tag, "named/Chika");
-        ItemSlashBlade.ModelName.set(tag, "named/Chika");
+        ItemSlashBlade.TextureName.set(tag, "named/Chike");
+        ItemSlashBlade.ModelName.set(tag, "named/Chike");
         ItemSlashBlade.SpecialAttackType.set(tag, 200);
         ItemSlashBlade.StandbyRenderType.set(tag, 2);
         ItemSlashBlade.RepairCount.set(tag,67);
@@ -55,9 +48,9 @@ public class ChikaFlare {
         NBTTagCompound displayTag = new NBTTagCompound();
         customblade.setTagInfo("display",displayTag);
         NBTTagList loreList = new NBTTagList();
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.ChikaFlare.desc")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.ChikaFlare.desc1")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.ChikaFlare.desc2")));
+        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.ChikeFlare.desc")));
+        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.ChikeFlare.desc1")));
+        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.ChikeFlare.desc2")));
         displayTag.setTag("Lore", loreList);
         customblade.addEnchantment(Enchantments.UNBREAKING, 10);
         customblade.addEnchantment(Enchantments.SHARPNESS,7);

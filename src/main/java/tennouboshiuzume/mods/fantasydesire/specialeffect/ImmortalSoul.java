@@ -39,6 +39,7 @@ import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
+import java.rmi.activation.Activatable;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -83,9 +84,9 @@ public class ImmortalSoul implements ISpecialEffect, IRemovable {
         player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE,20*6,5));
         player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION,20*6,10));
         if(ItemSlashBlade.ProudSoul.get(tag)>=1000){
-            player.sendMessage(new TextComponentString(I18n.format("tennouboshiuzume.info.ImmortalSoulActive")));
+            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.ImmortalSoulActive")),true);
         }else {
-            player.sendMessage(new TextComponentString(I18n.format("tennouboshiuzume.info.ImmortalSoulActive1")));
+            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.ImmortalSoulActive1")),true);
         }
         event.setCanceled(true);
     }
@@ -96,7 +97,7 @@ public class ImmortalSoul implements ISpecialEffect, IRemovable {
 //        2s循环计时器
         if (event.entityBladeStand.ticksExisted % 40 == 0) {
 //            检测刀的类型
-            if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikaFlare", 1).getUnlocalizedName()))
+            if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))
                 return;
             World world = event.entityBladeStand.world;
 //            必须是丢出来的刀造成的刀挂架
@@ -122,9 +123,10 @@ public class ImmortalSoul implements ISpecialEffect, IRemovable {
                         break;
                 }
 //                搜索附近可攻击目标
-                List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(event.entityBladeStand, 15);
+                List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(event.entityBladeStand , 15 , player,false);
 //                System.out.println(target);
                 if (!target.isEmpty()) {
+                    System.out.println(target);
 //                    消耗2耀魂来施放
                     if (!ItemSlashBlade.ProudSoul.tryAdd(tag, -2, false)) return;
                 }

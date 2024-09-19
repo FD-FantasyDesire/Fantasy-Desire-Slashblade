@@ -8,6 +8,7 @@ import mods.flammpfeil.slashblade.specialattack.SpecialAttackBase;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import mods.flammpfeil.slashblade.util.ReflectionAccessHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,11 +20,13 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityDriveEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverCharge;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverChargeBFG;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
+import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 
 /**
  * Created by Furia on 14/05/27.
@@ -40,14 +43,22 @@ public class TwinSystemL extends SpecialAttackBase {
 
         ItemStack offBlade = player.getHeldItemOffhand();
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
+//        检查是否双持双子
+
         if ((ItemSlashBlade.SpecialAttackType.get(tag)==208)){
             ItemSlashBlade.SpecialAttackType.set(tag,209);
             ItemFdSlashBlade.bladeType.set(tag,"TwinBladeR");
             ItemSlashBlade.TextureName.set(tag,"named/TwinBladeRight");
             ItemSlashBlade.SummonedSwordColor.set(tag, 0xFF0089);
         }
-        if (!(player.getHeldItemOffhand().getItem() instanceof ItemSlashBlade))return;
+        if (!(offBlade.getItem() instanceof ItemSlashBlade))return;
         NBTTagCompound offTag = ItemSlashBlade.getItemTagCompound(offBlade);
+
+        if (!offBlade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.TwinBlade", 1).getUnlocalizedName())
+        ){
+            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.TwinSetFail")),true);
+            return;
+        }
 
         if ((ItemSlashBlade.SpecialAttackType.get(offTag)==209)){
             ItemSlashBlade.SpecialAttackType.set(offTag,208);
