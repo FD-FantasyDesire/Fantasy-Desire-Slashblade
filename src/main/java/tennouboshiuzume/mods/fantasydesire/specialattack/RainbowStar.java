@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
 import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
+import tennouboshiuzume.mods.fantasydesire.util.ColorUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.util.ArrayList;
@@ -26,11 +27,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class RainOfRainbow extends SpecialAttackBase {
+public class RainbowStar extends SpecialAttackBase {
 
     @Override
     public String toString() {
-        return "RainOfRainbow";
+        return "RainbowStar";
     }
 
     @Override
@@ -38,63 +39,53 @@ public class RainOfRainbow extends SpecialAttackBase {
         World world = player.world;
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
-        int rains = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel)) - 2, 1), 8);
+        int rains = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel)) - 2, 1), 9);
         int level = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
-        float magicDamage = 1.0f + ItemSlashBlade.BaseAttackModifier.get(tag)/2;
+        float magicDamage = 1.0f + ItemSlashBlade.AttackAmplifier.get(tag) * (level / 5.0f);
         int rank = StylishRankManager.getStylishRank(player);
         if (5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
         Random random = player.getRNG();
-
+        magicDamage = 1;
         if (!world.isRemote) {
             List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player, 30, player, true));
             Collections.shuffle(target);
             if (!target.isEmpty()) {
+                int count = 0;
                 for (int z = 0; z < Math.min(20, target.size()); z++) {
                     for (int i = 0; i < rains; i++) {
-                        EntityLivingBase targetEntity = TargetUtils.setTargetEntityFromListByEntity(z, target);
-                        Vec3d targetPos = targetEntity.getPositionVector();
-                        Vec3d spawnPos = new Vec3d(
-                                targetEntity.posX + random.nextGaussian(),
-                                targetEntity.posY + 20f + random.nextGaussian() * 2,
-                                targetEntity.posZ + random.nextGaussian());
-//                    Vec3d spawnPos = new Vec3d(player.posX,player.posY+20,player.posZ);
+                        float yaw = (360f / (Math.min(20, target.size())*rains)) * count;
+                        float pitch = (float) (random.nextGaussian() * 30f);
+                        float roll = (float) (random.nextInt(360)-180);
+                        Vec3d basePos = new Vec3d(0,0,1);
+                        Vec3d spawnPos = new Vec3d(player.posX,player.posY+20f,player.posZ)
+                                .add(basePos
+                                        .rotatePitch((float) Math.toRadians(pitch))
+                                        .rotateYaw((float) Math.toRadians(yaw))
+                                        .scale(5f));
 
-                        EntityPhantomSwordExBase entityDrive = new EntityPhantomSwordExBase(world, player, magicDamage);
+                        EntityPhantomSwordEx entityDrive = new EntityPhantomSwordEx(world, player, magicDamage);
                         entityDrive.setInitialPosition(
                                 spawnPos.x,
                                 spawnPos.y,
                                 spawnPos.z,
-//                            (float) (random.nextGaussian()*60),
-                                random.nextInt(360),
-                                (float) (90f + random.nextGaussian() * 5),
-                                0f,
+                                -yaw,
+                                -pitch,
+                                roll,
                                 1.75f
                         );
-                        entityDrive.setRoll((float) (random.nextGaussian() * 30));
-                        entityDrive.setInterval(40 + 5 * i);
-                        entityDrive.setColor(color[i]);
-                        entityDrive.setTargetEntityId(targetEntity.getEntityId());
+                        entityDrive.setInterval(40+(count%rains)*2);
+                        entityDrive.setColor(ColorUtils.getSmoothTransitionColor(count,Math.min(20, target.size())*rains,true));
+                        entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromListByEntity(count, target).getEntityId());
                         entityDrive.setIsOverWall(true);
                         entityDrive.setScale(2f);
-                        entityDrive.setLifeTime(200);
+                        entityDrive.setLifeTime(200+(count%rains)*2);
                         world.spawnEntity(entityDrive);
+                        count++;
                     }
                 }
             }
         }
         ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.Kiriage);
     }
-
-    private int[] color = new int[]{
-            0xFF0000,
-            0xEE9900,
-            0xFFFF00,
-            0x00FF00,
-            0x00CC00,
-            0x00CCFF,
-            0x0000FF,
-            0xFF00FF
-    };
-
 }

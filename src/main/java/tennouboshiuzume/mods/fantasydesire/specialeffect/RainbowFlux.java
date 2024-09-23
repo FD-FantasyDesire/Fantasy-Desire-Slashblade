@@ -26,28 +26,25 @@ import tennouboshiuzume.mods.fantasydesire.entity.EntityDriveEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverChargeBFG;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
+import tennouboshiuzume.mods.fantasydesire.util.ColorUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.util.List;
 import java.util.Random;
 
 
-public class CrimsonStrike implements ISpecialEffect
-{
-    private static final String EffectKey = "CrimsonStrike";
 
-    /**
-     * 使用コスト
-     */
-    private static final int COST = 1;
+public class RainbowFlux implements ISpecialEffect {
+    private static final String EffectKey = "RainbowFlux";
+
+    private static final int COST = 0;
 
     /**
      * コスト不足時の刀へのダメージ
      */
     private static final int NO_COST_DAMAGE = 0;
 
-    private boolean useBlade(ItemSlashBlade.ComboSequence sequence)
-    {
+    private boolean useBlade(ItemSlashBlade.ComboSequence sequence) {
         if (sequence.useScabbard) return false;
         if (sequence == ItemSlashBlade.ComboSequence.None) return false;
         if (sequence == ItemSlashBlade.ComboSequence.Noutou) return false;
@@ -55,30 +52,32 @@ public class CrimsonStrike implements ISpecialEffect
     }
 
     @SubscribeEvent
-    public void onUpdateItemSlashBlade(SlashBladeEvent.OnUpdateEvent event)
-    {
-        if (!SpecialEffects.isPlayer(event.entity))
-            return;
-        EntityPlayer player = (EntityPlayer)event.entity;
+    public void onUpdateItemSlashBlade(SlashBladeEvent.OnUpdateEvent event) {
+
+        if (!SpecialEffects.isPlayer(event.entity)) return;
+        EntityPlayer player = (EntityPlayer) event.entity;
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
-        ItemSlashBlade.ComboSequence seq = ItemSlashBlade.getComboSequence(tag);
-        if (!useBlade(seq))
-            return;
-        if (ItemSlashBlade.IsBroken.get(tag).booleanValue())
-            return;
 
-        if (SpecialEffects.isEffective(player, event.blade, this) != SpecialEffects.State.Effective) {
-            return;
+        switch (SpecialEffects.isEffective(player, event.blade, this)) {
+            case None:
+                return;
+            case NonEffective:
+                return;
+            case Effective:
+                break;
         }
+        World world = player.world;
+//        System.out.println(world.getWorldTime());
+        int color = ColorUtils.getSmoothTransitionColor(((int) world.getWorldTime()%120),120,true);
+        ItemSlashBlade.SummonedSwordColor.set(tag, color);
 
-        PotionEffect haste = player.getActivePotionEffect(MobEffects.HASTE);
-        int check = haste != null ? haste.getAmplifier() != 1 ? 1 : 3 : 2;
-//        System.out.println(player.swingProgressInt);
-
-        if (player.swingProgressInt != check)
-            return;
-
+        ItemSlashBlade.ComboSequence seq = ItemSlashBlade.getComboSequence(tag);
+        if (!useBlade(seq)) return;
+//        PotionEffect haste = player.getActivePotionEffect(MobEffects.HASTE);
+//        int check = haste != null ? haste.getAmplifier() != 1 ? 1 : 3 : 2;
+        int check = 1;
+        if (player.swingProgressInt != check) return;
         doAddAttack(event.blade, player, seq);
     }
 
@@ -98,40 +97,42 @@ public class CrimsonStrike implements ISpecialEffect
         float baseModif = ((ItemSlashBlade)stack.getItem()).getBaseAttackModifiers(tag);
         int level = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
 
-        float magicDamage = baseModif / 10f;
+        float magicDamage = baseModif / 2;
         int rank = StylishRankManager.getStylishRank(player);
         if (rank >= 5) {
             magicDamage += (float) (ItemSlashBlade.AttackAmplifier.get(tag)*(level/5.0 + 0.5f));
         }
-        for (int i=0;i<2;i++){
-            EntityDriveEx entityDrive = new EntityDriveEx(world,player,magicDamage);
-            entityDrive.setInitialPosition(player.posX,player.posY+player.height/2,player.posZ, player.rotationYaw, player.rotationPitch,setCombo.swingDirection+(i%2==0? 0:90f),3f);
-            entityDrive.setColor(i%2==0? 0xFF00FF : 0xFF0000);
-            entityDrive.setLifeTime(10);
-            entityDrive.setScale((i%2==0? 0.5f:1.5f));
-            entityDrive.setIsOverWall(true);
-            world.spawnEntity(entityDrive);
-        }
+        EntityDriveEx entityDrive = new EntityDriveEx(world,player,magicDamage);
+        entityDrive.setInitialPosition(player.getLookVec().scale(2f).x + player.posX,
+                player.getLookVec().scale(2f).y + player.posY + player.eyeHeight - entityDrive.height,
+                player.getLookVec().scale(2f).z + player.posZ,
+                player.rotationYaw,
+                player.rotationPitch,
+                setCombo.swingDirection+90f,
+                3f);
+        entityDrive.setColor(ItemSlashBlade.SummonedSwordColor.get(tag));
+        entityDrive.setLifeTime(10);
+        entityDrive.setScale(3f);
+        entityDrive.setIsOverWall(true);
+        world.spawnEntity(entityDrive);
 
-        UntouchableTime.setUntouchableTime(player, 2);
+
+        UntouchableTime.setUntouchableTime(player, 40);
 
     }
 
     @Override
-    public void register()
-    {
+    public void register() {
         SlashBladeHooks.EventBus.register(this);
     }
 
     @Override
-    public int getDefaultRequiredLevel()
-    {
+    public int getDefaultRequiredLevel() {
         return 10;
     }
 
     @Override
-    public String getEffectKey()
-    {
+    public String getEffectKey() {
         return EffectKey;
     }
 }

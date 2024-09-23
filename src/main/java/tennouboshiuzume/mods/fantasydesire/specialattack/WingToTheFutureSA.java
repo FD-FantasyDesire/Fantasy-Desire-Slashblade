@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecialAttack,ISuperSpecialAttack {
+public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecialAttack, ISuperSpecialAttack {
 
     @Override
     public String toString() {
@@ -48,48 +48,48 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
         Random random = new Random();
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
-        ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
+        ItemSlashBlade blade = (ItemSlashBlade) stack.getItem();
 
-        int wingCount = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel))-5, 1),3);
+        int wingCount = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel)) - 5, 1), 3);
 
         StylishRankManager.setNextAttackType(player, StylishRankManager.AttackTypes.PhantomSword);
 
         int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
         float baseModif = blade.getBaseAttackModifiers(tag);
-        float magicDamage = 1.0f + (baseModif/2.0f);
+        float magicDamage = 1.0f + (baseModif / 2.0f);
         int rank = StylishRankManager.getStylishRank(player);
-        if(5 <= rank)
+        if (5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
         int countdown = 1;
-        if(!world.isRemote){
+        if (!world.isRemote) {
 
-            List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player,30,45f,true);
-            for (int i=0;i < wingCount;i++){
+            List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player, 30, 45f, true);
+            for (int i = 0; i < wingCount; i++) {
 
                 int count = 1;
-                for (int j=1;j<=32;j++){
+                for (int j = 1; j <= 32; j++) {
                     count++;
                     countdown++;
 
                     boolean front = (count % 2 == 0);
 
-                    int currentValue = count/2;
-                    int countdownValue = countdown/2;
+                    int currentValue = count / 2;
+                    int countdownValue = countdown / 2;
 
                     EntitySoulPhantomSword entityDrive = new EntitySoulPhantomSword(world, player, magicDamage);
                     if (entityDrive != null) {
                         double playerX = player.posX;
-                        double playerY = player.posY+player.eyeHeight;
+                        double playerY = player.posY + player.eyeHeight;
                         double playerZ = player.posZ;
                         float playerYaw = player.rotationYaw;
                         float playerPitch = -player.rotationPitch;
-                        if (playerPitch >= 45){
+                        if (playerPitch >= 45) {
                             playerPitch = 45;
-                        }else if (playerPitch <= -45){
-                            playerPitch =-45;
+                        } else if (playerPitch <= -45) {
+                            playerPitch = -45;
                         }
                         // 将朝向转换为弧度制
-                        float yawRadians = (playerYaw - (front ? 120.0f: -120.0f)) / 180.0f * (float) Math.PI;
+                        float yawRadians = (playerYaw - (front ? 120.0f : -120.0f)) / 180.0f * (float) Math.PI;
                         float pitchRadians = playerPitch / 180.0f * (float) Math.PI;
 
                         // 计算单位向量
@@ -103,7 +103,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
                         double targetZ = playerZ + dirZ * distance;
 
                         entityDrive.setPosition(targetX, targetY, targetZ);
-                        entityDrive.setInterval(20+countdownValue);
+                        entityDrive.setInterval(20 + countdownValue);
                         entityDrive.setLifeTime(200);
                         entityDrive.setScale(1.5f);
                         entityDrive.setBurst(true);
@@ -111,10 +111,10 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
                         entityDrive.setParticle(EnumParticleTypes.END_ROD);
                         entityDrive.setParticleVec(3);
                         entityDrive.setRoll(front ? -45.0f : 45.0f);
-                        entityDrive.setDriveVector(0.3f+0.05f*currentValue);
+                        entityDrive.setDriveVector(0.3f + 0.05f * currentValue);
                         entityDrive.setColor(front ? 0xFFFF00 : 0x00FFFF);
-                        if (!target.isEmpty()){
-                            entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromList(i,target));
+                        if (!target.isEmpty()) {
+                            entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromList(i, target));
                         }
                         world.spawnEntity(entityDrive);
                     }
@@ -134,46 +134,46 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
         Random random = new Random();
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
-        ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
+        ItemSlashBlade blade = (ItemSlashBlade) stack.getItem();
 
-        int wingCount = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel))-5, 1),3);
+        int wingCount = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel)) - 5, 1), 3);
 
         StylishRankManager.setNextAttackType(player, StylishRankManager.AttackTypes.PhantomSword);
 
         int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
         float baseModif = blade.getBaseAttackModifiers(tag);
-        float magicDamage = 1.0f + (baseModif/2.0f);
+        float magicDamage = 1.0f + (baseModif / 2.0f);
         int rank = StylishRankManager.getStylishRank(player);
-        if(5 <= rank)
+        if (5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
         int countdown = 1;
-        if(!world.isRemote){
-            for (int i=0;i < wingCount;i++){
+        if (!world.isRemote) {
+            for (int i = 0; i < wingCount; i++) {
 
                 int count = 1;
-                for (int j=1;j<=32;j++){
+                for (int j = 1; j <= 32; j++) {
                     count++;
                     countdown++;
 
                     boolean front = (count % 2 == 0);
 
-                    int currentValue = count/2;
-                    int countdownValue = countdown/2;
+                    int currentValue = count / 2;
+                    int countdownValue = countdown / 2;
 
                     EntitySoulPhantomSword entityDrive = new EntitySoulPhantomSword(world, player, magicDamage);
                     if (entityDrive != null) {
                         double playerX = player.posX;
-                        double playerY = player.posY+player.eyeHeight;
+                        double playerY = player.posY + player.eyeHeight;
                         double playerZ = player.posZ;
                         float playerYaw = player.rotationYaw;
                         float playerPitch = -player.rotationPitch;
-                        if (playerPitch >= 45){
+                        if (playerPitch >= 45) {
                             playerPitch = 45;
-                        }else if (playerPitch <= -45){
-                            playerPitch =-45;
+                        } else if (playerPitch <= -45) {
+                            playerPitch = -45;
                         }
                         // 将朝向转换为弧度制
-                        float yawRadians = (playerYaw - (front ? 120.0f: -120.0f)) / 180.0f * (float) Math.PI;
+                        float yawRadians = (playerYaw - (front ? 120.0f : -120.0f)) / 180.0f * (float) Math.PI;
                         float pitchRadians = playerPitch / 180.0f * (float) Math.PI;
 
                         // 计算单位向量
@@ -187,7 +187,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
                         double targetZ = playerZ + dirZ * distance;
 
                         entityDrive.setPosition(targetX, targetY, targetZ);
-                        entityDrive.setInterval(20+20*i);
+                        entityDrive.setInterval(20 + 20 * i);
                         entityDrive.setLifeTime(200);
                         entityDrive.setScale(1.5f);
                         entityDrive.setBurst(false);
@@ -195,7 +195,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
                         entityDrive.setParticle(EnumParticleTypes.END_ROD);
                         entityDrive.setParticleVec(3);
                         entityDrive.setRoll(front ? -45.0f : 45.0f);
-                        entityDrive.setDriveVector(0.3f+0.05f*currentValue);
+                        entityDrive.setDriveVector(0.3f + 0.05f * currentValue);
                         entityDrive.setColor(front ? 0xFFFF00 : 0x00FFFF);
                         world.spawnEntity(entityDrive);
                     }
@@ -215,7 +215,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
         Random random = new Random();
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
-        ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
+        ItemSlashBlade blade = (ItemSlashBlade) stack.getItem();
 
 //        final int cost = -2000;
 //        if(!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)){
@@ -227,45 +227,45 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
 
         int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
         float baseModif = blade.getBaseAttackModifiers(tag);
-        float magicDamage = 1.0f + (baseModif/2.0f);
+        float magicDamage = 1.0f + (baseModif / 2.0f);
         int rank = StylishRankManager.getStylishRank(player);
-        if(5 <= rank)
+        if (5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
 
 
         int countdown = 1;
-        if(!world.isRemote){
+        if (!world.isRemote) {
 
-            List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player,120f,45f,false);
+            List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player, 120f, 45f, false);
 
-            int wingCount = Math.max(4,target.size()/16);
+            int wingCount = Math.max(4, target.size() / 16);
 
-            for (int i=0;i < wingCount;i++){
+            for (int i = 0; i < wingCount; i++) {
 
                 int count = 1;
-                for (int j=1;j<=32;j++){
+                for (int j = 1; j <= 32; j++) {
                     count++;
                     countdown++;
 
                     boolean front = (count % 2 == 0);
 
-                    int currentValue = count/2;
-                    int countdownValue = countdown/2;
+                    int currentValue = count / 2;
+                    int countdownValue = countdown / 2;
 
                     EntitySeekSoulPhantomSword entityDrive = new EntitySeekSoulPhantomSword(world, player, magicDamage);
                     if (entityDrive != null) {
                         double playerX = player.posX;
-                        double playerY = player.posY+player.eyeHeight;
+                        double playerY = player.posY + player.eyeHeight;
                         double playerZ = player.posZ;
                         float playerYaw = player.rotationYaw;
                         float playerPitch = -player.rotationPitch;
-                        if (playerPitch >= 45){
+                        if (playerPitch >= 45) {
                             playerPitch = 45;
-                        }else if (playerPitch <= -45){
-                            playerPitch =-45;
+                        } else if (playerPitch <= -45) {
+                            playerPitch = -45;
                         }
                         // 将朝向转换为弧度制
-                        float yawRadians = (playerYaw - (front ? 120.0f: -120.0f)) / 180.0f * (float) Math.PI;
+                        float yawRadians = (playerYaw - (front ? 120.0f : -120.0f)) / 180.0f * (float) Math.PI;
                         float pitchRadians = playerPitch / 180.0f * (float) Math.PI;
 
                         // 计算单位向量
@@ -278,18 +278,18 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
                         double targetY = playerY + dirY * distance;
                         double targetZ = playerZ + dirZ * distance;
                         entityDrive.setInitialPosition(
-                                targetX+(random.nextGaussian()*0.5),
-                                targetY+(random.nextGaussian()*0.5),
-                                targetZ+(random.nextGaussian()*0.5),
+                                targetX + (random.nextGaussian() * 0.5),
+                                targetY + (random.nextGaussian() * 0.5),
+                                targetZ + (random.nextGaussian() * 0.5),
                                 (float) random.nextInt(360),
-                                (float) (random.nextInt(20)-90),
-                                (float) (random.nextGaussian()*30),
+                                (float) (random.nextInt(20) - 90),
+                                (float) (random.nextGaussian() * 30),
                                 2f);
-                        entityDrive.setInterval(20+countdownValue*1);
-                        entityDrive.setLifeTime(200+countdownValue*1);
+                        entityDrive.setInterval(20 + countdownValue * 1);
+                        entityDrive.setLifeTime(200 + countdownValue * 1);
                         entityDrive.setScale(1.5f);
-                        if (!target.isEmpty()){
-                            entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromList(countdownValue,target));
+                        if (!target.isEmpty()) {
+                            entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromList(countdownValue, target));
                         }
                         entityDrive.setBurst(true);
                         entityDrive.setExpRadius(1f);
@@ -305,7 +305,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
 
     }
 
-    private int[] color = new int[] {
+    private int[] color = new int[]{
             0xFF0000,
             0xFFAA00,
             0xFFFF00,

@@ -12,6 +12,7 @@ import mods.flammpfeil.slashblade.util.ReflectionAccessHelper;
 import mods.flammpfeil.slashblade.util.SlashBladeEvent;
 import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.block.Block;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -35,6 +36,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tennouboshiuzume.mods.fantasydesire.entity.*;
+import tennouboshiuzume.mods.fantasydesire.util.MathUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
@@ -91,19 +93,6 @@ public class TwinSet implements ISpecialEffect
         NBTTagCompound offtag = ItemSlashBlade.getItemTagCompound(offBlade);
 
 
-        int mainSoul = ItemSlashBlade.ProudSoul.get(tag);
-        int mainKill = ItemSlashBlade.KillCount.get(tag);
-        int offSoul = ItemSlashBlade.ProudSoul.get(offtag);
-        int offKill = ItemSlashBlade.KillCount.get(offtag);
-        //均分资源
-        int avgSoul = (mainSoul+offSoul)/2;
-        int avgKill = (mainKill+offKill)/2;
-
-        ItemSlashBlade.ProudSoul.set(tag,avgSoul);
-        ItemSlashBlade.ProudSoul.set(offtag,avgSoul);
-
-        ItemSlashBlade.KillCount.set(tag,avgKill);
-        ItemSlashBlade.KillCount.set(offtag,avgKill);
 
         ItemSlashBlade blade = (ItemSlashBlade)event.blade.getItem();
         int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, event.blade));
@@ -121,10 +110,11 @@ public class TwinSet implements ISpecialEffect
             offBlade.setItemDamage(event.blade.getItemDamage() - 3);
         }
 //        S以上追加攻击
-        if (rank >= 5){
+        if (rank >= 5 && !MathUtils.randomCheck(50)){
             ParticleUtils.spawnParticle((WorldServer)target.world,EnumParticleTypes.SWEEP_ATTACK,true,target.posX,target.posY,target.posZ,10,1,1,1, 0.75f);
             DamageSource ts = new DamageSource("TwinSet").setDamageIsAbsolute().setDamageBypassesArmor();
             target.attackEntityFrom(ts, magicDamage);
+            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.TwinSetActive")), true);
             target.playSound(SoundEvents.BLOCK_GLASS_BREAK,2,2f);
             player.onEnchantmentCritical(target);
         }

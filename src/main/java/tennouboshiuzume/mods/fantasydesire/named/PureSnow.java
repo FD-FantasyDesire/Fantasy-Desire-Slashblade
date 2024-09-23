@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tennouboshiuzume.mods.fantasydesire.init.FdBlades;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
+import tennouboshiuzume.mods.fantasydesire.specialeffect.RainbowFlux;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 
 public class PureSnow {
@@ -32,12 +33,13 @@ public class PureSnow {
         ItemFdSlashBlade.bladeType.set(tag, "PureSnow");
         ItemSlashBlade.TextureName.set(tag,"named/PureSnow");
         ItemSlashBlade.ModelName.set(tag,"named/PureSnow");
-        ItemSlashBlade.SpecialAttackType.set(tag, 0);
+        ItemSlashBlade.SpecialAttackType.set(tag, 211);
         ItemSlashBlade.StandbyRenderType.set(tag, 1);
         ItemSlashBlade.BaseAttackModifier.set(tag, 7.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xFFFFFF);
+        SpecialEffects.addEffect(customblade,FdSEs.RainbowFlux);
 
-//        NBTTagCompound tag = new NBTTagCompound();
+//        NBTTagCompound displayTag = new NBTTagCompound();
 //        customblade.setTagInfo("display",displayTag);
 //        NBTTagList loreList = new NBTTagList();
 //        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.PureSnow.desc")));

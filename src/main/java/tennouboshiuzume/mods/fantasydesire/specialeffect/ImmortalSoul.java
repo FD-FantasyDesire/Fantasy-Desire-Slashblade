@@ -40,6 +40,7 @@ import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.rmi.activation.Activatable;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -125,8 +126,8 @@ public class ImmortalSoul implements ISpecialEffect, IRemovable {
 //                搜索附近可攻击目标
                 List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(event.entityBladeStand , 15 , player,false);
 //                System.out.println(target);
+                Collections.shuffle(target);
                 if (!target.isEmpty()) {
-                    System.out.println(target);
 //                    消耗2耀魂来施放
                     if (!ItemSlashBlade.ProudSoul.tryAdd(tag, -2, false)) return;
                 }

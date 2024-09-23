@@ -42,11 +42,13 @@ flammpfeil.slashblade.specialattack.ShinMagnetStormSword=§b§l磁暴幻影剑§
 flammpfeil.slashblade.specialattack.CrossSaberSA=§9§l刃王·十圣刃星烈斩
 flammpfeil.slashblade.specialattack.ChargeShot=§b§l充能扫射
 flammpfeil.slashblade.specialattack.OverCharge=§a§l超载充能
-flammpfeil.slashblade.specialattack.CrimsonStorm=§4§l深红强袭
+flammpfeil.slashblade.specialattack.CrimsonStorm=§4§lExtermination-深红强袭
 flammpfeil.slashblade.specialattack.TwinSystemL=§6§l启动程式§f§l：§b§l激燃
 flammpfeil.slashblade.specialattack.TwinSystemR=§6§l终结程式§f§l：§d§l厄陨
 flammpfeil.slashblade.specialattack.RainOfRainbow=§l§4天§6穹§e虹§a彩§b星§1光§5雨
 flammpfeil.slashblade.specialattack.FreezeZero=§3§kΩ§b永冻§3§kΩ§f：§9零世代
+flammpfeil.slashblade.specialattack.RainbowStar=虹色星海
+
 
 #Special Effect
 slashblade.seffect.name.CheatRumble=§4作弊冲撞
@@ -60,14 +62,16 @@ slashblade.seffect.name.BloodDrain=§d狩魂 Type-VI
 slashblade.seffect.name.TwinSet=§bMOOD§f/§dDOOM §6情感增幅系统
 slashblade.seffect.name.ColdLeak=§1寒流散逸
 slashblade.seffect.name.EvolutionIce=§b冰河IV型 低温序列
-slashblade.seffect.name.RainbowFlux=§4虹§a光§3通§7量
-slashblade.seffect.name.Pure=§f纯净无暇
+slashblade.seffect.name.RainbowFlux=§f虹光通量
+slashblade.seffect.name.ColorFlux=§f全色汇流
 
 #Text
 tennouboshiuzume.tip.ImmortalSoulActive=§e同伴灵魂的炽热传达了过来……
 tennouboshiuzume.tip.ImmortalSoulActive1=§6同伴灵魂的炽热传达了过来……§4没有下次了！
 tennouboshiuzume.tip.TwinSetFail=§5没有同时装备对应的另一把双子拔刀…
 tennouboshiuzume.tip.BloodDrainEv=§d§l狩魂 Type-VI：§4§l+%s初始伤害
+tennouboshiuzume.tip.TwinSetActive=§5双子系统：“追刃”效果发动，追加一次斩击
+tennouboshiuzume.tip.GunbladeFail=§4当前的武器并不是一把“枪刃”！
 
 #Misc
 itemGroup.FantasyDesire=幻想塑愿

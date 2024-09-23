@@ -12,6 +12,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -247,19 +248,28 @@ public class EntityOverChargeBFG extends EntityOverCharge {
     }
 
     private void FreezeZero(float magicDamage) {
+        setColor(freezeColor[this.ticksExisted % freezeColor.length]);
         if (this.ticksExisted % 4 == 0) {
             this.playSound(SoundEvents.BLOCK_CHORUS_FLOWER_DEATH, 1f, 0.8f);
             if (!thrower_.world.isRemote) {
                 Random random = thrower_.getRNG();
                 int rotYaw = random.nextInt(360);
                 for (int i = 0; i < 4; i++) {
+                    float yaw = (360f / 4 * i + rotYaw);
+                    float pitch = (float) (random.nextGaussian() * 30f);
+                    float roll = (float) (random.nextInt(360)-180);
+                    Vec3d basePos = new Vec3d(0,0,1);
+                    Vec3d spawnPos = new Vec3d(this.posX,this.posY,this.posZ)
+                            .add(basePos
+                                    .rotatePitch((float) Math.toRadians(pitch))
+                                    .rotateYaw((float) Math.toRadians(yaw))
+                                    .scale(this.getScale()));
                     EntityDriveEx entityDrive = new EntityDriveEx(world, thrower_, magicDamage);
                     entityDrive.setIsOverWall(true);
-                    entityDrive.setInitialPosition(this.posX, this.posY, this.posZ, rotYaw + 90f * i, (float) (random.nextGaussian() * 30), (float) (random.nextGaussian() * 60), 0.75f);
+                    entityDrive.setInitialPosition(spawnPos.x, spawnPos.y, spawnPos.z, -yaw, -pitch, roll , 0.75f);
                     entityDrive.setInterval(1);
                     entityDrive.setParticle(EnumParticleTypes.SNOW_SHOVEL);
                     entityDrive.setColor(freezeColor[i % freezeColor.length]);
-                    entityDrive.setIsNonPlayer(!(i == 3));
                     entityDrive.setScale(this.getScale());
                     entityDrive.setLifeTime(20);
                     world.spawnEntity(entityDrive);

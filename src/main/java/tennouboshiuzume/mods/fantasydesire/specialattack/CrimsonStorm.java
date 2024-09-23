@@ -17,6 +17,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverCharge;
+import tennouboshiuzume.mods.fantasydesire.util.ColorUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.util.List;
@@ -124,7 +125,7 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
                 Random random = targetEntity.getRNG();
                 EntityOverCharge entityDrive = new EntityOverCharge(world,player,magicDamage);
                 entityDrive.setInitialPosition(targetEntity.posX,targetEntity.posY+targetEntity.height/2,targetEntity.posZ,targetEntity.rotationYaw, random.nextInt(90), random.nextInt(90), 0f);
-                entityDrive.setColor(color[i%color.length]);
+                entityDrive.setColor(ColorUtils.getSmoothTransitionColor(i,target.size()));
                 entityDrive.setScale(1.5f);
                 entityDrive.setLifeTime(40);
                 entityDrive.setMultiHit(true);

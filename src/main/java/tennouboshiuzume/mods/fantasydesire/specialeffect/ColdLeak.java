@@ -101,6 +101,8 @@ public class ColdLeak implements ISpecialEffect, IRemovable {
 
 //            勿动，SB拔刀剑作者竟然没给刀挂台做服务端客户端同步
             int proudSoul = ItemSlashBlade.ProudSoul.get(tag);
+            ItemSlashBlade.ProudSoul.set(tag,proudSoul);
+            System.out.println(ItemSlashBlade.ProudSoul.get(tag));
 
             if (proudSoul>=evo_3){
 //            evo 3
@@ -125,8 +127,6 @@ public class ColdLeak implements ISpecialEffect, IRemovable {
             }
 
             List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(event.entityBladeStand, range, player,false);
-            target.remove(player);
-            System.out.println(target);
 
             Boolean isDone = false;
 

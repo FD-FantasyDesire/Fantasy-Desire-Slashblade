@@ -26,6 +26,7 @@ import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverCharge;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
+import tennouboshiuzume.mods.fantasydesire.util.MathUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 
 import java.time.Duration;
@@ -69,29 +70,32 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
         if (5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
         target.extinguish();
-        System.out.println(ItemSlashBlade.AttackAmplifier.get(tag));
         World world = player.world;
 
         if (proudSoul >= evo_3) {
 //            evo 3
             ItemFdSlashBlade.bladeType.set(tag, "OverCold_3");
             ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_3");
-            summonFrostStar(world,player,target,20,magicDamage*2f,3f,4);
+            if (!MathUtils.randomCheck(35))return;
+            summonFrostStar(world,player,target,40,magicDamage*2f,3f,4);
         } else if (proudSoul >= evo_2) {
 //            evo 2
             ItemFdSlashBlade.bladeType.set(tag, "OverCold_2");
             ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_2");
+            if (!MathUtils.randomCheck(30))return;
             summonFrostStar(world,player,target,20,magicDamage*1.5f,1.5f,2);
         } else if (proudSoul >= evo_1) {
 //            evo 1
             ItemFdSlashBlade.bladeType.set(tag, "OverCold_1");
             ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_1");
+            if (!MathUtils.randomCheck(25))return;
             target.attackEntityFrom(OverCold, magicDamage);
             target.hurtTime = 0;
         } else {
 //            evo 0
             ItemFdSlashBlade.bladeType.set(tag, "OverCold_0");
             ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_0");
+            if (!MathUtils.randomCheck(20))return;
             target.attackEntityFrom(OverCold, magicDamage * 0.5f);
             target.hurtTime = 0;
         }

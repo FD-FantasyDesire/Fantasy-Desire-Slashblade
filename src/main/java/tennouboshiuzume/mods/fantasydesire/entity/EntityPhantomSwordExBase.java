@@ -59,11 +59,11 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
     /**
      * ■コンストラクタ
-     * @param par1World
+     * @param worldIn
      */
-    public EntityPhantomSwordExBase(World par1World)
+    public EntityPhantomSwordExBase(World worldIn)
     {
-        super(par1World);
+        super(worldIn);
 
         this.noClip = true;
 
@@ -74,14 +74,14 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         setSize(0.5F, 0.5F);
     }
 
-    public EntityPhantomSwordExBase(World par1World, EntityLivingBase entityLiving, float AttackLevel, float roll){
-        this(par1World,entityLiving,AttackLevel);
+    public EntityPhantomSwordExBase(World worldIn, EntityLivingBase entityLiving, float AttackLevel, float roll){
+        this(worldIn,entityLiving,AttackLevel);
         this.setRoll(roll);
     }
 
-    public EntityPhantomSwordExBase(World par1World, EntityLivingBase entityLiving, float AttackLevel)
+    public EntityPhantomSwordExBase(World worldIn, EntityLivingBase entityLiving, float AttackLevel)
     {
-        this(par1World);
+        this(worldIn);
 
         this.AttackLevel = AttackLevel;
 
@@ -141,6 +141,72 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
             iniYaw = thrower.rotationYaw;
 
             iniPitch = thrower.rotationPitch;
+
+            setDriveVector(1.75f);
+        }
+    }
+    public EntityPhantomSwordExBase(World worldIn, EntityLivingBase entityLiving, float AttackLevel,float iniyaw,float inipitch)
+    {
+        this(worldIn);
+
+        this.AttackLevel = AttackLevel;
+
+        //■撃った人
+        setThrower(entityLiving);
+
+        blade = entityLiving.getHeldItem(EnumHand.MAIN_HAND);
+        if(!blade.isEmpty() && !(blade.getItem() instanceof ItemSlashBlade)){
+            blade = ItemStack.EMPTY;
+        }
+
+        //■撃った人と、撃った人が（に）乗ってるEntityも除外
+        alreadyHitEntity.clear();
+        alreadyHitEntity.add(thrower);
+        alreadyHitEntity.add(thrower.getRidingEntity());
+        alreadyHitEntity.addAll(thrower.getPassengers());
+
+
+        {
+            float dist = 2.0f;
+
+            double ran = (rand.nextFloat() - 0.5) * 2.0;
+
+            double yaw =  Math.toRadians(-thrower.rotationYaw + 90);
+
+            double x = ran * Math.sin(yaw);
+            double y = 1.0 - Math.abs(ran);
+            double z = ran * Math.cos(yaw);
+
+            x*=dist;
+            y*=dist;
+            z*=dist;
+
+
+
+//            //■初期位置・初期角度等の設定
+//            setLocationAndAngles(thrower.posX + x,
+//                    thrower.posY + y,
+//                    thrower.posZ + z,
+//                   thrower.rotationYaw,
+//                    thrower.rotationPitch
+//            );
+//
+//            iniYaw = thrower.rotationYaw;
+//
+//            iniPitch = thrower.rotationPitch;
+//
+//            setDriveVector(1.75f);
+            //■初期位置・初期角度等の設定
+            setLocationAndAngles(thrower.posX + x,
+                    thrower.posY + y,
+                    thrower.posZ + z,
+                    iniyaw,
+                    inipitch
+            );
+
+            iniYaw = iniyaw;
+
+            iniPitch = inipitch;
 
             setDriveVector(1.75f);
         }
@@ -976,7 +1042,7 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
             normalizeRotation();
 
-            spawnParticle();
+//            spawnParticle();
 
         }
     }

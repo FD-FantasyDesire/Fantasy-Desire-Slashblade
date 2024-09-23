@@ -174,7 +174,7 @@ public class EntityDriveEx extends EntityBase
                     isMultiHit ?
                             StylishRankManager.AttackTypes.QuickDrive :
                             StylishRankManager.AttackTypes.Drive);
-
+//            StylishRankManager.doAttack(thrower_);
             for (Entity target : list) {
                 onImpact(target, damage);
             }

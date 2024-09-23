@@ -53,6 +53,7 @@ public class EntitySoulPhantomSword extends EntityPhantomSwordExBase {
 
             if (!blade.isEmpty() && target instanceof EntityLivingBase && thrower != null && thrower instanceof EntityLivingBase) {
                 StylishRankManager.setNextAttackType(this.thrower, StylishRankManager.AttackTypes.PhantomSword);
+                StylishRankManager.doAttack(thrower);
                 if (!getIsNonPlayer()) {
                     ((ItemSlashBlade) blade.getItem()).hitEntity(blade, (EntityLivingBase) target, (EntityLivingBase) thrower);
                 }

@@ -19,10 +19,13 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverChargeBFG;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
 import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
+import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
+import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.util.ArrayList;
@@ -50,6 +53,32 @@ public class FreezeZero extends SpecialAttackBase {
         int rank = StylishRankManager.getStylishRank(player);
         if (5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+        //            检查进化等级
+        float SAscale = 1;
+
+        int evo_3 = 30000;
+        int evo_2 = 3000;
+        int evo_1 = 300;
+
+        int proudSoul = ItemSlashBlade.ProudSoul.get(tag);
+
+        if (proudSoul>=evo_3){
+//            evo 3
+            SAscale = 5;
+        } else if (proudSoul>=evo_2) {
+//            evo 2
+            SAscale = 3;
+        }else if (proudSoul>=evo_1){
+//            evo 1
+            SAscale = 2;
+        }else {
+//            evo 0
+            SAscale = 1;
+        }
+        if (!blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.OverCold", 1).getUnlocalizedName())){
+            SAscale = 1;
+        }
+
         if (!world.isRemote) {
             EntityOverChargeBFG entitiDrive = new EntityOverChargeBFG(world, player, magicDamage/6);
             entitiDrive.setInitialPosition(player.posX,
@@ -61,7 +90,7 @@ public class FreezeZero extends SpecialAttackBase {
                     0);
             entitiDrive.setColor(0xAAFFFF);
             entitiDrive.setIsCold(true);
-            entitiDrive.setScale(5f);
+            entitiDrive.setScale(SAscale);
             entitiDrive.setMultiHit(true);
             entitiDrive.setHitScale(10f);
             entitiDrive.setParticle(EnumParticleTypes.SNOW_SHOVEL);
