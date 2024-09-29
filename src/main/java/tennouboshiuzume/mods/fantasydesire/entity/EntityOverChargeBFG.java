@@ -17,6 +17,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import tennouboshiuzume.mods.fantasydesire.specialattack.FreezeZero;
+import tennouboshiuzume.mods.fantasydesire.util.ColorUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 
 import java.util.List;
@@ -97,6 +98,9 @@ public class EntityOverChargeBFG extends EntityOverCharge {
 
     @Override
     public void onUpdate() {
+        if (Rainbow){
+            setColor(ColorUtils.getSmoothTransitionColor(ticksExisted*colorStepScale + colorStep, colorTotalStep,true));
+        }
         if (!world.isRemote)
             detectCollision(getScale(), getHitScale());
         if (getInterval() < this.ticksExisted)

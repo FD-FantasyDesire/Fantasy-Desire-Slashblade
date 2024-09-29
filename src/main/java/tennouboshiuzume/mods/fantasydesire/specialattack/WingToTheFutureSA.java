@@ -6,6 +6,7 @@ import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.specialattack.IJustSpecialAttack;
 import mods.flammpfeil.slashblade.specialattack.ISuperSpecialAttack;
 import mods.flammpfeil.slashblade.specialattack.SpecialAttackBase;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +15,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
@@ -26,6 +28,7 @@ import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
+import tennouboshiuzume.mods.fantasydesire.util.WorldBladeStandCrafting;
 
 import javax.vecmath.Vector3d;
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ import java.util.Random;
 
 public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecialAttack, ISuperSpecialAttack {
 
+    String name = "tennouboshiuzume.slashblade.ChikeFlare";
     @Override
     public String toString() {
         return "WingToTheFutureSA";
@@ -41,8 +45,15 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
 
     @Override
     public void doSpacialAttack(ItemStack stack, EntityPlayer player) {
-        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))
+//        一切刀转化
+        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName())){
+            if(player.getHealth()<30){
+                ItemStack resultBlade = WorldBladeStandCrafting.crafting(stack,name);
+                player.setHeldItem(EnumHand.MAIN_HAND,resultBlade);
+            }
+//            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.WingToTheFutureFail")), true);
             return;
+        }
         World world = player.world;
 
         Random random = new Random();
@@ -127,8 +138,14 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
 
     @Override
     public void doJustSpacialAttack(ItemStack stack, EntityPlayer player) {
-        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))
+        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName())){
+            if(player.getHealth()<30){
+                ItemStack resultBlade = WorldBladeStandCrafting.crafting(stack,name);
+                player.setHeldItem(EnumHand.MAIN_HAND,resultBlade);
+            }
+//            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.WingToTheFutureFail")), true);
             return;
+        }
         World world = player.world;
 
         Random random = new Random();
@@ -207,9 +224,10 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
 
     @Override
     public void doSuperSpecialAttack(ItemStack stack, EntityPlayer player) {
-        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))
+        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName())){
+            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.WingToTheFutureFail")), true);
             return;
-
+        }
         World world = player.world;
 
         Random random = new Random();
@@ -304,16 +322,5 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
         ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.Kiriage);
 
     }
-
-    private int[] color = new int[]{
-            0xFF0000,
-            0xFFAA00,
-            0xFFFF00,
-            0x00FF00,
-            0x00CC00,
-            0x00CCFF,
-            0x0000FF,
-            0xFF00FF
-    };
 }
 //Yarimono!

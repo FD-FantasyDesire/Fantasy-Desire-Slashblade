@@ -7,6 +7,7 @@ import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.util.ReflectionAccessHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.init.MobEffects;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -19,6 +20,8 @@ import net.minecraft.world.World;
 import net.minecraft.network.datasync.DataParameter;
 
 public class EntitySoulPhantomSword extends EntityPhantomSwordExBase {
+
+    PotionEffect addeffect = null;
 
     public EntitySoulPhantomSword(World par1World) {
         super(par1World);
@@ -37,6 +40,10 @@ public class EntitySoulPhantomSword extends EntityPhantomSwordExBase {
         super.entityInit();
     }
 
+    public PotionEffect setPotionEffect(PotionEffect value){
+        return value;
+    }
+
 
     @Override
     protected void attackEntity(Entity target) {
@@ -44,11 +51,10 @@ public class EntitySoulPhantomSword extends EntityPhantomSwordExBase {
             target.hurtResistantTime = 0;
             this.world.newExplosion(this, this.posX, this.posY, this.posZ, getExpRadius(), false, false);
         }
-
         if (!this.world.isRemote) {
             float magicDamage = Math.max(1.0f, AttackLevel);
             target.hurtResistantTime = 0;
-            DamageSource ds = new EntityDamageSource("directMagic", this.getThrower()).setDamageBypassesArmor().setMagicDamage().setDamageIsAbsolute().setDamageAllowedInCreativeMode();
+            DamageSource ds = new EntityDamageSource("directMagic", this.getThrower()).setDamageIsAbsolute().setDamageAllowedInCreativeMode();
             target.attackEntityFrom(ds, magicDamage);
 
             if (!blade.isEmpty() && target instanceof EntityLivingBase && thrower != null && thrower instanceof EntityLivingBase) {
@@ -66,8 +72,8 @@ public class EntitySoulPhantomSword extends EntityPhantomSwordExBase {
 
                 ((EntityLivingBase) target).hurtTime = 1;
 
-                if (getBurst()) {
-                    ((EntityLivingBase) target).addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 20 * 5, 0));
+                if (addeffect!=null) {
+                    ((EntityLivingBase) target).addPotionEffect(addeffect);
                 }
 
                 ((ItemSlashBlade) blade.getItem()).setDaunting(((EntityLivingBase) target));

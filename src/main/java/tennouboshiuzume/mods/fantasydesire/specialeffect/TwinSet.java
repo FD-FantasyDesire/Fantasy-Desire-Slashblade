@@ -35,7 +35,9 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.*;
+import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.MathUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
@@ -73,6 +75,17 @@ public class TwinSet implements ISpecialEffect
 //        检测双持
         if (!(player.getHeldItemOffhand().getItem() instanceof ItemSlashBlade))return;
         ItemStack offBlade = player.getHeldItemOffhand();
+
+        if (!offBlade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.TwinBlade", 1).getUnlocalizedName())
+        ){
+            return;
+        }
+
+        if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.TwinBlade", 1).getUnlocalizedName())
+        ){
+            return;
+        }
+
         switch (SpecialEffects.isEffective(player, offBlade, this)){
             case None:
                 return;

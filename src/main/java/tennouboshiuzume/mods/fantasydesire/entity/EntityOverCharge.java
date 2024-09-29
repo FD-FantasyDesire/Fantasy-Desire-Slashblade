@@ -14,6 +14,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import tennouboshiuzume.mods.fantasydesire.util.ColorUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 
 public class EntityOverCharge extends EntityBase
@@ -130,6 +131,9 @@ public class EntityOverCharge extends EntityBase
     @Override
     public void onUpdate()
     {
+        if (Rainbow){
+            setColor(ColorUtils.getSmoothTransitionColor(ticksExisted*colorStepScale + colorStep, colorTotalStep,true));
+        }
         if (!world.isRemote)
             detectCollision(getScale(),getHitScale());
         if(getInterval() < this.ticksExisted)

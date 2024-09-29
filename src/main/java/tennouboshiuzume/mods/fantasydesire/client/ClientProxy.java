@@ -1,4 +1,5 @@
 package tennouboshiuzume.mods.fantasydesire.client;
+import mods.flammpfeil.slashblade.client.renderer.entity.InvisibleRender;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
@@ -82,6 +83,15 @@ public class ClientProxy extends CommonProxy {
                         return new RenderPhantomSwordEx(manager);
                     }
                 });
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityTwinSlashManager.class,
+                new IRenderFactory<EntityTwinSlashManager>() {
+                    @Override
+                    public Render<? super EntityTwinSlashManager> createRenderFor(RenderManager renderManager) {
+                        return new InvisibleRender(renderManager);
+                    }
+                }
+        );
     }
 
 

@@ -14,6 +14,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import tennouboshiuzume.mods.fantasydesire.util.ColorUtils;
 
 public class EntityDriveEx extends EntityBase
 {
@@ -131,6 +132,9 @@ public class EntityDriveEx extends EntityBase
     @Override
     public void onUpdate()
     {
+        if (Rainbow){
+            setColor(ColorUtils.getSmoothTransitionColor(ticksExisted*colorStepScale + colorStep, colorTotalStep,true));
+        }
         if (!world.isRemote)
             detectCollision(getScale());
         if(getInterval() < this.ticksExisted){

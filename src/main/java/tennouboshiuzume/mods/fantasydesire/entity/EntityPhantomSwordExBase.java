@@ -28,6 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IThrowableEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tennouboshiuzume.mods.fantasydesire.util.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ import java.util.Random;
 /**
  * Created by Furia on 14/05/08.
  */
-public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThrowableEntity {
+public class EntityPhantomSwordExBase extends Entity implements IProjectile, IThrowableEntity {
 
     /**
      * ★撃った人
@@ -50,6 +51,11 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
     protected SoundEvent sound = null;
     protected float volume = 1;
     protected float rate = 1;
+
+    protected Boolean Rainbow = false;
+    protected float colorStep = 1;
+    protected int colorTotalStep = 1;
+    protected float colorStepScale = 1;
     /**
      * ★多段Hit防止用List
      */
@@ -59,10 +65,10 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
     /**
      * ■コンストラクタ
+     *
      * @param worldIn
      */
-    public EntityPhantomSwordExBase(World worldIn)
-    {
+    public EntityPhantomSwordExBase(World worldIn) {
         super(worldIn);
 
         this.noClip = true;
@@ -74,13 +80,12 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         setSize(0.5F, 0.5F);
     }
 
-    public EntityPhantomSwordExBase(World worldIn, EntityLivingBase entityLiving, float AttackLevel, float roll){
-        this(worldIn,entityLiving,AttackLevel);
+    public EntityPhantomSwordExBase(World worldIn, EntityLivingBase entityLiving, float AttackLevel, float roll) {
+        this(worldIn, entityLiving, AttackLevel);
         this.setRoll(roll);
     }
 
-    public EntityPhantomSwordExBase(World worldIn, EntityLivingBase entityLiving, float AttackLevel)
-    {
+    public EntityPhantomSwordExBase(World worldIn, EntityLivingBase entityLiving, float AttackLevel) {
         this(worldIn);
 
         this.AttackLevel = AttackLevel;
@@ -89,7 +94,7 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         setThrower(entityLiving);
 
         blade = entityLiving.getHeldItem(EnumHand.MAIN_HAND);
-        if(!blade.isEmpty() && !(blade.getItem() instanceof ItemSlashBlade)){
+        if (!blade.isEmpty() && !(blade.getItem() instanceof ItemSlashBlade)) {
             blade = ItemStack.EMPTY;
         }
 
@@ -105,16 +110,15 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
             double ran = (rand.nextFloat() - 0.5) * 2.0;
 
-            double yaw =  Math.toRadians(-thrower.rotationYaw + 90);
+            double yaw = Math.toRadians(-thrower.rotationYaw + 90);
 
             double x = ran * Math.sin(yaw);
             double y = 1.0 - Math.abs(ran);
             double z = ran * Math.cos(yaw);
 
-            x*=dist;
-            y*=dist;
-            z*=dist;
-
+            x *= dist;
+            y *= dist;
+            z *= dist;
 
 
 //            //■初期位置・初期角度等の設定
@@ -145,8 +149,8 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
             setDriveVector(1.75f);
         }
     }
-    public EntityPhantomSwordExBase(World worldIn, EntityLivingBase entityLiving, float AttackLevel,float iniyaw,float inipitch)
-    {
+
+    public EntityPhantomSwordExBase(World worldIn, EntityLivingBase entityLiving, float AttackLevel, float iniyaw, float inipitch) {
         this(worldIn);
 
         this.AttackLevel = AttackLevel;
@@ -155,7 +159,7 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         setThrower(entityLiving);
 
         blade = entityLiving.getHeldItem(EnumHand.MAIN_HAND);
-        if(!blade.isEmpty() && !(blade.getItem() instanceof ItemSlashBlade)){
+        if (!blade.isEmpty() && !(blade.getItem() instanceof ItemSlashBlade)) {
             blade = ItemStack.EMPTY;
         }
 
@@ -171,16 +175,15 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
             double ran = (rand.nextFloat() - 0.5) * 2.0;
 
-            double yaw =  Math.toRadians(-thrower.rotationYaw + 90);
+            double yaw = Math.toRadians(-thrower.rotationYaw + 90);
 
             double x = ran * Math.sin(yaw);
             double y = 1.0 - Math.abs(ran);
             double z = ran * Math.cos(yaw);
 
-            x*=dist;
-            y*=dist;
-            z*=dist;
-
+            x *= dist;
+            y *= dist;
+            z *= dist;
 
 
 //            //■初期位置・初期角度等の設定
@@ -220,11 +223,12 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
     private static final DataParameter<Integer> COLOR = EntityDataManager.<Integer>createKey(EntityPhantomSwordExBase.class, DataSerializers.VARINT);
     private static final DataParameter<Float> SCALE = EntityDataManager.<Float>createKey(EntityPhantomSwordExBase.class, DataSerializers.FLOAT);
     private static final DataParameter<Boolean> IS_OVER_WALL = EntityDataManager.<Boolean>createKey(EntityPhantomSwordExBase.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<String> PARTICLE = EntityDataManager.<String>createKey(EntityPhantomSwordExBase.class,DataSerializers.STRING);
-    private static final DataParameter<Integer> PARTICLE_VEC = EntityDataManager.<Integer>createKey(EntityPhantomSwordExBase.class,DataSerializers.VARINT);
-    private static final DataParameter<Boolean> Burst = EntityDataManager.<Boolean>createKey(EntityPhantomSwordExBase .class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Boolean> NonPlayer = EntityDataManager.<Boolean>createKey(EntityPhantomSwordExBase .class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Float> ExpRadius = EntityDataManager.<Float>createKey(EntityPhantomSwordExBase .class, DataSerializers.FLOAT);
+    private static final DataParameter<String> PARTICLE = EntityDataManager.<String>createKey(EntityPhantomSwordExBase.class, DataSerializers.STRING);
+    private static final DataParameter<Integer> PARTICLE_VEC = EntityDataManager.<Integer>createKey(EntityPhantomSwordExBase.class, DataSerializers.VARINT);
+    private static final DataParameter<Boolean> Burst = EntityDataManager.<Boolean>createKey(EntityPhantomSwordExBase.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> NonPlayer = EntityDataManager.<Boolean>createKey(EntityPhantomSwordExBase.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Float> ExpRadius = EntityDataManager.<Float>createKey(EntityPhantomSwordExBase.class, DataSerializers.FLOAT);
+
     /**
      * ■イニシャライズ
      */
@@ -249,122 +253,144 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         //color
         this.getDataManager().register(COLOR, 0x3333FF);
 
-        this.getDataManager().register(SCALE,1.0f);
+        this.getDataManager().register(SCALE, 1.0f);
 
-        this.getDataManager().register(IS_OVER_WALL,false);
+        this.getDataManager().register(IS_OVER_WALL, false);
 
         this.getDataManager().register(PARTICLE, "");
 
-        this.getDataManager().register(PARTICLE_VEC,1);
+        this.getDataManager().register(PARTICLE_VEC, 1);
 
         this.getDataManager().register(Burst, false);
 
         this.getDataManager().register(ExpRadius, 1.0f);
 
-        this.getDataManager().register(NonPlayer,false);
+        this.getDataManager().register(NonPlayer, false);
     }
 
-    public boolean getBurst(){
+    public void setRainbow(boolean rainbow, float colorStep, int colorTotalStep, float colorStepScale) {
+        this.Rainbow = rainbow;
+        this.colorStep = colorStep;
+        this.colorTotalStep = colorTotalStep;
+        this.colorStepScale = colorStepScale;
+    }
+
+    public boolean getBurst() {
         return this.getDataManager().get(Burst);
     }
-    public void setBurst(boolean value){
-        this.getDataManager().set(Burst,value);
+
+    public void setBurst(boolean value) {
+        this.getDataManager().set(Burst, value);
     }
 
-    public boolean getIsNonPlayer(){
+    public boolean getIsNonPlayer() {
         return this.getDataManager().get(NonPlayer);
     }
-    public void setIsNonPlayer(boolean value){
-        this.getDataManager().set(NonPlayer,value);
+
+    public void setIsNonPlayer(boolean value) {
+        this.getDataManager().set(NonPlayer, value);
     }
 
-    public float getExpRadius(){
+    public float getExpRadius() {
         return this.getDataManager().get(ExpRadius);
     }
-    public void setExpRadius(float value){
-        this.getDataManager().set(ExpRadius,value);
+
+    public void setExpRadius(float value) {
+        this.getDataManager().set(ExpRadius, value);
     }
 
-    public String getParticle(){
+    public String getParticle() {
         return this.getDataManager().get(PARTICLE);
     }
-    public void setParticle(EnumParticleTypes value){
-        this.getDataManager().set(PARTICLE,value.toString());
+
+    public void setParticle(EnumParticleTypes value) {
+        this.getDataManager().set(PARTICLE, value.toString());
     }
 
-    public int getThrowerEntityId(){
+    public int getThrowerEntityId() {
         return this.getDataManager().get(THROWER_ENTITY_ID);
     }
-    public void setThrowerEntityId(int entityid){
+
+    public void setThrowerEntityId(int entityid) {
         this.getDataManager().set(THROWER_ENTITY_ID, entityid);
     }
 
-    public int getTargetEntityId(){
+    public int getTargetEntityId() {
         return this.getDataManager().get(TARGET_ENTITY_ID);
     }
-    public void setTargetEntityId(int entityid){
+
+    public void setTargetEntityId(int entityid) {
         this.getDataManager().set(TARGET_ENTITY_ID, entityid);
     }
 
-    public float getRoll(){
+    public float getRoll() {
         return this.getDataManager().get(ROLL);
     }
-    public void setRoll(float roll){
-        this.getDataManager().set(ROLL,roll);
+
+    public void setRoll(float roll) {
+        this.getDataManager().set(ROLL, roll);
     }
 
-    public int getLifeTime(){
+    public int getLifeTime() {
         return this.getDataManager().get(LIFETIME);
     }
-    public void setLifeTime(int lifetime){
-        this.getDataManager().set(LIFETIME,lifetime);
+
+    public void setLifeTime(int lifetime) {
+        this.getDataManager().set(LIFETIME, lifetime);
     }
 
-    public int getInterval(){
+    public int getInterval() {
         return this.getDataManager().get(INTERVAL);
     }
-    public void setInterval(int value){
-        this.getDataManager().set(INTERVAL,value);
+
+    public void setInterval(int value) {
+        this.getDataManager().set(INTERVAL, value);
     }
 
-    public int getColor(){
+    public int getColor() {
         return this.getDataManager().get(COLOR);
     }
-    public void setColor(int value){
-        this.getDataManager().set(COLOR,value);
+
+    public void setColor(int value) {
+        this.getDataManager().set(COLOR, value);
     }
 
-    public final float getScale(){
+    public final float getScale() {
         return getDataManager().get(SCALE);
     }
-    public final void setScale(float scale){
-        this.getDataManager().set(SCALE,scale);
+
+    public final void setScale(float scale) {
+        this.getDataManager().set(SCALE, scale);
     }
 
-    public final void setSound(SoundEvent sound,float volume,float rate){
+    public final void setSound(SoundEvent sound, float volume, float rate) {
         this.sound = sound;
         this.volume = volume;
         this.rate = rate;
     }
-    public boolean isOverWall(){
+
+    public boolean isOverWall() {
         return this.getDataManager().get(IS_OVER_WALL);
     }
-    public void setIsOverWall(boolean isOverWall){
-        this.getDataManager().set(IS_OVER_WALL,isOverWall);
+
+    public void setIsOverWall(boolean isOverWall) {
+        this.getDataManager().set(IS_OVER_WALL, isOverWall);
     }
 
-    public final float getTrueScale(){
+    public final float getTrueScale() {
         return this.trueScale;
     }
-    public final void setTrueScale(float scale){
+
+    public final void setTrueScale(float scale) {
         this.trueScale = scale;
     }
 
-    public int getParticleVec(){
+    public int getParticleVec() {
         return this.getDataManager().get(PARTICLE_VEC);
     }
-    public void setParticleVec(int value){
-        this.getDataManager().set(PARTICLE_VEC,value);
+
+    public void setParticleVec(int value) {
+        this.getDataManager().set(PARTICLE_VEC, value);
     }
 
     float speed = 0.0f;
@@ -372,45 +398,45 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
     float iniPitch = Float.NaN;
 
 
-    public boolean doTargeting(){
+    public boolean doTargeting() {
 //        if(true) return false;
 //调试接口
-        if(this.ticksExisted > getInterval()) return false;
+        if (this.ticksExisted > getInterval()) return false;
 
         int targetid = this.getTargetEntityId();
 
         Entity owner = this.thrower;
-        if(this.thrower == null)
+        if (this.thrower == null)
             owner = this;
 
-        if(targetid == 0){
+        if (targetid == 0) {
 
             Entity rayEntity = getRayTrace(owner, 30.0f); //最長３０
-            if(rayEntity != null){
+            if (rayEntity != null) {
                 targetid = rayEntity.getEntityId();
-                this.setTargetEntityId( rayEntity.getEntityId());
+                this.setTargetEntityId(rayEntity.getEntityId());
             }
         }
 
         //視線中に無かった場合近傍Entityに拡張検索
-        if(targetid == 0){
-            Entity rayEntity = getRayTrace(owner, 30.0f,5.0f,5.0f); //最長３０、視線外10幅まで探索拡張
-            if(rayEntity != null){
+        if (targetid == 0) {
+            Entity rayEntity = getRayTrace(owner, 30.0f, 5.0f, 5.0f); //最長３０、視線外10幅まで探索拡張
+            if (rayEntity != null) {
                 targetid = rayEntity.getEntityId();
-                this.setTargetEntityId( rayEntity.getEntityId());
+                this.setTargetEntityId(rayEntity.getEntityId());
             }
         }
 
-        if(targetid != 0){
+        if (targetid != 0) {
             Entity target = world.getEntityByID(targetid);
 
-            if(target != null){
+            if (target != null) {
 
-                if(Float.isNaN(iniPitch) && thrower != null){
+                if (Float.isNaN(iniPitch) && thrower != null) {
                     iniYaw = thrower.rotationYaw;
                     iniPitch = thrower.rotationPitch;
                 }
-                faceEntity(this,target,ticksExisted * 1.0f,ticksExisted * 1.0f);
+                faceEntity(this, target, ticksExisted * 1.0f, ticksExisted * 1.0f);
                 setDriveVector(1.75F, false);
             }
         }
@@ -418,8 +444,8 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         return true;
     }
 
-    public Entity getRayTrace(Entity owner, double reachMax){
-        return this.getRayTrace(owner, reachMax,1.0f,0.0f);
+    public Entity getRayTrace(Entity owner, double reachMax) {
+        return this.getRayTrace(owner, reachMax, 1.0f, 0.0f);
     }
 
     public Entity getRayTrace(Entity owner, double reachMax, float expandFactor, float expandBorder) {
@@ -453,7 +479,7 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
             if (!EntitySelectorAttackable.getInstance().apply(entity))
                 continue;
 
-            if(viewer != null && !viewer.canEntityBeSeen(entity))
+            if (viewer != null && !viewer.canEntityBeSeen(entity))
                 continue;
 
             float borderSize = entity.getCollisionBorderSize() + expandBorder; //視線外10幅まで判定拡張
@@ -492,64 +518,56 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         return pointedEntity;
     }
 
-    public static RayTraceResult rayTrace(Entity owner, double par1, float par3)
-    {
+    public static RayTraceResult rayTrace(Entity owner, double par1, float par3) {
         Vec3d Vec3d = getPosition(owner);
         Vec3d Vec3d1 = getLook(owner, par3);
         Vec3d Vec3d2 = Vec3d.addVector(Vec3d1.x * par1, Vec3d1.y * par1, Vec3d1.z * par1);
         return owner.world.rayTraceBlocks(Vec3d, Vec3d2, false, false, true);
     }
-    public static Vec3d getPosition(Entity owner)
-    {
+
+    public static Vec3d getPosition(Entity owner) {
         return new Vec3d(owner.posX, owner.posY + owner.getEyeHeight(), owner.posZ);
     }
-    public static Vec3d getLook(Entity owner, float rotMax)
-    {
+
+    public static Vec3d getLook(Entity owner, float rotMax) {
         float f1;
         float f2;
         float f3;
         float f4;
 
-        if (rotMax == 1.0F)
-        {
-            f1 =  MathHelper.cos(-owner.rotationYaw   * 0.017453292F - (float)Math.PI);
-            f2 =  MathHelper.sin(-owner.rotationYaw   * 0.017453292F - (float)Math.PI);
+        if (rotMax == 1.0F) {
+            f1 = MathHelper.cos(-owner.rotationYaw * 0.017453292F - (float) Math.PI);
+            f2 = MathHelper.sin(-owner.rotationYaw * 0.017453292F - (float) Math.PI);
             f3 = -MathHelper.cos(-owner.rotationPitch * 0.017453292F);
-            f4 =  MathHelper.sin(-owner.rotationPitch * 0.017453292F);
-            return new Vec3d((double)(f2 * f3), (double)f4, (double)(f1 * f3));
-        }
-        else
-        {
+            f4 = MathHelper.sin(-owner.rotationPitch * 0.017453292F);
+            return new Vec3d((double) (f2 * f3), (double) f4, (double) (f1 * f3));
+        } else {
             f1 = owner.prevRotationPitch + (owner.rotationPitch - owner.prevRotationPitch) * rotMax;
             f2 = owner.prevRotationYaw + (owner.rotationYaw - owner.prevRotationYaw) * rotMax;
-            f3 = MathHelper.cos(-f2 * 0.017453292F - (float)Math.PI);
-            f4 = MathHelper.sin(-f2 * 0.017453292F - (float)Math.PI);
+            f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
+            f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
             float f5 = -MathHelper.cos(-f1 * 0.017453292F);
             float f6 = MathHelper.sin(-f1 * 0.017453292F);
-            return new Vec3d((double)(f4 * f5), (double)f6, (double)(f3 * f5));
+            return new Vec3d((double) (f4 * f5), (double) f6, (double) (f3 * f5));
         }
     }
 
-    public void faceEntity(Entity viewer, Entity target, float yawStep, float pitchStep)
-    {
+    public void faceEntity(Entity viewer, Entity target, float yawStep, float pitchStep) {
         double d0 = target.posX - viewer.posX;
         double d1 = target.posZ - viewer.posZ;
         double d2;
 
-        if (target instanceof EntityLivingBase)
-        {
-            EntityLivingBase entitylivingbase = (EntityLivingBase)target;
-            d2 = entitylivingbase.posY + (double)entitylivingbase.getEyeHeight() - (viewer.posY + (double)viewer.getEyeHeight());
-        }
-        else
-        {
+        if (target instanceof EntityLivingBase) {
+            EntityLivingBase entitylivingbase = (EntityLivingBase) target;
+            d2 = entitylivingbase.posY + (double) entitylivingbase.getEyeHeight() - (viewer.posY + (double) viewer.getEyeHeight());
+        } else {
             AxisAlignedBB boundingBox = target.getEntityBoundingBox();
-            d2 = (boundingBox.minY + boundingBox.maxY) / 2.0D - (viewer.posY + (double)viewer.getEyeHeight());
+            d2 = (boundingBox.minY + boundingBox.maxY) / 2.0D - (viewer.posY + (double) viewer.getEyeHeight());
         }
 
-        double d3 = (double)MathHelper.sqrt(d0 * d0 + d1 * d1);
-        float f2 = (float)(Math.atan2(d1, d0) * 180.0D / Math.PI) - 90.0F;
-        float f3 = (float)(-(Math.atan2(d2, d3) * 180.0D / Math.PI));
+        double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1);
+        float f2 = (float) (Math.atan2(d1, d0) * 180.0D / Math.PI) - 90.0F;
+        float f3 = (float) (-(Math.atan2(d2, d3) * 180.0D / Math.PI));
 
 
         iniPitch = this.updateRotation(iniPitch, f3, pitchStep);
@@ -561,52 +579,49 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
     }
 
-    private float updateRotation(float par1, float par2, float par3)
-    {
+    private float updateRotation(float par1, float par2, float par3) {
         float f3 = MathHelper.wrapDegrees(par2 - par1);
 
-        if (f3 > par3)
-        {
+        if (f3 > par3) {
             f3 = par3;
         }
 
-        if (f3 < -par3)
-        {
+        if (f3 < -par3) {
             f3 = -par3;
         }
 
         return par1 + f3;
     }
 
-    public void setDriveVector(float fYVecOfset){
-        setDriveVector(fYVecOfset,true);
+    public void setDriveVector(float fYVecOfset) {
+        setDriveVector(fYVecOfset, true);
     }
 
     /**
      * ■初期ベクトルとかを決めてる。
      * ■移動速度設定
+     *
      * @param fYVecOfst
      */
-    public void setDriveVector(float fYVecOfst,boolean init)
-    {
+    public void setDriveVector(float fYVecOfst, boolean init) {
 //        if(Float.isNaN(iniYaw))
 //            iniYaw = getIniYaw();
 //        if(Float.isNaN(iniPitch))
 //            iniPitch = getIniPitch();
 
         //■角度 -> ラジアン 変換
-        float fYawDtoR = (  iniYaw / 180F) * (float)Math.PI;
-        float fPitDtoR = (iniPitch / 180F) * (float)Math.PI;
+        float fYawDtoR = (iniYaw / 180F) * (float) Math.PI;
+        float fPitDtoR = (iniPitch / 180F) * (float) Math.PI;
 
         //■単位ベクトル
         motionX = -MathHelper.sin(fYawDtoR) * MathHelper.cos(fPitDtoR) * fYVecOfst;
         motionY = -MathHelper.sin(fPitDtoR) * fYVecOfst;
-        motionZ =  MathHelper.cos(fYawDtoR) * MathHelper.cos(fPitDtoR) * fYVecOfst;
+        motionZ = MathHelper.cos(fYawDtoR) * MathHelper.cos(fPitDtoR) * fYVecOfst;
 
         float f3 = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
-        rotationYaw = (float)((Math.atan2(motionX, motionZ) * 180D) / Math.PI);
-        rotationPitch = (float)((Math.atan2(motionY, f3) * 180D) / Math.PI);
-        if(init){
+        rotationYaw = (float) ((Math.atan2(motionX, motionZ) * 180D) / Math.PI);
+        rotationPitch = (float) ((Math.atan2(motionY, f3) * 180D) / Math.PI);
+        if (init) {
             speed = fYVecOfst;
             prevRotationYaw = rotationYaw;
             prevRotationPitch = rotationPitch;
@@ -614,13 +629,12 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
     }
 
     public void setInitialPosition(double x, double y, double z,
-                                   float yaw, float pitch, float roll, float speed)
-    {
+                                   float yaw, float pitch, float roll, float speed) {
         this.prevPosX = this.lastTickPosX = x;
         this.prevPosY = this.lastTickPosY = y;
         this.prevPosZ = this.lastTickPosZ = z;
 
-        this.prevRotationYaw   = this.rotationYaw   = MathHelper.wrapDegrees(-yaw);
+        this.prevRotationYaw = this.rotationYaw = MathHelper.wrapDegrees(-yaw);
         this.prevRotationPitch = this.rotationPitch = MathHelper.wrapDegrees(-pitch);
         setRoll(roll);
         setPosition(x, y, z);
@@ -636,7 +650,7 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
         Entity ridingEntity = this.ridingEntity2;
 
-        if(ridingEntity.isDead){
+        if (ridingEntity.isDead) {
             this.setDead();
             return;
         }
@@ -652,22 +666,22 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
         setPosition(posX, posY, posZ);
 
-        setRotation(rotationYaw,rotationPitch);
+        setRotation(rotationYaw, rotationPitch);
 
         //■死亡チェック
-        if(ticksExisted >= 200/*getLifeTime()*/) {
+        if (ticksExisted >= 200/*getLifeTime()*/) {
 
-            if(!ridingEntity.isDead){
-                if(!world.isRemote){
+            if (!ridingEntity.isDead) {
+                if (!world.isRemote) {
                     float magicDamage = Math.max(1.0f, AttackLevel / 2);
                     ridingEntity.hurtResistantTime = 0;
-                    DamageSource ds = new EntityDamageSource("directMagic",this.getThrower()).setDamageBypassesArmor().setMagicDamage();
+                    DamageSource ds = new EntityDamageSource("directMagic", this.getThrower()).setDamageBypassesArmor().setMagicDamage();
                     ridingEntity.attackEntityFrom(ds, magicDamage);
-                    if(!blade.isEmpty() && ridingEntity instanceof EntityLivingBase){
-                        if(thrower != null){
-                            StylishRankManager.setNextAttackType(this.thrower ,StylishRankManager.AttackTypes.BreakPhantomSword);
+                    if (!blade.isEmpty() && ridingEntity instanceof EntityLivingBase) {
+                        if (thrower != null) {
+                            StylishRankManager.setNextAttackType(this.thrower, StylishRankManager.AttackTypes.BreakPhantomSword);
                             if (!getIsNonPlayer()) {
-                                ((ItemSlashBlade)blade.getItem()).hitEntity(blade,(EntityLivingBase)ridingEntity,(EntityLivingBase)thrower);
+                                ((ItemSlashBlade) blade.getItem()).hitEntity(blade, (EntityLivingBase) ridingEntity, (EntityLivingBase) thrower);
                             }
                         }
 
@@ -686,21 +700,19 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
     /**
      * 向き初期化
      */
-    protected void initRotation(){
+    protected void initRotation() {
 
-        if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
-        {
+        if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
             float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-            this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f) * 180.0D / Math.PI);
+            this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, (double) f) * 180.0D / Math.PI);
         }
     }
 
     /**
-     *
      * @return hitInfo : IEntitySelector (Destructable / Attackable)
      */
-    protected RayTraceResult getRayTraceResult(){
+    protected RayTraceResult getRayTraceResult() {
         Vec3d Vec3d = new Vec3d(this.posX, this.posY, this.posZ);
         Vec3d Vec3d1 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
         RayTraceResult movingobjectposition = null;
@@ -730,14 +742,14 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         AxisAlignedBB bb2 = this.getEntityBoundingBox().grow(1.0D, 1.0D, 1.0D);
 
         Predicate<Entity>[] selectors = new Predicate[]{EntitySelectorDestructable.getInstance(), EntitySelectorAttackable.getInstance()};
-        for(Predicate<Entity> selector : selectors){
+        for (Predicate<Entity> selector : selectors) {
             List list = this.world.getEntitiesInAABBexcluding(this, bb, selector);
             list.removeAll(alreadyHitEntity);
 
-            if(selector.equals(EntitySelectorAttackable.getInstance()) && getTargetEntityId() != 0){
+            if (selector.equals(EntitySelectorAttackable.getInstance()) && getTargetEntityId() != 0) {
                 Entity target = world.getEntityByID(getTargetEntityId());
-                if(target != null){
-                    if(target.getEntityBoundingBox().intersects(bb) || target.getEntityBoundingBox().intersects(bb2) )
+                if (target != null) {
+                    if (target.getEntityBoundingBox().intersects(bb) || target.getEntityBoundingBox().intersects(bb2))
                         list.add(target);
                 }
             }
@@ -746,26 +758,22 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
             int i;
             float f1;
 
-            for (i = 0; i < list.size(); ++i)
-            {
-                Entity entity1 = (Entity)list.get(i);
+            for (i = 0; i < list.size(); ++i) {
+                Entity entity1 = (Entity) list.get(i);
 
-                if(entity1 instanceof EntityPhantomSwordExBase)
-                    if(((EntityPhantomSwordExBase) entity1).getThrower() == this.getThrower())
+                if (entity1 instanceof EntityPhantomSwordExBase)
+                    if (((EntityPhantomSwordExBase) entity1).getThrower() == this.getThrower())
                         continue;
 
-                if (entity1.canBeCollidedWith())
-                {
+                if (entity1.canBeCollidedWith()) {
                     f1 = 0.3F;
                     AxisAlignedBB axisalignedbb1 = entity1.getEntityBoundingBox().grow((double) f1, (double) f1, (double) f1);
                     RayTraceResult movingobjectposition1 = axisalignedbb1.calculateIntercept(Vec3d1, Vec3d);
 
-                    if (movingobjectposition1 != null)
-                    {
+                    if (movingobjectposition1 != null) {
                         double d1 = Vec3d1.distanceTo(movingobjectposition1.hitVec);
 
-                        if (d1 < d0 || d0 == 0.0D)
-                        {
+                        if (d1 < d0 || d0 == 0.0D) {
                             entity = entity1;
                             d0 = d1;
                         }
@@ -773,8 +781,7 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
                 }
             }
 
-            if (entity != null)
-            {
+            if (entity != null) {
                 movingobjectposition = new RayTraceResult(entity);
                 movingobjectposition.hitInfo = selector;
                 break;
@@ -782,12 +789,10 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         }
 
 
-        if (movingobjectposition != null && movingobjectposition.entityHit != null && movingobjectposition.entityHit instanceof EntityPlayer)
-        {
-            EntityPlayer entityplayer = (EntityPlayer)movingobjectposition.entityHit;
+        if (movingobjectposition != null && movingobjectposition.entityHit != null && movingobjectposition.entityHit instanceof EntityPlayer) {
+            EntityPlayer entityplayer = (EntityPlayer) movingobjectposition.entityHit;
 
-            if (entityplayer.capabilities.disableDamage || (this.getThrower() != null && this.getThrower() instanceof EntityPlayer && !((EntityPlayer)this.getThrower()).canAttackPlayer(entityplayer)))
-            {
+            if (entityplayer.capabilities.disableDamage || (this.getThrower() != null && this.getThrower() instanceof EntityPlayer && !((EntityPlayer) this.getThrower()).canAttackPlayer(entityplayer))) {
                 movingobjectposition = null;
             }
         }
@@ -795,83 +800,78 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         return movingobjectposition;
     }
 
-    public void doRotation(){
+    public void doRotation() {
 
-        if(doTargeting()) return;
+        if (doTargeting()) return;
 
         float f2;
         f2 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
+        this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
-        for (this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f2) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
-        {
+        for (this.rotationPitch = (float) (Math.atan2(this.motionY, (double) f2) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
             ;
         }
     }
 
-    public void normalizeRotation(){
+    public void normalizeRotation() {
 
-        while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
-        {
+        while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
             this.prevRotationPitch += 360.0F;
         }
 
-        while (this.rotationYaw - this.prevRotationYaw < -180.0F)
-        {
+        while (this.rotationYaw - this.prevRotationYaw < -180.0F) {
             this.prevRotationYaw -= 360.0F;
         }
 
-        while (this.rotationYaw - this.prevRotationYaw >= 180.0F)
-        {
+        while (this.rotationYaw - this.prevRotationYaw >= 180.0F) {
             this.prevRotationYaw += 360.0F;
         }
     }
 
-    protected void destructEntity(Entity target){
+    protected void destructEntity(Entity target) {
 
-        if(this.thrower == null) return;
+        if (this.thrower == null) return;
 
         StylishRankManager.setNextAttackType(this.thrower, StylishRankManager.AttackTypes.DestructObject);
 
         boolean isDestruction = true;
 
-        if(target instanceof EntityFireball){
-            if((((EntityFireball)target).shootingEntity != null && ((EntityFireball)target).shootingEntity.getEntityId() == this.thrower.getEntityId())){
+        if (target instanceof EntityFireball) {
+            if ((((EntityFireball) target).shootingEntity != null && ((EntityFireball) target).shootingEntity.getEntityId() == this.thrower.getEntityId())) {
                 isDestruction = false;
-            }else if(this.thrower instanceof  EntityLivingBase){
-                isDestruction = !target.attackEntityFrom(DamageSource.causeMobDamage((EntityLivingBase)this.thrower), this.AttackLevel);
+            } else if (this.thrower instanceof EntityLivingBase) {
+                isDestruction = !target.attackEntityFrom(DamageSource.causeMobDamage((EntityLivingBase) this.thrower), this.AttackLevel);
             }
-        }else if(target instanceof EntityArrow){
-            if((((EntityArrow)target).shootingEntity != null && ((EntityArrow)target).shootingEntity.getEntityId() == this.thrower.getEntityId())){
-                isDestruction = false;
-            }
-        }else if(target instanceof EntityThrowable){
-            if((((EntityThrowable)target).getThrower() != null && ((EntityThrowable)target).getThrower().getEntityId() == this.thrower.getEntityId())){
+        } else if (target instanceof EntityArrow) {
+            if ((((EntityArrow) target).shootingEntity != null && ((EntityArrow) target).shootingEntity.getEntityId() == this.thrower.getEntityId())) {
                 isDestruction = false;
             }
-        }
-
-        if(isDestruction && target instanceof IThrowableEntity){
-            if((((IThrowableEntity)target).getThrower() != null && ((IThrowableEntity)target).getThrower().getEntityId() == this.thrower.getEntityId())){
+        } else if (target instanceof EntityThrowable) {
+            if ((((EntityThrowable) target).getThrower() != null && ((EntityThrowable) target).getThrower().getEntityId() == this.thrower.getEntityId())) {
                 isDestruction = false;
             }
         }
 
-        if(isDestruction){
+        if (isDestruction && target instanceof IThrowableEntity) {
+            if ((((IThrowableEntity) target).getThrower() != null && ((IThrowableEntity) target).getThrower().getEntityId() == this.thrower.getEntityId())) {
+                isDestruction = false;
+            }
+        }
+
+        if (isDestruction) {
             ReflectionAccessHelper.setVelocity(target, 0, 0, 0);
             target.setDead();
 
-            for (int var1 = 0; var1 < 10; ++var1)
-            {
+            for (int var1 = 0; var1 < 10; ++var1) {
                 Random rand = this.getRand();
                 double var2 = rand.nextGaussian() * 0.02D;
                 double var4 = rand.nextGaussian() * 0.02D;
                 double var6 = rand.nextGaussian() * 0.02D;
                 double var8 = 10.0D;
                 this.world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL
-                        , target.posX + (double)(rand.nextFloat() * target.width * 2.0F) - (double)target.width - var2 * var8
-                        , target.posY + (double)(rand.nextFloat() * target.height) - var4 * var8
-                        , target.posZ + (double)(rand.nextFloat() * target.width * 2.0F) - (double)target.width - var6 * var8
+                        , target.posX + (double) (rand.nextFloat() * target.width * 2.0F) - (double) target.width - var2 * var8
+                        , target.posY + (double) (rand.nextFloat() * target.height) - var4 * var8
+                        , target.posZ + (double) (rand.nextFloat() * target.width * 2.0F) - (double) target.width - var6 * var8
                         , var2, var4, var6);
             }
         }
@@ -881,21 +881,21 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         this.setDead();
     }
 
-    protected void attackEntity(Entity target){
+    protected void attackEntity(Entity target) {
 
-        if(this.thrower != null)
-            this.thrower.getEntityData().setInteger("LastHitSummonedSwords",this.getEntityId());
+        if (this.thrower != null)
+            this.thrower.getEntityData().setInteger("LastHitSummonedSwords", this.getEntityId());
 
         mountEntity(target);
 
-        if(!this.world.isRemote){
+        if (!this.world.isRemote) {
             float magicDamage = Math.max(1.0f, AttackLevel);
             target.hurtResistantTime = 0;
-            DamageSource ds = new EntityDamageSource("directMagic",this.getThrower()).setDamageBypassesArmor().setMagicDamage();
+            DamageSource ds = new EntityDamageSource("directMagic", this.getThrower()).setDamageBypassesArmor().setMagicDamage();
             target.attackEntityFrom(ds, magicDamage);
 
-            if(!blade.isEmpty() && target instanceof EntityLivingBase && thrower != null && thrower instanceof EntityLivingBase){
-                StylishRankManager.setNextAttackType(this.thrower ,StylishRankManager.AttackTypes.PhantomSword);
+            if (!blade.isEmpty() && target instanceof EntityLivingBase && thrower != null && thrower instanceof EntityLivingBase) {
+                StylishRankManager.setNextAttackType(this.thrower, StylishRankManager.AttackTypes.PhantomSword);
                 if (!getIsNonPlayer()) {
                     ((ItemSlashBlade) blade.getItem()).hitEntity(blade, (EntityLivingBase) target, (EntityLivingBase) thrower);
                 }
@@ -904,22 +904,22 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
                 ((EntityLivingBase) target).hurtTime = 1;
 
-                ((ItemSlashBlade)blade.getItem()).setDaunting(((EntityLivingBase) target));
+                ((ItemSlashBlade) blade.getItem()).setDaunting(((EntityLivingBase) target));
             }
         }
     }
 
-    protected void blastAttackEntity(Entity target){
-        if(!this.world.isRemote){
+    protected void blastAttackEntity(Entity target) {
+        if (!this.world.isRemote) {
             float magicDamage = 1;
             target.hurtResistantTime = 0;
-            DamageSource ds = new EntityDamageSource("directMagic",this.getThrower()).setDamageBypassesArmor().setMagicDamage();
+            DamageSource ds = new EntityDamageSource("directMagic", this.getThrower()).setDamageBypassesArmor().setMagicDamage();
             target.attackEntityFrom(ds, magicDamage);
 
-            if(!blade.isEmpty() && target instanceof EntityLivingBase && thrower != null && thrower instanceof EntityLivingBase){
-                StylishRankManager.setNextAttackType(this.thrower ,StylishRankManager.AttackTypes.PhantomSword);
-                if(!getIsNonPlayer()){
-                    ((ItemSlashBlade)blade.getItem()).hitEntity(blade,(EntityLivingBase)target,(EntityLivingBase)thrower);
+            if (!blade.isEmpty() && target instanceof EntityLivingBase && thrower != null && thrower instanceof EntityLivingBase) {
+                StylishRankManager.setNextAttackType(this.thrower, StylishRankManager.AttackTypes.PhantomSword);
+                if (!getIsNonPlayer()) {
+                    ((ItemSlashBlade) blade.getItem()).hitEntity(blade, (EntityLivingBase) target, (EntityLivingBase) thrower);
                 }
 
                 ReflectionAccessHelper.setVelocity(target, 0, 0, 0);
@@ -927,34 +927,32 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
                 ((EntityLivingBase) target).hurtTime = 1;
 
-                ((ItemSlashBlade)blade.getItem()).setDaunting(((EntityLivingBase) target));
+                ((ItemSlashBlade) blade.getItem()).setDaunting(((EntityLivingBase) target));
             }
         }
     }
 
-    protected boolean onImpact(RayTraceResult mop)
-    {
+    protected boolean onImpact(RayTraceResult mop) {
 
         boolean result = true;
 
-        if (mop.entityHit != null){
+        if (mop.entityHit != null) {
             Entity target = mop.entityHit;
 
-            if(mop.hitInfo.equals(EntitySelectorAttackable.getInstance())){
+            if (mop.hitInfo.equals(EntitySelectorAttackable.getInstance())) {
 
                 attackEntity(target);
 
-            }else{ //(mop.hitInfo.equals(ItemSlashBlade.getInstance)){
+            } else { //(mop.hitInfo.equals(ItemSlashBlade.getInstance)){
 
                 destructEntity(target);
             }
-        }else{
+        } else {
 
 
-            if(!world.getCollisionBoxes(this,this.getEntityBoundingBox()).isEmpty())
-            {
-                if(this.getThrower() != null && this.getThrower() instanceof EntityPlayer)
-                    ((EntityPlayer)this.getThrower()).onCriticalHit(this);
+            if (!world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
+                if (this.getThrower() != null && this.getThrower() instanceof EntityPlayer)
+                    ((EntityPlayer) this.getThrower()).onCriticalHit(this);
                 //this.setDead();
                 result = false;
             }
@@ -963,50 +961,48 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         return result;
     }
 
-    public void spawnParticle(){
-        if (this.isInWater())
-        {
+    public void spawnParticle() {
+        if (this.isInWater()) {
             float trailLength;
-            for (int l = 0; l < 4; ++l)
-            {
+            for (int l = 0; l < 4; ++l) {
                 trailLength = 0.25F;
                 this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE
-                        , this.posX - this.motionX * (double)trailLength
-                        , this.posY - this.motionY * (double)trailLength
-                        , this.posZ - this.motionZ * (double)trailLength
+                        , this.posX - this.motionX * (double) trailLength
+                        , this.posY - this.motionY * (double) trailLength
+                        , this.posZ - this.motionZ * (double) trailLength
                         , this.motionX, this.motionY, this.motionZ);
             }
         }
     }
 
-    public void calculateSpeed(){
+    public void calculateSpeed() {
         float speedReductionFactor = 1.10F;
 
         if (this.isInWater())
             speedReductionFactor = 1.0F;
 
-        this.motionX *= (double)speedReductionFactor;
-        this.motionY *= (double)speedReductionFactor;
-        this.motionZ *= (double)speedReductionFactor;
+        this.motionX *= (double) speedReductionFactor;
+        this.motionY *= (double) speedReductionFactor;
+        this.motionZ *= (double) speedReductionFactor;
         //this.motionY -= (double)fallingFactor;
 
     }
 
     //■毎回呼ばれる。移動処理とか当り判定とかもろもろ。
     @Override
-    public void onUpdate()
-    {
+    public void onUpdate() {
         lastTickPosX = posX;
         lastTickPosY = posY;
         lastTickPosZ = posZ;
         super.onUpdate();
-
-        if(this.ridingEntity2 != null){
+        if (Rainbow){
+            setColor(ColorUtils.getSmoothTransitionColor(ticksExisted*colorStepScale + colorStep, colorTotalStep,true));
+        }
+        if (this.ridingEntity2 != null) {
             updateRidden();
-        }else{
+        } else {
 
-            if (this.ticksExisted >= getLifeTime())
-            {
+            if (this.ticksExisted >= getLifeTime()) {
                 this.setDead();
             }
 
@@ -1014,9 +1010,8 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
             RayTraceResult movingobjectposition = getRayTraceResult();
 
-            if (movingobjectposition != null)
-            {
-                if(onImpact(movingobjectposition))
+            if (movingobjectposition != null) {
+                if (onImpact(movingobjectposition))
                     return;
             }
 
@@ -1027,30 +1022,30 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
             float percentage = (float) Math.min(Math.max((float) this.ticksExisted / getInterval(), 0.1), 1.0);
 
             // Set the scale based on the percentage
-            float initialScale = 0.1f*getScale();
+            float initialScale = 0.1f * getScale();
             float finalScale = getScale();
             float scale = initialScale + (finalScale - initialScale) * percentage;
             setTrueScale(scale);
 
-            if (sound!=null&&this.ticksExisted==getInterval()+1){
-                this.playSound(sound,volume,rate);
+            if (sound != null && this.ticksExisted == getInterval() + 1) {
+                this.playSound(sound, volume, rate);
             }
 
-            if(getInterval() < this.ticksExisted)
+            if (getInterval() < this.ticksExisted)
                 move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
             playParticle();
 
             normalizeRotation();
 
-//            spawnParticle();
+            spawnParticle();
 
         }
     }
 
     @Override
     public void setDead() {
-        if(this.thrower != null && this.thrower instanceof EntityPlayer)
-            ((EntityPlayer)thrower).onCriticalHit(this);
+        if (this.thrower != null && this.thrower instanceof EntityPlayer)
+            ((EntityPlayer) thrower).onCriticalHit(this);
         /*
         if(!this.world.isRemote)
             System.out.println("dead" + this.ticksExisted);
@@ -1061,9 +1056,9 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
         AxisAlignedBB bb = this.getEntityBoundingBox().grow(1.0D, 1.0D, 1.0D);
         List<Entity> list = this.world.getEntitiesInAABBexcluding(this, bb, EntitySelectorAttackable.getInstance());
         list.removeAll(alreadyHitEntity);
-        for(Entity target : list){
-            if(blade.isEmpty()) break;
-            if(target == null) continue;
+        for (Entity target : list) {
+            if (blade.isEmpty()) break;
+            if (target == null) continue;
             blastAttackEntity(target);
         }
 
@@ -1072,10 +1067,10 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
     /**
      * ■Random
+     *
      * @return
      */
-    public Random getRand()
-    {
+    public Random getRand() {
         return this.rand;
     }
 
@@ -1084,8 +1079,7 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
      * Liquid = 流体
      */
     @Override
-    public boolean isOffsetPositionInLiquid(double par1, double par3, double par5)
-    {
+    public boolean isOffsetPositionInLiquid(double par1, double par3, double par5) {
         //AxisAlignedBB axisalignedbb = this.boundingBox.getOffsetBoundingBox(par1, par3, par5);
         //List list = this.world.getCollidingBoundingBoxes(this, axisalignedbb);
         //return !list.isEmpty() ? false : !this.world.isAnyLiquid(axisalignedbb);
@@ -1097,7 +1091,7 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
      */
     @Override
     public void move(MoverType moverType, double x, double y, double z) {
-        super.move(moverType, x,y,z);
+        super.move(moverType, x, y, z);
     }
 
 
@@ -1106,14 +1100,14 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
      * amountDamage
      */
     @Override
-    protected void dealFireDamage(int par1) {}
+    protected void dealFireDamage(int par1) {
+    }
 
     /**
      * ■Returns if this entity is in water and will end up adding the waters velocity to the entity
      */
     @Override
-    public boolean handleWaterMovement()
-    {
+    public boolean handleWaterMovement() {
         return false;
     }
 
@@ -1121,8 +1115,7 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
      * ■Checks if the current block the entity is within of the specified material type
      */
     @Override
-    public boolean isInsideOfMaterial(Material par1Material)
-    {
+    public boolean isInsideOfMaterial(Material par1Material) {
         return false;
     }
 
@@ -1136,31 +1129,27 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
     /**
      * ■環境光による暗さの描画（？）
-     *    EntityXPOrbのぱくり
+     * EntityXPOrbのぱくり
      */
     @SideOnly(Side.CLIENT)
     @Override
-    public int getBrightnessForRender()
-    {
+    public int getBrightnessForRender() {
         float f1 = 0.5F;
 
-        if (f1 < 0.0F)
-        {
+        if (f1 < 0.0F) {
             f1 = 0.0F;
         }
 
-        if (f1 > 1.0F)
-        {
+        if (f1 > 1.0F) {
             f1 = 1.0F;
         }
 
         int i = super.getBrightnessForRender();
         int j = i & 255;
         int k = i >> 16 & 255;
-        j += (int)(f1 * 15.0F * 16.0F);
+        j += (int) (f1 * 15.0F * 16.0F);
 
-        if (j > 240)
-        {
+        if (j > 240) {
             j = 240;
         }
 
@@ -1169,11 +1158,10 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
     /**
      * ■Gets how bright this entity is.
-     *    EntityPortalFXのぱくり
+     * EntityPortalFXのぱくり
      */
     @Override
-    public float getBrightness()
-    {
+    public float getBrightness() {
         float f1 = super.getBrightness();
         float f2 = 0.9F;
         f2 = f2 * f2 * f2 * f2;
@@ -1185,13 +1173,15 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
      * ■NBTの読込
      */
     @Override
-    protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {}
+    protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+    }
 
     /**
      * ■NBTの書出
      */
     @Override
-    protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {}
+    protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+    }
 
     double hitX;
     double hitY;
@@ -1202,7 +1192,7 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
     public Entity ridingEntity2 = null;
 
-    public Entity getRidingEntity(){
+    public Entity getRidingEntity() {
         return this.ridingEntity2;
     }
 
@@ -1210,7 +1200,7 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
      * ■Called when a player mounts an entity. e.g. mounts a pig, mounts a boat.
      */
     public void mountEntity(Entity par1Entity) {
-        if(par1Entity != null){
+        if (par1Entity != null) {
             this.hitYaw = this.rotationYaw - par1Entity.rotationYaw;
             this.hitPitch = this.rotationPitch - par1Entity.rotationPitch;
             this.hitX = this.lastTickPosX - par1Entity.posX;
@@ -1227,7 +1217,8 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
      * posY, posZ, yaw, pitch
      */
     @SideOnly(Side.CLIENT)
-    public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9) {}
+    public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9) {
+    }
 
     @Override
     public void setPortal(BlockPos p_181015_1_) {
@@ -1237,14 +1228,12 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
      * ■Returns true if the entity is on fire. Used by render to add the fire effect on rendering.
      */
     @Override
-    public boolean isBurning()
-    {
+    public boolean isBurning() {
         return false;
     }
 
     @Override
-    public boolean shouldRenderInPass(int pass)
-    {
+    public boolean shouldRenderInPass(int pass) {
         return pass == 1;
     }
 
@@ -1252,7 +1241,8 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
      * ■Sets the Entity inside a web block.
      */
     @Override
-    public void setInWeb() {}
+    public void setInWeb() {
+    }
 
 
     //IProjectile
@@ -1264,9 +1254,9 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
     //IThrowableEntity
     @Override
     public Entity getThrower() {
-        if(this.thrower == null){
+        if (this.thrower == null) {
             int id = getThrowerEntityId();
-            if(id != 0){
+            if (id != 0) {
                 this.thrower = this.getEntityWorld().getEntityByID(id);
             }
         }
@@ -1276,10 +1266,11 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile,IThr
 
     @Override
     public void setThrower(Entity entity) {
-        if(entity != null)
+        if (entity != null)
             setThrowerEntityId(entity.getEntityId());
         this.thrower = entity;
     }
+
     public void playParticle() {
         String particle = getParticle();
         if (particle != null && !particle.equals("")) {

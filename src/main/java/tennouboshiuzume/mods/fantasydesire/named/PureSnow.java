@@ -38,17 +38,19 @@ public class PureSnow {
         ItemSlashBlade.BaseAttackModifier.set(tag, 7.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xFFFFFF);
         SpecialEffects.addEffect(customblade,FdSEs.RainbowFlux);
-
-//        NBTTagCompound displayTag = new NBTTagCompound();
-//        customblade.setTagInfo("display",displayTag);
-//        NBTTagList loreList = new NBTTagList();
-//        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.PureSnow.desc")));
-//        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.PureSnow.desc1")));
-//        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.PureSnow.desc2")));
-//        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.PureSnow.desc3")));
-//        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.PureSnow.desc4")));
-//        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.PureSnow.desc5")));
-//        displayTag.setTag("Lore", loreList);
+        SpecialEffects.addEffect(customblade,FdSEs.ColorFlux);
+        NBTTagList loreList = new NBTTagList();
+        loreList.appendTag(new NBTTagString("desc"));
+        loreList.appendTag(new NBTTagString("desc1"));
+        loreList.appendTag(new NBTTagString("desc2"));
+        tag.setTag("BladeLore", loreList);
+        NBTTagList seLoreList = new NBTTagList();
+        seLoreList.appendTag(new NBTTagString("SEdesc"));
+        seLoreList.appendTag(new NBTTagString("SEdesc1"));
+        seLoreList.appendTag(new NBTTagString("SEdesc2"));
+        seLoreList.appendTag(new NBTTagString("SEdesc3"));
+        seLoreList.appendTag(new NBTTagString("SEdesc4"));
+        tag.setTag("EffectLore", seLoreList);
         customblade.addEnchantment(Enchantments.SILK_TOUCH,1);
 
         BladeUtils.registerCustomItemStack(name, customblade);

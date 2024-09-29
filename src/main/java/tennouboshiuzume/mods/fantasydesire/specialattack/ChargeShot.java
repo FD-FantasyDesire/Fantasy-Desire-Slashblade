@@ -5,6 +5,7 @@ import mods.flammpfeil.slashblade.entity.EntityDrive;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.specialattack.SpecialAttackBase;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,11 +16,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverCharge;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverChargeBFG;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
+import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.util.ArrayList;
@@ -37,6 +41,11 @@ public class ChargeShot extends SpecialAttackBase {
 
     @Override
     public void doSpacialAttack(ItemStack stack, EntityPlayer player) {
+        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.MordernGunblade", 1).getUnlocalizedName())
+        ){
+            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.GunbladeFail")),true);
+            return;
+        }
         World world = player.world;
 
         Random random = new Random();
@@ -93,7 +102,7 @@ public class ChargeShot extends SpecialAttackBase {
                     Vec3d circlePoint = playerPos.add(rightVec.scale(xOffset)).add(lookVec.scale(zOffset));
                     EntityPhantomSwordEx entityDrive = new EntityPhantomSwordEx(world, player, magicDamage);
 
-                    entityDrive.setInitialPosition(circlePoint.x, playerPos.y + player.getEyeHeight(), circlePoint.z, i * (360f / points) +player.rotationYaw -90, 0, 0, 3f);
+                    entityDrive.setInitialPosition(circlePoint.x, playerPos.y + player.height/2, circlePoint.z, i * (360f / points) +player.rotationYaw -90, 0, 0, 3f);
                     entityDrive.setLifeTime(160);
                     entityDrive.setColor(isBurst ? 0x00FFFF : 0xFFFFFF);
                     entityDrive.setSound(SoundEvents.ENTITY_WITHER_BREAK_BLOCK, 2f, 2f);

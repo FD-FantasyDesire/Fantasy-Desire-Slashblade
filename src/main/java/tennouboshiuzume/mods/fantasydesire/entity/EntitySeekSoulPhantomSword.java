@@ -18,6 +18,8 @@ import net.minecraft.network.datasync.DataParameter;
 
 public class EntitySeekSoulPhantomSword extends EntityPhantomSwordEx{
 
+    PotionEffect addeffect = null;
+
     public EntitySeekSoulPhantomSword (World par1World) {
         super(par1World);
     }
@@ -35,6 +37,10 @@ public class EntitySeekSoulPhantomSword extends EntityPhantomSwordEx{
         super.entityInit();
     }
 
+    public PotionEffect setPotionEffect(PotionEffect value){
+        return value;
+    }
+
     @Override
     protected void attackEntity(Entity target) {
         if(getBurst()){
@@ -45,7 +51,7 @@ public class EntitySeekSoulPhantomSword extends EntityPhantomSwordEx{
         if(!this.world.isRemote){
             float magicDamage = Math.max(1.0f, AttackLevel);
             target.hurtResistantTime = 0;
-            DamageSource ds = new EntityDamageSource("directMagic",this.getThrower()).setDamageBypassesArmor().setMagicDamage().setDamageIsAbsolute().setDamageAllowedInCreativeMode();
+            DamageSource ds = new EntityDamageSource("directMagic",this.getThrower()).setDamageIsAbsolute().setDamageAllowedInCreativeMode();
 
             target.attackEntityFrom(ds, magicDamage);
 
@@ -62,8 +68,8 @@ public class EntitySeekSoulPhantomSword extends EntityPhantomSwordEx{
 
                 ((EntityLivingBase) target).hurtTime = 1;
 
-                if(getBurst()){
-                    ((EntityLivingBase)target).addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 20 * 5, 0));
+                if (addeffect!=null) {
+                    ((EntityLivingBase) target).addPotionEffect(addeffect);
                 }
 
                 ((ItemSlashBlade)blade.getItem()).setDaunting(((EntityLivingBase) target));

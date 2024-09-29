@@ -151,7 +151,6 @@ public class RenderOverCharge extends Render{
 
         GlStateManager.glBlendEquation(GL14.GL_FUNC_ADD);
 
-
         int windCount = 20;
         for(int i = 0; i < windCount; i++){
             GL11.glPushMatrix();
@@ -170,7 +169,7 @@ public class RenderOverCharge extends Render{
             double ticks = entity.ticksExisted + partialRenderTick + seed;
             double offsetTicks = ticks + offset;
             double progress = (offsetTicks % motionLen) / motionLen;
-
+//              旋转速度
             double rad = (Math.PI) * 2.0;
             rad *= progress;
 

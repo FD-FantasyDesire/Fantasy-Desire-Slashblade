@@ -56,6 +56,11 @@ abstract class EntityBase extends Entity implements IThrowableEntity
      */
     protected float attackLevel_ = 0.0f;
 
+    protected Boolean Rainbow = false;
+    protected float colorStep = 1;
+    protected int colorTotalStep = 1;
+    protected float colorStepScale = 1;
+
 
     /** パラメータ：寿命 */
     private static final DataParameter<Integer> LIFETIME = EntityDataManager.<Integer>createKey(EntityBase.class, DataSerializers.VARINT);
@@ -425,6 +430,13 @@ abstract class EntityBase extends Entity implements IThrowableEntity
     }
     public void setIsNonPlayer(boolean value){
         this.getDataManager().set(NonPlayer,value);
+    }
+
+    public void setRainbow(boolean rainbow, float colorStep, int colorTotalStep, float colorStepScale) {
+        this.Rainbow = rainbow;
+        this.colorStep = colorStep;
+        this.colorTotalStep = colorTotalStep;
+        this.colorStepScale = colorStepScale;
     }
 
     // =====================================================

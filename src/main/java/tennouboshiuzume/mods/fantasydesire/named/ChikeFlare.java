@@ -7,7 +7,6 @@ import mods.flammpfeil.slashblade.named.event.LoadEvent;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import mods.flammpfeil.slashblade.util.SlashBladeEvent;
 import mods.flammpfeil.slashblade.util.SlashBladeHooks;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,6 +14,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tennouboshiuzume.mods.fantasydesire.init.FdBlades;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
@@ -45,13 +46,20 @@ public class ChikeFlare {
         SpecialEffects.addEffect(customblade, FdSEs.TyrantStrike);
         SpecialEffects.addEffect(customblade, FdSEs.SoulShield);
         SpecialEffects.addEffect(customblade, FdSEs.ImmortalSoul);
-        NBTTagCompound displayTag = new NBTTagCompound();
-        customblade.setTagInfo("display",displayTag);
         NBTTagList loreList = new NBTTagList();
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.ChikeFlare.desc")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.ChikeFlare.desc1")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.ChikeFlare.desc2")));
-        displayTag.setTag("Lore", loreList);
+        loreList.appendTag(new NBTTagString("desc"));
+        loreList.appendTag(new NBTTagString("desc1"));
+        loreList.appendTag(new NBTTagString("desc2"));
+        tag.setTag("BladeLore", loreList);
+        NBTTagList seLoreList = new NBTTagList();
+        seLoreList.appendTag(new NBTTagString("SEdesc"));
+        seLoreList.appendTag(new NBTTagString("SEdesc1"));
+        seLoreList.appendTag(new NBTTagString("SEdesc2"));
+        seLoreList.appendTag(new NBTTagString("SEdesc3"));
+        seLoreList.appendTag(new NBTTagString("SEdesc4"));
+        seLoreList.appendTag(new NBTTagString("SEdesc5"));
+        seLoreList.appendTag(new NBTTagString("SEdesc6"));
+        tag.setTag("EffectLore", seLoreList);
         customblade.addEnchantment(Enchantments.UNBREAKING, 10);
         customblade.addEnchantment(Enchantments.SHARPNESS,7);
         customblade.addEnchantment(Enchantments.POWER, 7);
@@ -59,6 +67,7 @@ public class ChikeFlare {
         customblade.addEnchantment(Enchantments.MENDING,1);
         BladeUtils.registerCustomItemStack(name, customblade);
         BladeUtils.FdNamedBlades.add(name);
+
     }
     @SubscribeEvent
     public void postinit(LoadEvent.PostInitEvent event){

@@ -42,17 +42,20 @@ public class TwinBlade {
         customblade.addEnchantment(Enchantments.BLAST_PROTECTION,3);
         customblade.addEnchantment(Enchantments.FIRE_PROTECTION,3);
 
-        NBTTagCompound displayTag = new NBTTagCompound();
-        customblade.setTagInfo("display",displayTag);
         NBTTagList loreList = new NBTTagList();
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.TwinBlade.desc")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.TwinBlade.desc1")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.TwinBlade.desc2")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.TwinBlade.desc3")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.TwinBlade.desc4")));
-        loreList.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.slashblade.TwinBlade.desc5")));
-        displayTag.setTag("Lore", loreList);
-
+        loreList.appendTag(new NBTTagString("desc"));
+        loreList.appendTag(new NBTTagString("desc1"));
+        loreList.appendTag(new NBTTagString("desc2"));
+        tag.setTag("BladeLore", loreList);
+        NBTTagList seLoreList = new NBTTagList();
+        seLoreList.appendTag(new NBTTagString("SEdesc"));
+        seLoreList.appendTag(new NBTTagString("SEdesc1"));
+        seLoreList.appendTag(new NBTTagString("SEdesc2"));
+        seLoreList.appendTag(new NBTTagString("SEdesc3"));
+        seLoreList.appendTag(new NBTTagString("SEdesc4"));
+        seLoreList.appendTag(new NBTTagString("SEdesc5"));
+        seLoreList.appendTag(new NBTTagString("SEdesc6"));
+        tag.setTag("EffectLore", seLoreList);
         BladeUtils.registerCustomItemStack(name, customblade);
         BladeUtils.FdNamedBlades.add(name);
     }

@@ -76,14 +76,16 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
 //            evo 3
             ItemFdSlashBlade.bladeType.set(tag, "OverCold_3");
             ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_3");
-            if (!MathUtils.randomCheck(35))return;
-            summonFrostStar(world,player,target,40,magicDamage*2f,3f,4);
+            if (MathUtils.randomCheck(35))return;
+            ItemSlashBlade.ProudSoul.tryAdd(tag,10,false);
+            summonFrostStar(world,player,target,10,magicDamage*2f,3f,4);
         } else if (proudSoul >= evo_2) {
 //            evo 2
             ItemFdSlashBlade.bladeType.set(tag, "OverCold_2");
             ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_2");
-            if (!MathUtils.randomCheck(30))return;
-            summonFrostStar(world,player,target,20,magicDamage*1.5f,1.5f,2);
+            if (MathUtils.randomCheck(30))return;
+            ItemSlashBlade.ProudSoul.tryAdd(tag,10,false);
+            summonFrostStar(world,player,target,5,magicDamage*1.5f,1.5f,2);
         } else if (proudSoul >= evo_1) {
 //            evo 1
             ItemFdSlashBlade.bladeType.set(tag, "OverCold_1");

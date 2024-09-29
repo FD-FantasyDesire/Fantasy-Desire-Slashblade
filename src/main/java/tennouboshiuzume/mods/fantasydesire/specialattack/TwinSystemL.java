@@ -4,6 +4,7 @@ import mods.flammpfeil.slashblade.ability.UntouchableTime;
 import mods.flammpfeil.slashblade.entity.EntityDrive;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
+import mods.flammpfeil.slashblade.specialattack.ISuperSpecialAttack;
 import mods.flammpfeil.slashblade.specialattack.SpecialAttackBase;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import mods.flammpfeil.slashblade.util.ReflectionAccessHelper;
@@ -24,6 +25,7 @@ import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityDriveEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverCharge;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverChargeBFG;
+import tennouboshiuzume.mods.fantasydesire.entity.EntityTwinSlashManager;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
@@ -31,14 +33,14 @@ import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 /**
  * Created by Furia on 14/05/27.
  */
-public class TwinSystemL extends SpecialAttackBase {
+public class TwinSystemL extends SpecialAttackBase implements ISuperSpecialAttack {
     @Override
     public String toString() {
         return "TwinSystemL";
     }
 
     @Override
-    public void doSpacialAttack(ItemStack stack, EntityPlayer player) {
+    public void doSpacialAttack(ItemStack stack, EntityPlayer player)  {
         World world = player.world;
 
         ItemStack offBlade = player.getHeldItemOffhand();
@@ -139,4 +141,58 @@ public class TwinSystemL extends SpecialAttackBase {
 
 
     }
+
+    @Override
+    public void doSuperSpecialAttack(ItemStack stack, EntityPlayer player) {
+        World world = player.world;
+
+        ItemStack offBlade = player.getHeldItemOffhand();
+        NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
+//        检查是否双持双子
+
+        if ((ItemSlashBlade.SpecialAttackType.get(tag)==208)){
+            ItemSlashBlade.SpecialAttackType.set(tag,209);
+            ItemFdSlashBlade.bladeType.set(tag,"TwinBladeR");
+            ItemSlashBlade.TextureName.set(tag,"named/TwinBladeRight");
+            ItemSlashBlade.SummonedSwordColor.set(tag, 0xFF0089);
+        }
+        if (!(offBlade.getItem() instanceof ItemSlashBlade))return;
+        NBTTagCompound offTag = ItemSlashBlade.getItemTagCompound(offBlade);
+
+        if (!offBlade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.TwinBlade", 1).getUnlocalizedName())
+        ){
+            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.TwinSetFail")),true);
+            return;
+        }
+
+        if ((ItemSlashBlade.SpecialAttackType.get(offTag)==209)){
+            ItemSlashBlade.SpecialAttackType.set(offTag,208);
+            ItemFdSlashBlade.bladeType.set(offTag,"TwinBladeL");
+            ItemSlashBlade.TextureName.set(offTag,"named/TwinBladeLeft");
+            ItemSlashBlade.SummonedSwordColor.set(offTag, 0x00C8FF);
+        }
+
+        switch (SpecialEffects.isEffective(player, offBlade, FdSEs.TwinSet)){
+            case None:
+                return;
+            case Effective:
+                break;
+            case NonEffective:
+                return;
+        }
+        switch (SpecialEffects.isEffective(player, stack, FdSEs.TwinSet)){
+            case None:
+                return;
+            case Effective:
+                break;
+            case NonEffective:
+                return;
+        }
+        if (!world.isRemote){
+            EntityTwinSlashManager entitydrive = new EntityTwinSlashManager(world,player);
+            world.spawnEntity(entitydrive);
+        }
+
+    }
+
 }

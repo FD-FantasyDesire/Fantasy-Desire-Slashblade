@@ -75,7 +75,7 @@ public class FreezeZero extends SpecialAttackBase {
 //            evo 0
             SAscale = 1;
         }
-        if (!blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.OverCold", 1).getUnlocalizedName())){
+        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.OverCold", 1).getUnlocalizedName())){
             SAscale = 1;
         }
 
@@ -92,7 +92,8 @@ public class FreezeZero extends SpecialAttackBase {
             entitiDrive.setIsCold(true);
             entitiDrive.setScale(SAscale);
             entitiDrive.setMultiHit(true);
-            entitiDrive.setHitScale(10f);
+            entitiDrive.setHitScale(5f);
+            entitiDrive.setIsOverWall(true);
             entitiDrive.setParticle(EnumParticleTypes.SNOW_SHOVEL);
             entitiDrive.setLifeTime(60);
             entitiDrive.setInterval(0);

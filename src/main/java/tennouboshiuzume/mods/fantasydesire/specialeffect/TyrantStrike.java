@@ -12,6 +12,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
@@ -80,24 +81,33 @@ public class TyrantStrike implements ISpecialEffect, IRemovable {
 //        生成尖碑幻影剑
         if (!world.isRemote){
             if (target != null && !target.isDead){
-                EntityPhantomSwordExBase entityDrive = new EntityPhantomSwordExBase(world,player,magicDamage);
-                entityDrive.setInterval(20);
+                Random random = player.getRNG();
+                float yaw = (float) random.nextInt(360);
+                float pitch = 90f+(float)(random.nextGaussian() * 10f);
+                float roll = (float) (random.nextInt(360) - 180);
+                Vec3d basePos = new Vec3d(0, 0, 1);
+                Vec3d spawnPos = new Vec3d(target.posX, target.posY + target.height/2, target.posZ)
+                        .add(basePos
+                                .rotatePitch((float) Math.toRadians(pitch))
+                                .rotateYaw((float) Math.toRadians(yaw))
+                                .scale(30f));
+                EntitySoulPhantomSword entityDrive = new EntitySoulPhantomSword(world, player, magicDamage);
+                entityDrive.setInitialPosition(
+                        spawnPos.x,
+                        spawnPos.y,
+                        spawnPos.z,
+                        -yaw,
+                        -pitch-180f,
+                        roll,
+                        1.75f);
+                entityDrive.setInterval(0);
                 entityDrive.setScale(2.5f);
                 entityDrive.setLifeTime(120);
                 entityDrive.setColor(0xFF0000);
                 entityDrive.setParticle(EnumParticleTypes.EXPLOSION_LARGE);
                 entityDrive.setIsOverWall(true);
-                Random random = player.getRNG();
-                entityDrive.setInitialPosition(
-                        target.posX+random.nextGaussian()*2,
-                        target.posY+30f+random.nextGaussian()*2,
-                        target.posZ+random.nextGaussian()*2,
-                        0f,
-                        90,
-                        0,
-                        5f
-                );
                 entityDrive.setDriveVector(5.0f);
+                entityDrive.setPotionEffect(new PotionEffect(MobEffects.LEVITATION,20*5,1));
                 entityDrive.setTargetEntityId(target.getEntityId());
                 world.spawnEntity(entityDrive);
             }

@@ -17,4 +17,5 @@ public class FdSEs {
     public static ISpecialEffect ColdLeak = SpecialEffects.register(new ColdLeak());
     public static ISpecialEffect EvolutionIce = SpecialEffects.register(new EvolutionIce());
     public static ISpecialEffect RainbowFlux = SpecialEffects.register(new RainbowFlux());
+    public static ISpecialEffect ColorFlux = SpecialEffects.register(new ColorFlux());
 }

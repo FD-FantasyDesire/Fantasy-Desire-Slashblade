@@ -9,32 +9,57 @@ item.tennouboshiuzume.slashblade.PureSnow.name=§f素雪§3「云音」
 item.tennouboshiuzume.slashblade.Eshahar.name=§a艾夏哈尔
 
 #Desc
-tennouboshiuzume.slashblade.ChikeFlare.desc=§e嗨，是芙蕾雅酱！
-tennouboshiuzume.slashblade.ChikeFlare.desc1=§e带着神的力量出生，真的好累哦！
-tennouboshiuzume.slashblade.ChikeFlare.desc2=§e我到底会怎么样呢？
+item.tennouboshiuzume.slashblade.ChikeFlare.desc=§e嗨，是芙蕾雅酱！
+item.tennouboshiuzume.slashblade.ChikeFlare.desc1=§e带着神的力量出生，真的好累哦！
+item.tennouboshiuzume.slashblade.ChikeFlare.desc2=§e我到底会怎么样呢？
 
-tennouboshiuzume.slashblade.MordernGunblade.desc=§bWG-Zero 智能弹药系统：
-tennouboshiuzume.slashblade.MordernGunblade.desc1=  §f挥砍时发射玩家等级÷10的智能幻影剑，最大连发5
-tennouboshiuzume.slashblade.MordernGunblade.desc2=§aWG-Omega 冲击波发射器：
-tennouboshiuzume.slashblade.MordernGunblade.desc3=  §f挥砍时发射可穿透障碍的高速能量球
-tennouboshiuzume.slashblade.MordernGunblade.desc4=§7通过使用SA来切换两种SE的激活
+item.tennouboshiuzume.slashblade.ChikeFlare.SEdesc=§e不屈之魂
+item.tennouboshiuzume.slashblade.ChikeFlare.SEdesc1=    §f死亡时：消耗1000耀魂免除死亡，并且无敌五秒
+item.tennouboshiuzume.slashblade.ChikeFlare.SEdesc2=    §f绑定效果：发射羽翼幻影剑攻击附近敌人
+item.tennouboshiuzume.slashblade.ChikeFlare.SEdesc3=§6暴虐一击
+item.tennouboshiuzume.slashblade.ChikeFlare.SEdesc4=    §f击中时：有25%%概率召唤尖碑幻影剑从空中攻击，造成敌人最大生命值25%%的伤害
+item.tennouboshiuzume.slashblade.ChikeFlare.SEdesc5=§b灵魂之盾
+item.tennouboshiuzume.slashblade.ChikeFlare.SEdesc6=    §f受击时：将大于5点的伤害降低至5点，有25%%概率完全免除伤害并获得额外生命
 
-tennouboshiuzume.slashblade.CrimsonScythe.desc=§c幻猎 Type-X 能量刃
-tennouboshiuzume.slashblade.CrimsonScythe.desc1=  §f挥砍时发射可穿透障碍的剑气，造成20%%直击伤害
-tennouboshiuzume.slashblade.CrimsonScythe.desc2=§d狩魂 Type-VI 资源回收系统
-tennouboshiuzume.slashblade.CrimsonScythe.desc3=  §f攻击命中时回复生命值和饱食度，耀魂可以提升伤害
+item.tennouboshiuzume.slashblade.MordernGunblade.desc=§f似乎是以距今2070年前，毁灭了前文明的AI核心所制作的武器
+item.tennouboshiuzume.slashblade.MordernGunblade.desc1=§f根据的其系统中的运行日志记载，无数的白光淹没了世界，只有少数人活了下来
+item.tennouboshiuzume.slashblade.MordernGunblade.desc2=§f或许与神的孩子有着什么联系
 
-tennouboshiuzume.slashblade.TwinBlade.desc=§bMOOD§f/§dDOOM §6情感增幅系统
-tennouboshiuzume.slashblade.TwinBlade.desc1=    §f当双持拥有该属性的拔刀时，随评级提升获得额外追击效果,使用SA切换模式
-tennouboshiuzume.slashblade.TwinBlade.desc2=§bMOOD-A §9激燃
-tennouboshiuzume.slashblade.TwinBlade.desc3=    §f向前突进并施放数道交叉斩击
-tennouboshiuzume.slashblade.TwinBlade.desc4=§dDOOM-Z §5厄陨
-tennouboshiuzume.slashblade.TwinBlade.desc5=    §f向前突进并施放漩涡拉近敌人
+item.tennouboshiuzume.slashblade.MordernGunblade.SEdesc=§bWG-Zero 智能弹药系统：
+item.tennouboshiuzume.slashblade.MordernGunblade.SEdesc1=   §f挥砍时：发射玩家等级÷10的智能幻影剑，最大连发5
+item.tennouboshiuzume.slashblade.MordernGunblade.SEdesc2=§aWG-Omega 冲击波发射器：
+item.tennouboshiuzume.slashblade.MordernGunblade.SEdesc3=   §f挥砍时：发射可穿透障碍的高速能量球
+item.tennouboshiuzume.slashblade.MordernGunblade.SEdesc4=§7通过使用SA来切换两种SE的激活
 
-tennouboshiuzume.slashblade.OverCold.desc=§1寒流散逸
-tennouboshiuzume.slashblade.OverCold.desc1=     §f攻击时短暂冻结敌人，绑定主人后扔出可以释放冻结气场
-tennouboshiuzume.slashblade.OverCold.desc2=§b冰河IV型 低温序列
-tennouboshiuzume.slashblade.OverCold.desc3=     §f随着耀魂的增长进化，获得额外效果的同时还会提升§1寒流外溢§f的气场范围
+item.tennouboshiuzume.slashblade.CrimsonScythe.SEdesc=§c幻猎 Type-X 能量刃
+item.tennouboshiuzume.slashblade.CrimsonScythe.SEdesc1=     §f挥砍时：斩出穿透障碍的剑气，造成20%%直击伤害
+item.tennouboshiuzume.slashblade.CrimsonScythe.SEdesc2=§d狩魂 Type-VI 资源回收系统
+item.tennouboshiuzume.slashblade.CrimsonScythe.SEdesc3=     §f击中时：回复1生命值和3饱食度
+item.tennouboshiuzume.slashblade.CrimsonScythe.SEdesc4=     §f击中时：对目标施加3秒虚弱IV效果
+item.tennouboshiuzume.slashblade.CrimsonScythe.SEdesc5=     §f击中时：每拥有2000耀魂可以提升1点基础伤害 §5§n§l虚金刀刃？
+
+
+item.tennouboshiuzume.slashblade.TwinBlade.SEdesc=§bMOOD§f/§dDOOM §6情感增幅系统
+item.tennouboshiuzume.slashblade.TwinBlade.SEdesc1=     §f当双持拥有该属性的拔刀时，随评级提升获得额外追击效果,使用SA切换模式
+item.tennouboshiuzume.slashblade.TwinBlade.SEdesc2=     §f击中时：如果符合条件且评级大于等于S，每次斩击额外追加一次伤害
+item.tennouboshiuzume.slashblade.TwinBlade.SEdesc3=§bMOOD-A §9激燃
+item.tennouboshiuzume.slashblade.TwinBlade.SEdesc4=     §f使用SA时：向前突进并施放数道交叉斩击
+item.tennouboshiuzume.slashblade.TwinBlade.SEdesc5=§dDOOM-Z §5厄陨
+item.tennouboshiuzume.slashblade.TwinBlade.SEdesc6=     §f使用SA时：向前突进并施放漩涡拉近敌人
+
+item.tennouboshiuzume.slashblade.OverCold.SEdesc=§1寒流散逸
+item.tennouboshiuzume.slashblade.OverCold.SEdesc1=     §f击中时：短暂冻结敌人
+item.tennouboshiuzume.slashblade.OverCold.SEdesc2=     §f绑定效果：扔出可以释放冻结气场
+item.tennouboshiuzume.slashblade.OverCold.SEdesc3=§b冰河IV型 低温序列
+item.tennouboshiuzume.slashblade.OverCold.SEdesc4=     §f进化需求：0，300，3000，30000
+item.tennouboshiuzume.slashblade.OverCold.SEdesc5=     §f击中时：如果进化阶段大于3，将有概率产生霜冻新星
+item.tennouboshiuzume.slashblade.OverCold.SEdesc6=     §f产生的霜冻新星击杀不会增加杀敌数量和耀魂，但是触发时+2耀魂
+
+item.tennouboshiuzume.slashblade.PureSnow.SEdesc=§f虹光通量
+item.tennouboshiuzume.slashblade.PureSnow.SEdesc1=      §f挥砍时：斩出虹色光谱刃，造成50%%直击伤害
+item.tennouboshiuzume.slashblade.PureSnow.SEdesc2=      §f常驻效果：使刀刃颜色循环渐变
+item.tennouboshiuzume.slashblade.PureSnow.SEdesc3=§f全色汇流
+item.tennouboshiuzume.slashblade.PureSnow.SEdesc4=      §f击中时：召唤虹色幻影剑追击敌人，造成50%%直击伤害
 
 #Special Attack
 flammpfeil.slashblade.specialattack.WingToTheFutureSA=§6§l翱向未来之翼
@@ -47,7 +72,7 @@ flammpfeil.slashblade.specialattack.TwinSystemL=§6§l启动程式§f§l：§b§
 flammpfeil.slashblade.specialattack.TwinSystemR=§6§l终结程式§f§l：§d§l厄陨
 flammpfeil.slashblade.specialattack.RainOfRainbow=§l§4天§6穹§e虹§a彩§b星§1光§5雨
 flammpfeil.slashblade.specialattack.FreezeZero=§3§kΩ§b永冻§3§kΩ§f：§9零世代
-flammpfeil.slashblade.specialattack.RainbowStar=虹色星海
+flammpfeil.slashblade.specialattack.RainbowStar=Imagination-虹色星海
 
 
 #Special Effect
@@ -68,9 +93,11 @@ slashblade.seffect.name.ColorFlux=§f全色汇流
 #Text
 tennouboshiuzume.tip.ImmortalSoulActive=§e同伴灵魂的炽热传达了过来……
 tennouboshiuzume.tip.ImmortalSoulActive1=§6同伴灵魂的炽热传达了过来……§4没有下次了！
+tennouboshiuzume.tip.WingToTheFutureFail=§4你和同伴还没有建立深刻的联系...
+
 tennouboshiuzume.tip.TwinSetFail=§5没有同时装备对应的另一把双子拔刀…
 tennouboshiuzume.tip.BloodDrainEv=§d§l狩魂 Type-VI：§4§l+%s初始伤害
-tennouboshiuzume.tip.TwinSetActive=§5双子系统：“追刃”效果发动，追加一次斩击
+tennouboshiuzume.tip.TwinSetActive=§5双子系统：“追刃”效果发动，攻击追加斩击
 tennouboshiuzume.tip.GunbladeFail=§4当前的武器并不是一把“枪刃”！
 
 #Misc
@@ -84,13 +111,47 @@ tennouboshiuzume.info.OverCold_0=§e纪元-α§f：§bKaroo
 tennouboshiuzume.info.OverCold_1=§e纪元-Θ§f：§3Andean-Saharan
 tennouboshiuzume.info.OverCold_2=§e纪元-∏§f：§9Cryogenian
 tennouboshiuzume.info.OverCold_3=§e纪元-Ω§f：§1Huronian
-tennouboshiuzume.info.PureSnow=§f纯净无瑕的奇迹造物
+tennouboshiuzume.info.PureSnow=§f纯净的天降奇迹
 tennouboshiuzume.info.Eshahar=§b永恒璀璨彗星
-
 
 #Secret
 
+item.tennouboshiuzume.slashblade.ChikeFlare.secret=§e于垂死的边缘，呼唤你体内沉睡的另一个灵魂
 
+item.tennouboshiuzume.slashblade.MordernGunblade.secret=§b畸形扭曲之物，亦是科技进化的起点
+
+item.tennouboshiuzume.slashblade.CrimsonScythe.secret=§c束魂于熔岩之中献祭，换取炼狱的力量
+
+item.tennouboshiuzume.slashblade.TwinBlade.secret=§6厄运与情绪的双子，在终焉的虚无中浮沉
+
+item.tennouboshiuzume.slashblade.OverCold.secret=§3极寒之地再度冰封，重回史前冰封时代
+
+item.tennouboshiuzume.slashblade.PureSnow.secret=§f纯净无暇的造物，从太古永恒之光中呼唤而来
+
+item.tennouboshiuzume.slashblade.Eshahar.secret=§a不可能之物
+
+#Crafting
+
+item.tennouboshiuzume.slashblade.ChikeFlare.crafting=§e生命值低于4点时，使用任意拔刀剑发动SA：灵魂连接
+
+item.tennouboshiuzume.slashblade.MordernGunblade.crafting=§bTNT爆炸波及放置枯石太刀的耀魂铁锭刀挂台
+
+item.tennouboshiuzume.slashblade.CrimsonScythe.crafting=§c将1000以上击杀的无铭·无名放置在岩浆中的耀魂铁锭刀挂台上
+
+item.tennouboshiuzume.slashblade.TwinBlade.crafting=§6将1000以上击杀的无铭·无铭附魔上耐久III，放置于末地虚空中的耀魂铁锭刀挂台上
+
+item.tennouboshiuzume.slashblade.OverCold.crafting=§3将1000以上击杀的无铭·无名放置在冰刺之地的耀魂铁锭刀挂台上，下方需要有冰块
+
+item.tennouboshiuzume.slashblade.PureSnow.crafting=§f将1000以上击杀的无铭·无名放置在主世界Y>250的耀魂铁锭刀挂台上，于正午时转化
+
+item.tennouboshiuzume.slashblade.Eshahar.crafting=§4无获得方式
+
+
+#tooltips
+tennouboshiuzume.slashblade.info.hold=按住
+tennouboshiuzume.slashblade.info.shift=SHIFT
+tennouboshiuzume.slashblade.info.ctrl=CTRL
+tennouboshiuzume.slashblade.info.forEffectDetails=查看效果介绍
 
 #代码	官方名称
 #MOTD代码

@@ -53,7 +53,6 @@ public class RainOfRainbow extends SpecialAttackBase {
                 for (int z = 0; z < Math.min(20, target.size()); z++) {
                     for (int i = 0; i < rains; i++) {
                         EntityLivingBase targetEntity = TargetUtils.setTargetEntityFromListByEntity(z, target);
-                        Vec3d targetPos = targetEntity.getPositionVector();
                         Vec3d spawnPos = new Vec3d(
                                 targetEntity.posX + random.nextGaussian(),
                                 targetEntity.posY + 20f + random.nextGaussian() * 2,
@@ -65,7 +64,6 @@ public class RainOfRainbow extends SpecialAttackBase {
                                 spawnPos.x,
                                 spawnPos.y,
                                 spawnPos.z,
-//                            (float) (random.nextGaussian()*60),
                                 random.nextInt(360),
                                 (float) (90f + random.nextGaussian() * 5),
                                 0f,

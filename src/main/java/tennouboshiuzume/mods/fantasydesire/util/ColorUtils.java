@@ -1,7 +1,7 @@
 package tennouboshiuzume.mods.fantasydesire.util;
 
 public class ColorUtils {
-    public static int getSmoothTransitionColor(int step, int totalSteps) {
+    public static int getSmoothTransitionColor(float step, int totalSteps) {
         // 将渐变过程分成三个阶段，计算每个阶段的长度
 //        step += (int) (totalSteps/6);
         float phaseLength = (float) totalSteps / 3;
@@ -44,7 +44,7 @@ public class ColorUtils {
         return (r << 16) | (g << 8) | b;
     }
 
-    public static int getSmoothTransitionColor(int step, int totalSteps,Boolean isHex) {
+    public static int getSmoothTransitionColor(float step, int totalSteps,Boolean isHex) {
         // 将渐变过程分成六个阶段，计算每个阶段的长度
         int phaseLength = totalSteps / 6;
 

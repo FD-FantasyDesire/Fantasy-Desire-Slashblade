@@ -51,21 +51,25 @@ import java.util.logging.Level;
 
 public class ImmortalSoul implements ISpecialEffect, IRemovable {
     private static final String EffectKey = "ImmortalSoul";
-//    当玩家死亡时，如果耀魂大于1000，免除该次死亡，并且攻击伤害+2
+
+    //    当玩家死亡时，如果耀魂大于1000，免除该次死亡，并且攻击伤害+2
     @SubscribeEvent
-    public void onPlayerDeath(LivingDeathEvent event){
+    public void onPlayerDeath(LivingDeathEvent event) {
         if (!(event.getEntityLiving() instanceof EntityPlayer)) return;
         EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-        ItemStack blade ;
-        if ((player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemSlashBlade)){
-            blade = player.getHeldItem(EnumHand.MAIN_HAND);
-        } else if ((player.getHeldItem(EnumHand.OFF_HAND).getItem() instanceof ItemSlashBlade)) {
-            blade = player.getHeldItem(EnumHand.OFF_HAND);
-        }else {
+        ItemStack blade;
+        ItemStack MainBlade = player.getHeldItem(EnumHand.MAIN_HAND);
+        ItemStack OffBlade = player.getHeldItem(EnumHand.OFF_HAND);
+
+        if ((MainBlade.getItem() instanceof ItemSlashBlade && MainBlade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))) {
+            blade = MainBlade;
+        } else if ((OffBlade.getItem() instanceof ItemSlashBlade && OffBlade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))) {
+            blade = OffBlade;
+        } else {
             return;
         }
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(blade);
-        switch (SpecialEffects.isEffective(player,blade, FdSEs.ImmortalSoul)){
+        switch (SpecialEffects.isEffective(player, blade, FdSEs.ImmortalSoul)) {
             /** 任何时候可触发 */
             case None:
                 return;
@@ -77,17 +81,17 @@ public class ImmortalSoul implements ISpecialEffect, IRemovable {
                 break;
         }
         World world = player.world;
-        if (!ItemSlashBlade.ProudSoul.tryAdd( tag,-1000,false)) return;
-        ItemSlashBlade.setBaseAttackModifier(tag,ItemSlashBlade.BaseAttackModifier.get(tag)+2);
-        player.world.playSound(null,player.posX,player.posY,player.posZ,SoundEvents.ITEM_TOTEM_USE, SoundCategory.PLAYERS,1.0f,2.0f);
-        ParticleUtils.spawnParticle(world,EnumParticleTypes.END_ROD,false,player.posX,player.posY+player.height/2,player.posZ,200,0 ,0 ,0,0.5f);
-        player.setHealth(player.getMaxHealth()/2);
-        player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE,20*6,5));
-        player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION,20*6,10));
-        if(ItemSlashBlade.ProudSoul.get(tag)>=1000){
-            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.ImmortalSoulActive")),true);
-        }else {
-            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.ImmortalSoulActive1")),true);
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, -1000, false)) return;
+        ItemSlashBlade.setBaseAttackModifier(tag, ItemSlashBlade.BaseAttackModifier.get(tag) + 2);
+        player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_TOTEM_USE, SoundCategory.PLAYERS, 1.0f, 2.0f);
+        ParticleUtils.spawnParticle(world, EnumParticleTypes.END_ROD, false, player.posX, player.posY + player.height / 2, player.posZ, 200, 0, 0, 0, 0.5f);
+        player.setHealth(player.getMaxHealth() / 2);
+        player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 20 * 6, 5));
+        player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 20 * 6, 10));
+        if (ItemSlashBlade.ProudSoul.get(tag) >= 1000) {
+            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.ImmortalSoulActive")), true);
+        } else {
+            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.ImmortalSoulActive1")), true);
         }
         event.setCanceled(true);
     }
@@ -112,7 +116,7 @@ public class ImmortalSoul implements ISpecialEffect, IRemovable {
                     return;
                 }
 //                检查是否生效
-                switch (SpecialEffects.isEffective(player,event.blade, FdSEs.ImmortalSoul)){
+                switch (SpecialEffects.isEffective(player, event.blade, FdSEs.ImmortalSoul)) {
                     /** 任何时候可触发 */
                     case None:
                         return;
@@ -124,7 +128,7 @@ public class ImmortalSoul implements ISpecialEffect, IRemovable {
                         break;
                 }
 //                搜索附近可攻击目标
-                List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(event.entityBladeStand , 15 , player,false);
+                List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(event.entityBladeStand, 15, player, false);
 //                System.out.println(target);
                 Collections.shuffle(target);
                 if (!target.isEmpty()) {

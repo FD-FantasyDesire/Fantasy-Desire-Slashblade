@@ -65,9 +65,8 @@ public class MathUtils
         return angdeg * (float)Math.PI / 180.0f;
     }
 
-
+    static Random random = new Random();
     public static boolean randomCheck(int chance){
-        Random random = new Random();
         // 生成 0 到 99 之间的随机数，检查是否小于等于 chance
         return random.nextInt(100) < chance;
     }
