@@ -11,8 +11,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
@@ -20,6 +22,7 @@ import net.minecraft.world.World;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityDriveEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverCharge;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
+import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
 import tennouboshiuzume.mods.fantasydesire.util.ColorUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
@@ -199,21 +202,45 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
 
         magicDamage*=Math.max(rank,1);
-
+        List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player, 30, player, true));
+        player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH,30 * 20,target.size()));
+        player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION,30 * 20,target.size()));
         if (!world.isRemote) {
-            List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(player, 20f, false);
-            for (int i = 0; i < target.size(); i++) {
-                EntityLivingBase targetEntity = TargetUtils.setTargetEntityFromListByEntity(i, target);
-                Random random = targetEntity.getRNG();
-                EntityOverCharge entityDrive = new EntityOverCharge(world, player, magicDamage);
-                entityDrive.setInitialPosition(targetEntity.posX, targetEntity.posY + targetEntity.height / 2, targetEntity.posZ, targetEntity.rotationYaw, random.nextInt(90), random.nextInt(90), 0f);
-                entityDrive.setColor(ColorUtils.getSmoothTransitionColor(i, target.size()));
-                entityDrive.setRainbow(true, i, 60, 1);
-                entityDrive.setScale(1.5f);
-                entityDrive.setLifeTime(40);
-                entityDrive.setMultiHit(true);
-                world.spawnEntity(entityDrive);
-            }
+            Random random = player.getRNG();
+            if (!target.isEmpty()) {
+                int count = 0;
+                for (EntityLivingBase targetEntity : target) {
+                        float yaw = 360f / target.size()* count;
+                        float pitch = 90f+(float)(random.nextGaussian() * 10f);
+                        float roll = (float) (random.nextInt(360) - 180);
+                        Vec3d basePos = new Vec3d(0, 0, 1);
+                        Vec3d spawnPos = new Vec3d(targetEntity.posX, targetEntity.posY + targetEntity.height/2, targetEntity.posZ)
+                                .add(basePos
+                                        .rotatePitch((float) Math.toRadians(pitch))
+                                        .rotateYaw((float) Math.toRadians(yaw))
+                                        .scale(10f));
+
+                        EntityPhantomSwordExBase entityDrive = new EntityPhantomSwordExBase(world, player, magicDamage);
+                        entityDrive.setInitialPosition(
+                                spawnPos.x,
+                                spawnPos.y,
+                                spawnPos.z,
+                                -yaw,
+                                -pitch-180f,
+                                roll,
+                                1.75f
+                        );
+                        entityDrive.setInterval(0);
+                        entityDrive.setColor(0xFF0000);
+                        entityDrive.setTargetEntityId(targetEntity.getEntityId());
+                        entityDrive.setIsOverWall(true);
+                        entityDrive.setScale(5f);
+                        entityDrive.setLifeTime(60);
+                        world.spawnEntity(entityDrive);
+                        count++;
+                    }
+                }
+
         }
 
         ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.Kiriorosi);

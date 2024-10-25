@@ -16,6 +16,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
@@ -24,6 +26,7 @@ import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.entity.player.EntityPlayer;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverCharge;
+import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.MathUtils;
@@ -106,17 +109,35 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
     private void summonFrostStar(World world,EntityPlayer player,EntityLivingBase target, int duration,float damage,float hitScale,int color){
         Random random = player.getRNG();
         if (!world.isRemote){
-            EntityOverCharge entityDrive = new EntityOverCharge(world,player,damage);
-            entityDrive.setInitialPosition(target.posX,target.posY+target.height/2,target.posZ,0,0,0,0);
+            float yaw = (float) (random.nextInt(360));
+            float pitch = -90f + (float) (random.nextGaussian() * 10f);
+            float roll = (float) (random.nextInt(360)-180);
+            Vec3d basePos = new Vec3d(0,0,1);
+            Vec3d spawnPos = new Vec3d(target.posX,target.posY+target.height/2,target.posZ)
+                    .add(basePos
+                            .rotatePitch((float) Math.toRadians(pitch))
+                            .rotateYaw((float) Math.toRadians(yaw))
+                            .scale(5f));
+            EntityPhantomSwordExBase entityDrive = new EntityPhantomSwordExBase(world, player, damage);
+            entityDrive.setInitialPosition(
+                    spawnPos.x,
+                    spawnPos.y,
+                    spawnPos.z,
+                    -yaw,
+                    -pitch + 180f,
+                    roll,
+                    1.75f
+            );
             entityDrive.setInterval(duration);
             entityDrive.setColor(freezeColor[random.nextInt(color)]);
-            entityDrive.setScale(0.5f);
-            entityDrive.setHitScale(hitScale);
+            entityDrive.setScale(3f);
+            entityDrive.setInterval(0);
+            entityDrive.setSound(SoundEvents.BLOCK_GLASS_BREAK,1,0.5f);
+            entityDrive.setTargetEntityId(target.getEntityId());
             entityDrive.setIsOverWall(true);
             entityDrive.setIsNonPlayer(true);
             entityDrive.setLifeTime(20);
             world.spawnEntity(entityDrive);
-
         }
     }
     private final int[] freezeColor = new int[]{

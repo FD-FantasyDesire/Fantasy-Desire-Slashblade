@@ -55,6 +55,13 @@ public class EntitySeekSoulPhantomSword extends EntityPhantomSwordEx{
 
             target.attackEntityFrom(ds, magicDamage);
 
+            if (getTrueDamage()){
+                if (target instanceof EntityLivingBase){
+                    EntityLivingBase entityTarget =(EntityLivingBase) target;
+                    entityTarget.setHealth(entityTarget.getHealth() - (entityTarget.getMaxHealth() * TrueDamageLevel / 100) );
+                }
+            }
+
             if(!blade.isEmpty() && target instanceof EntityLivingBase && thrower != null && thrower instanceof EntityLivingBase){
                 StylishRankManager.setNextAttackType(this.thrower, StylishRankManager.AttackTypes.PhantomSword);
                 if (!getIsNonPlayer()) {
@@ -62,6 +69,10 @@ public class EntitySeekSoulPhantomSword extends EntityPhantomSwordEx{
                 }
                 if (!target.isEntityAlive())
                     ((EntityLivingBase)thrower).heal(1.0F);
+
+                if (getTrueDamage() && target.isEntityAlive()){
+                    ((EntityLivingBase) target).setHealth(((EntityLivingBase) target).getHealth() - TrueDamageLevel);
+                }
 
                 ReflectionAccessHelper.setVelocity(target, 0, 0, 0);
                 target.addVelocity(0.0, 0.1D, 0.0);

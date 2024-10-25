@@ -57,6 +57,13 @@ public class EntitySoulPhantomSword extends EntityPhantomSwordExBase {
             DamageSource ds = new EntityDamageSource("directMagic", this.getThrower()).setDamageIsAbsolute().setDamageAllowedInCreativeMode();
             target.attackEntityFrom(ds, magicDamage);
 
+            if (getTrueDamage()){
+                if (target instanceof EntityLivingBase){
+                    EntityLivingBase entityTarget =(EntityLivingBase) target;
+                    entityTarget.setHealth(entityTarget.getHealth() - (entityTarget.getMaxHealth() * TrueDamageLevel / 100) );
+                }
+            }
+
             if (!blade.isEmpty() && target instanceof EntityLivingBase && thrower != null && thrower instanceof EntityLivingBase) {
                 StylishRankManager.setNextAttackType(this.thrower, StylishRankManager.AttackTypes.PhantomSword);
                 StylishRankManager.doAttack(thrower);

@@ -1,22 +1,33 @@
 package tennouboshiuzume.mods.fantasydesire.named;
 
 
+import mods.flammpfeil.slashblade.SlashBlade;
+import mods.flammpfeil.slashblade.entity.EntityBladeStand;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.named.event.LoadEvent;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
+import mods.flammpfeil.slashblade.util.SlashBladeEvent;
 import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.init.Biomes;
 import net.minecraft.init.Enchantments;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tennouboshiuzume.mods.fantasydesire.init.FdBlades;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
+import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
+import tennouboshiuzume.mods.fantasydesire.util.WorldBladeStandCrafting;
 
 public class OverCold {
     String name = "tennouboshiuzume.slashblade.OverCold";
@@ -39,20 +50,9 @@ public class OverCold {
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xAAFFFF);
         SpecialEffects.addEffect(customblade, FdSEs.ColdLeak);
         SpecialEffects.addEffect(customblade, FdSEs.EvolutionIce);
-        NBTTagList loreList = new NBTTagList();
-        loreList.appendTag(new NBTTagString("desc"));
-        loreList.appendTag(new NBTTagString("desc1"));
-        loreList.appendTag(new NBTTagString("desc2"));
-        tag.setTag("BladeLore", loreList);
-        NBTTagList seLoreList = new NBTTagList();
-        seLoreList.appendTag(new NBTTagString("SEdesc"));
-        seLoreList.appendTag(new NBTTagString("SEdesc1"));
-        seLoreList.appendTag(new NBTTagString("SEdesc2"));
-        seLoreList.appendTag(new NBTTagString("SEdesc3"));
-        seLoreList.appendTag(new NBTTagString("SEdesc4"));
-        seLoreList.appendTag(new NBTTagString("SEdesc5"));
-        seLoreList.appendTag(new NBTTagString("SEdesc6"));
-        tag.setTag("EffectLore", seLoreList);
+        tag.setInteger("BladeLore",  2);
+        tag.setInteger("SpecialEffectLore", 7);
+        tag.setInteger("SpecialAttackLore", 4);
         customblade.addEnchantment(Enchantments.FROST_WALKER,5);
         customblade.addEnchantment(Enchantments.FIRE_PROTECTION,5);
         customblade.addEnchantment(Enchantments.UNBREAKING,3);
@@ -63,23 +63,36 @@ public class OverCold {
     public void postinit(LoadEvent.PostInitEvent event){
         SlashBladeHooks.EventBus.register(this);
     }
-//    @SubscribeEvent
-//    public void onBladeStandAttack(SlashBladeEvent.BladeStandAttack event){
-////      是否有刀
-//        if(!event.entityBladeStand.hasBlade()) return;
-//        if(!event.entityBladeStand.isBurning()) return;
-////      是否为单刀挂架
-//        if(EntityBladeStand.getType(event.entityBladeStand) != EntityBladeStand.StandType.Single) return;
-////      是否为爆炸造成伤害
-//        if(!(event.damageSource.getTrueSource() instanceof EntityPlayer)) return;
-//        if (!event.damageSource.isExplosion()) return;
-//        if(!event.damageSource.getDamageType().equals("explosion.player")) return;
-//
-//        ItemStack targetBlade = BladeUtils.findItemStack(SlashBlade.modid,materialName,1);
-//        if(!event.blade.getUnlocalizedName().equals(targetBlade.getUnlocalizedName())) return;
-//
-//        ItemStack resultBlade = WorldBladeStandCrafting.crafting(event.blade,name);
-//
-//        event.entityBladeStand.setBlade(resultBlade);
-//    }
+    @SubscribeEvent
+    public void onBladeStandUpdate(SlashBladeEvent.OnEntityBladeStandUpdateEvent event){
+
+        if(!event.entityBladeStand.hasBlade()) return;
+
+        if(EntityBladeStand.getType(event.entityBladeStand) != EntityBladeStand.StandType.Single) return;
+
+        Biome biome = event.entityBladeStand.world.getBiome(event.entityBladeStand.getPosition());
+
+        if (!(biome.getRegistryName().equals(new ResourceLocation("minecraft", "mutated_ice_flats")))) return;
+
+        ItemStack targetBlade = SlashBlade.findItemStack(SlashBlade.modid,"slashbladeNamed",1);
+
+        NBTTagCompound tag = event.blade.getTagCompound();
+
+        if (!(ItemSlashBlade.ProudSoul.get(tag)>=1000)) return;
+
+        if(!event.blade.getUnlocalizedName().equals(targetBlade.getUnlocalizedName())) return;
+
+        ItemStack resultBlade = WorldBladeStandCrafting.crafting(event.blade,name);
+
+        event.entityBladeStand.playSound(SoundEvents.BLOCK_GLASS_BREAK,1,0.5f);
+
+        ParticleUtils.spawnParticle(event.entityBladeStand.world, EnumParticleTypes.SNOW_SHOVEL,
+                false,
+                event.entityBladeStand.posX,
+                event.entityBladeStand.posY + event.entityBladeStand.height / 2,
+                event.entityBladeStand.posZ,
+                200, 1, 1, 1, 0.5f);
+
+        event.entityBladeStand.setBlade(resultBlade);
+    }
 }

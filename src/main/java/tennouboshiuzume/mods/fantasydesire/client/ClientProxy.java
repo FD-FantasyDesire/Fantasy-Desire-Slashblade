@@ -1,4 +1,5 @@
 package tennouboshiuzume.mods.fantasydesire.client;
+
 import mods.flammpfeil.slashblade.client.renderer.entity.InvisibleRender;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -19,7 +20,7 @@ import tennouboshiuzume.mods.fantasydesire.util.ItemUtils;
 public class ClientProxy extends CommonProxy {
 
     @Override
-    public void preInit(FMLPreInitializationEvent event){
+    public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
         new ItemUtils();
 
@@ -27,8 +28,7 @@ public class ClientProxy extends CommonProxy {
                 EntityDriveEx.class,
                 new IRenderFactory<EntityDriveEx>() {
                     @Override
-                    public Render<? super EntityDriveEx> createRenderFor(RenderManager manager)
-                    {
+                    public Render<? super EntityDriveEx> createRenderFor(RenderManager manager) {
                         return new RenderDriveEx(manager);
                     }
                 });
@@ -36,8 +36,7 @@ public class ClientProxy extends CommonProxy {
                 EntityPhantomSwordEx.class,
                 new IRenderFactory<EntityPhantomSwordEx>() {
                     @Override
-                    public Render<? super EntityPhantomSwordEx> createRenderFor(RenderManager manager)
-                    {
+                    public Render<? super EntityPhantomSwordEx> createRenderFor(RenderManager manager) {
                         return new RenderPhantomSwordEx(manager);
                     }
                 });
@@ -45,8 +44,7 @@ public class ClientProxy extends CommonProxy {
                 EntityPhantomSwordExBase.class,
                 new IRenderFactory<EntityPhantomSwordExBase>() {
                     @Override
-                    public Render<? super EntityPhantomSwordExBase> createRenderFor(RenderManager manager)
-                    {
+                    public Render<? super EntityPhantomSwordExBase> createRenderFor(RenderManager manager) {
                         return new RenderPhantomSwordExBase(manager);
                     }
                 });
@@ -90,18 +88,34 @@ public class ClientProxy extends CommonProxy {
                     public Render<? super EntityTwinSlashManager> createRenderFor(RenderManager renderManager) {
                         return new InvisibleRender(renderManager);
                     }
+                });
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityIceFallManager.class,
+                new IRenderFactory<EntityIceFallManager>() {
+                    @Override
+                    public Render<? super EntityIceFallManager> createRenderFor(RenderManager renderManager) {
+                        return new InvisibleRender(renderManager);
+                    }
+                });
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityBeam.class,
+                new IRenderFactory<EntityBeam>() {
+                    @Override
+                    public Render<? super EntityBeam> createRenderFor(RenderManager renderManager) {
+                        return new RenderBeamEntity(renderManager);
+                    }
                 }
         );
     }
 
 
     @Override
-    public void init(FMLInitializationEvent event){
+    public void init(FMLInitializationEvent event) {
         super.init(event);
     }
 
     @Override
-    public void postInit(FMLPostInitializationEvent event){
+    public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
     }
 

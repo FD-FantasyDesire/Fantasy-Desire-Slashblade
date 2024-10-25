@@ -4,6 +4,7 @@ import javafx.scene.effect.Effect;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.entity.EntityDrive;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
+import mods.flammpfeil.slashblade.specialeffect.IRemovable;
 import mods.flammpfeil.slashblade.specialeffect.ISpecialEffect;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import mods.flammpfeil.slashblade.util.SlashBladeEvent;
@@ -35,7 +36,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class TripleBullet implements ISpecialEffect {
+public class TripleBullet implements ISpecialEffect, IRemovable {
     private static final String EffectKey = "TripleBullet";
 
     /**
@@ -148,5 +149,15 @@ public class TripleBullet implements ISpecialEffect {
     @Override
     public String getEffectKey() {
         return EffectKey;
+    }
+
+    @Override
+    public boolean canCopy(ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public boolean canRemoval(ItemStack stack) {
+        return false;
     }
 }

@@ -50,7 +50,8 @@ public class OverCharge extends SpecialAttackBase {
             int rank = StylishRankManager.getStylishRank(player);
             if(5 <= rank)
                 magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level /5.0f));
-            
+            magicDamage*=Math.max(rank,1);
+
             EntityOverChargeBFG entityDrive = new EntityOverChargeBFG(world,player,magicDamage);
             entityDrive.setColor(0x99FF00);
             entityDrive.setBFG(true);

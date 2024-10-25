@@ -1,8 +1,11 @@
 package tennouboshiuzume.mods.fantasydesire.named;
 
+import mods.flammpfeil.slashblade.SlashBlade;
+import mods.flammpfeil.slashblade.entity.EntityBladeStand;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.named.event.LoadEvent;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
+import mods.flammpfeil.slashblade.util.SlashBladeEvent;
 import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Enchantments;
@@ -16,10 +19,11 @@ import tennouboshiuzume.mods.fantasydesire.init.FdBlades;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
+import tennouboshiuzume.mods.fantasydesire.util.WorldBladeStandCrafting;
 
 public class TwinBlade {
     String name = "tennouboshiuzume.slashblade.TwinBlade";
-    String materialName = "flammpfeil.slashblade.named.yamato";
+    String materialName = "flammpfeil.slashblade.named";
     @SubscribeEvent
     public void init(LoadEvent.InitEvent event){
         ItemStack customblade = new ItemStack(FdBlades.Fd_BLADE,1,0);
@@ -41,26 +45,38 @@ public class TwinBlade {
         customblade.addEnchantment(Enchantments.FLAME,5);
         customblade.addEnchantment(Enchantments.BLAST_PROTECTION,3);
         customblade.addEnchantment(Enchantments.FIRE_PROTECTION,3);
-
-        NBTTagList loreList = new NBTTagList();
-        loreList.appendTag(new NBTTagString("desc"));
-        loreList.appendTag(new NBTTagString("desc1"));
-        loreList.appendTag(new NBTTagString("desc2"));
-        tag.setTag("BladeLore", loreList);
-        NBTTagList seLoreList = new NBTTagList();
-        seLoreList.appendTag(new NBTTagString("SEdesc"));
-        seLoreList.appendTag(new NBTTagString("SEdesc1"));
-        seLoreList.appendTag(new NBTTagString("SEdesc2"));
-        seLoreList.appendTag(new NBTTagString("SEdesc3"));
-        seLoreList.appendTag(new NBTTagString("SEdesc4"));
-        seLoreList.appendTag(new NBTTagString("SEdesc5"));
-        seLoreList.appendTag(new NBTTagString("SEdesc6"));
-        tag.setTag("EffectLore", seLoreList);
+        tag.setInteger("BladeLore",  3);
+        tag.setInteger("SpecialEffectLore", 4);
+        tag.setInteger("SpecialAttackLore", 4);
         BladeUtils.registerCustomItemStack(name, customblade);
         BladeUtils.FdNamedBlades.add(name);
     }
     @SubscribeEvent
     public void postinit(LoadEvent.PostInitEvent event){
         SlashBladeHooks.EventBus.register(this);
+    }
+
+    @SubscribeEvent
+    public void OnBladeStandUpdate(SlashBladeEvent.OnEntityBladeStandUpdateEvent event){
+
+        if(!event.entityBladeStand.hasBlade()) return;
+
+        if(EntityBladeStand.getType(event.entityBladeStand) != EntityBladeStand.StandType.Single) return;
+
+        if (!(event.entityBladeStand.world.provider.getDimension() == 1)) return;
+
+        if (event.entityBladeStand.posY>2) return;
+
+        ItemStack targetBlade = SlashBlade.findItemStack(SlashBlade.modid,"slashbladeNamed",1);
+        
+        NBTTagCompound tag = event.blade.getTagCompound();
+
+        if (!(ItemSlashBlade.ProudSoul.get(tag)>=1000)) return;
+
+        if(!event.blade.getUnlocalizedName().equals(targetBlade.getUnlocalizedName())) return;
+
+        ItemStack resultBlade = WorldBladeStandCrafting.crafting(event.blade,name);
+
+        event.entityBladeStand.setBlade(resultBlade);
     }
 }

@@ -107,6 +107,7 @@ public class TyrantStrike implements ISpecialEffect, IRemovable {
                 entityDrive.setParticle(EnumParticleTypes.EXPLOSION_LARGE);
                 entityDrive.setIsOverWall(true);
                 entityDrive.setDriveVector(5.0f);
+                entityDrive.setTrueDamage(true,5);
                 entityDrive.setPotionEffect(new PotionEffect(MobEffects.LEVITATION,20*5,1));
                 entityDrive.setTargetEntityId(target.getEntityId());
                 world.spawnEntity(entityDrive);

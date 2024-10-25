@@ -1,6 +1,7 @@
 package tennouboshiuzume.mods.fantasydesire.util;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.Random;
 
@@ -69,6 +70,12 @@ public class MathUtils
     public static boolean randomCheck(int chance){
         // 生成 0 到 99 之间的随机数，检查是否小于等于 chance
         return random.nextInt(100) < chance;
+    }
+    static double getDistancePos(double startX,double startY,double startZ,double endX,double endY,double endZ) {
+        double f = startX - endX;
+        double f1 = startY - endY;
+        double f2 = startZ - endZ;
+        return MathHelper.sqrt(f * f + f1 * f1 + f2 * f2);
     }
 
 };

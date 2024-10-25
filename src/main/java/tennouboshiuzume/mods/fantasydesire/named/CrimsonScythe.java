@@ -17,17 +17,21 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tennouboshiuzume.mods.fantasydesire.init.FdBlades;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.EnchantmentTransfer;
+import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 import tennouboshiuzume.mods.fantasydesire.util.WorldBladeStandCrafting;
 
 public class CrimsonScythe {
@@ -51,19 +55,9 @@ public class CrimsonScythe {
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xFF0000);
         SpecialEffects.addEffect(customblade,FdSEs.CrimsonStrike);
         SpecialEffects.addEffect(customblade,FdSEs.BloodDrain);
-        NBTTagList loreList = new NBTTagList();
-        loreList.appendTag(new NBTTagString("desc"));
-        loreList.appendTag(new NBTTagString("desc1"));
-        loreList.appendTag(new NBTTagString("desc2"));
-        tag.setTag("BladeLore", loreList);
-        NBTTagList seLoreList = new NBTTagList();
-        seLoreList.appendTag(new NBTTagString("SEdesc"));
-        seLoreList.appendTag(new NBTTagString("SEdesc1"));
-        seLoreList.appendTag(new NBTTagString("SEdesc2"));
-        seLoreList.appendTag(new NBTTagString("SEdesc3"));
-        seLoreList.appendTag(new NBTTagString("SEdesc4"));
-        seLoreList.appendTag(new NBTTagString("SEdesc5"));
-        tag.setTag("EffectLore", seLoreList);
+        tag.setTag("BladeLore",  new NBTTagInt(3));
+        tag.setTag("SpecialEffectLore", new NBTTagInt(6));
+        tag.setTag("SpecialAttackLore", new NBTTagInt(5));
         customblade.addEnchantment(Enchantments.UNBREAKING, 6);
         customblade.addEnchantment(Enchantments.SHARPNESS,6);
         customblade.addEnchantment(Enchantments.LOOTING,6);
@@ -79,20 +73,33 @@ public class CrimsonScythe {
     }
     @SubscribeEvent
     public void onBladeStandAttack(SlashBladeEvent.BladeStandAttack event){
-//      是否有刀
-        if(!event.entityBladeStand.hasBlade()) return;
-        if(!event.entityBladeStand.isBurning()) return;
-//      是否为单刀挂架
-        if(EntityBladeStand.getType(event.entityBladeStand) != EntityBladeStand.StandType.Single) return;
-//      是否为爆炸造成伤害
-        if(!(event.damageSource.getTrueSource() instanceof EntityPlayer)) return;
-        if (!event.damageSource.isExplosion()) return;
-        if(!event.damageSource.getDamageType().equals("explosion.player")) return;
 
-        ItemStack targetBlade = BladeUtils.findItemStack(SlashBlade.modid,materialName,1);
+        if(!event.entityBladeStand.hasBlade()) return;
+
+        if(EntityBladeStand.getType(event.entityBladeStand) != EntityBladeStand.StandType.Single) return;
+
+        if (!event.entityBladeStand.isInLava()) return;
+
+        if (!(event.entityBladeStand.world.provider.getDimension() == -1)) return;
+
+        ItemStack targetBlade = SlashBlade.findItemStack(SlashBlade.modid,"slashbladeNamed",1);
+
+        NBTTagCompound tag = event.blade.getTagCompound();
+
+        if (!(ItemSlashBlade.ProudSoul.get(tag)>=1000)) return;
+
         if(!event.blade.getUnlocalizedName().equals(targetBlade.getUnlocalizedName())) return;
 
         ItemStack resultBlade = WorldBladeStandCrafting.crafting(event.blade,name);
+
+        event.entityBladeStand.playSound(SoundEvents.ITEM_FIRECHARGE_USE,1,0.5f);
+
+        ParticleUtils.spawnParticle(event.entityBladeStand.world, EnumParticleTypes.LAVA,
+                false,
+                event.entityBladeStand.posX,
+                event.entityBladeStand.posY + event.entityBladeStand.height / 2,
+                event.entityBladeStand.posZ,
+                200, 1, 1, 1, 0.5f);
 
         event.entityBladeStand.setBlade(resultBlade);
     }

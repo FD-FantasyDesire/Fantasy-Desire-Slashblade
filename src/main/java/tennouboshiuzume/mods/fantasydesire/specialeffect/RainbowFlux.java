@@ -29,6 +29,7 @@ import tennouboshiuzume.mods.fantasydesire.entity.EntityDriveEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverChargeBFG;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
+import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ColorUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
@@ -74,6 +75,15 @@ public class RainbowFlux implements ISpecialEffect {
 
         int color = ColorUtils.getSmoothTransitionColor(((int) world.getWorldTime()%120),120,true);
         ItemSlashBlade.SummonedSwordColor.set(tag, color);
+
+        switch (SpecialEffects.isEffective(player, event.blade, FdSEs.PrismFlux)) {
+            case None:
+                break;
+            case Effective:
+                return;
+            case NonEffective:
+                break;
+        }
 
         if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.PureSnow", 1).getUnlocalizedName()))return;
 

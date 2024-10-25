@@ -4,6 +4,7 @@ import mods.flammpfeil.slashblade.ability.UntouchableTime;
 import mods.flammpfeil.slashblade.entity.EntityDrive;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
+import mods.flammpfeil.slashblade.specialattack.ISuperSpecialAttack;
 import mods.flammpfeil.slashblade.specialattack.SpecialAttackBase;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
@@ -14,26 +15,25 @@ import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityOverCharge;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityOverChargeBFG;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
-import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
+import tennouboshiuzume.mods.fantasydesire.entity.*;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 /**
  * Created by Furia on 14/05/27.
  */
-public class ChargeShot extends SpecialAttackBase {
+public class ChargeShot extends SpecialAttackBase implements ISuperSpecialAttack {
     @Override
     public String toString() {
         return "ChargeShot";
@@ -60,11 +60,12 @@ public class ChargeShot extends SpecialAttackBase {
         int rank = StylishRankManager.getStylishRank(player);
         if(5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+        magicDamage*=Math.max(rank,1);
 
         if (!world.isRemote) {
 
             ItemSlashBlade.TextureName.set(tag,"named/SmartPistol_OC");
-            ItemSlashBlade.SummonedSwordColor.set(tag,0x99FF99);
+            ItemSlashBlade.SummonedSwordColor.set(tag,0x99FF00);
             ItemSlashBlade.SpecialAttackType.set(tag,202);
 
             List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player,30,player,false));
@@ -122,5 +123,48 @@ public class ChargeShot extends SpecialAttackBase {
         }
 
         ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.Kiriage);
+    }
+    @Override
+    public void doSuperSpecialAttack(ItemStack stack,EntityPlayer player){
+        World world = player.world;
+
+        NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
+
+        if(!world.isRemote){
+            List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(player, 60f, false);
+            Collections.shuffle(target);
+
+            int count = Math.max(3,Math.min(12,(int) Math.sqrt(player.experienceLevel)));
+
+            ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
+
+            int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
+            float baseModif = blade.getBaseAttackModifiers(tag);
+            float magicDamage = 1.0f + (baseModif/2.0f);
+            int rank = StylishRankManager.getStylishRank(player);
+            if(5 <= rank)
+                magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+            magicDamage*=Math.max(rank,1);
+
+            if(!target.isEmpty()){
+                for (int i = 0;i< count; i++){
+                    EntityLivingBase CTarget = target.get(i % target.size());
+                    EntityBeam entityBeam = new EntityBeam(world,player,magicDamage);
+                    entityBeam.setInitialPosition(CTarget.posX,CTarget.posY,CTarget.posZ, CTarget.rotationYaw, CTarget.rotationPitch,0,0.3f);
+                    entityBeam.setLifeTime(60 * 20);
+                    entityBeam.setInterval(100);
+                    entityBeam.setIsOverWall(true);
+                    entityBeam.setMultiHit(true);
+                    entityBeam.setTargetingCenter(player);
+                    entityBeam.setRange(30f);
+                    entityBeam.setColor(0xFFFFFF);
+                    entityBeam.setOnHitParticle(EnumParticleTypes.EXPLOSION_LARGE,0);
+                    entityBeam.setTargetEntityId(CTarget.getEntityId());
+                    entityBeam.setUpdateParticle(EnumParticleTypes.END_ROD,0.3f);
+                    world.spawnEntity(entityBeam);
+                }
+            }
+        }
+        ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.Kiriorosi);
     }
 }

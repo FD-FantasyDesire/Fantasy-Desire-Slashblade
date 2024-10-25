@@ -1,11 +1,14 @@
 package tennouboshiuzume.mods.fantasydesire.entity;
 
-import mods.flammpfeil.slashblade.ItemSlashBlade;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.entity.selector.EntitySelectorAttackable;
+import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -138,6 +141,7 @@ public class EntityOverChargeBFG extends EntityOverCharge {
         if (!isMultiHit || this.ticksExisted % 2 == 0) {
 
             List<Entity> list = world.getEntitiesInAABBexcluding(thrower_, bb, EntitySelectorAttackable.getInstance());
+
             list.removeAll(alreadyHitEntity_);
             if (!isMultiHit)
                 alreadyHitEntity_.addAll(list);
@@ -160,9 +164,9 @@ public class EntityOverChargeBFG extends EntityOverCharge {
                             (int) (20), 0, 0, 0, 0.5);
 
                 }
-                if (this.ticksExisted % 4 == 0 && getIsBFG()) {
+                if (getIsBFG() && this.ticksExisted % 4 == 0) {
                     this.playSound(SoundEvents.ENTITY_LIGHTNING_THUNDER, 3, 2f);
-                    BFG(target, damage);
+                    BFG(blade_,world,thrower_,this,target,damage/10);
                 }
                 if (this.ticksExisted % 10 == 0 && getIsBlackHole()) {
                     this.playSound(SoundEvents.ITEM_FIRECHARGE_USE, 3, 0.5f);
@@ -212,20 +216,70 @@ public class EntityOverChargeBFG extends EntityOverCharge {
         setPosition(posX + motionX, posY + motionY, posZ + motionZ);
     }
 
-    private void BFG(Entity target, float magicDamage) {
-        Random random = thrower_.getRNG();
-        EntityPhantomSwordEx entityDrive = new EntityPhantomSwordEx(world, thrower_, magicDamage);
-        entityDrive.setInitialPosition(this.posX, this.posY, this.posZ, random.nextInt(360), random.nextInt(360), this.getRoll(), 1.5f);
-        entityDrive.setColor(0x99FF00);
-        entityDrive.setTargetEntityId(target.getEntityId());
-        entityDrive.setLifeTime(100);
-        entityDrive.setInterval(40);
-        world.spawnEntity(entityDrive);
+//    private void BFG(Entity target, float magicDamage) {
+//        Random random = thrower_.getRNG();
+//        EntityPhantomSwordEx entityDrive = new EntityPhantomSwordEx(world, thrower_, magicDamage);
+//        entityDrive.setInitialPosition(this.posX, this.posY, this.posZ, random.nextInt(360), random.nextInt(360), this.getRoll(), 1.5f);
+//        entityDrive.setColor(0x99FF00);
+//        entityDrive.setTargetEntityId(target.getEntityId());
+//        entityDrive.setLifeTime(100);
+//        entityDrive.setInterval(40);
+//        world.spawnEntity(entityDrive);
+//    }
+
+    private void BFG(ItemStack blade, World world, EntityLivingBase player, Entity target, Entity target2, float damage){
+        Random random = player.getRNG();
+
+        double xA = target.posX;
+        double yA = target.posY-target.height;
+        double zA = target.posZ;
+
+        double xB = target2.posX;
+        double yB = target2.posY;
+        double zB = target2.posZ;
+
+        double deltaX = xB - xA;
+        double deltaY = yB - yA;
+        double deltaZ = zB - zA;
+
+        // 计算水平距离
+        double horizontalDistance = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+
+        // 计算 yaw 和 pitch
+        float yaw = (float)(Math.atan2(deltaX, deltaZ) * (180 / Math.PI));
+        float pitch = (float)(-(Math.atan2(deltaY, horizontalDistance) * (180 / Math.PI)));
+
+        if (!world.isRemote){
+            float roll = (float) (random.nextInt(360)-180);
+            Vec3d basePos = new Vec3d(0,0,1);
+            Vec3d spawnPos = new Vec3d(xA,yA,zA)
+                    .add(basePos
+                            .rotatePitch((float) Math.toRadians(pitch))
+                            .rotateYaw((float) Math.toRadians(yaw))
+                            .scale(1f));
+            EntitySoulPhantomSword entityDrive = new EntitySoulPhantomSword(world, player, damage);
+            entityDrive.setInitialPosition(
+                    spawnPos.x,
+                    spawnPos.y,
+                    spawnPos.z,
+                    -yaw,
+                    pitch,
+                    roll,
+                    2.5f
+            );
+            entityDrive.setIsOverWall(true);
+            entityDrive.setInterval(0);
+            entityDrive.setScale(0.75f);
+            entityDrive.setColor(this.getColor());
+            entityDrive.setTargetEntityId(target2.getEntityId());
+//            entityDrive.setIsNonPlayer(true);
+            entityDrive.setLifeTime(30);
+            world.spawnEntity(entityDrive);
+        }
     }
 
     private void Blast() {
         world.createExplosion(thrower_, this.posX, this.posY + this.height / 2f, this.posZ, getExpRadius(), false);
-
         ((WorldServer) this.world).spawnParticle(EnumParticleTypes.END_ROD,
                 true,
                 this.posX,

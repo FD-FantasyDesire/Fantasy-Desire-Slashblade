@@ -125,7 +125,7 @@ public class TwinSet implements ISpecialEffect
 //        S以上追加攻击
         if (rank >= 5 && !MathUtils.randomCheck(50)){
             ParticleUtils.spawnParticle((WorldServer)target.world,EnumParticleTypes.SWEEP_ATTACK,true,target.posX,target.posY,target.posZ,10,1,1,1, 0.75f);
-            DamageSource ts = new DamageSource("TwinSet").setDamageIsAbsolute().setDamageBypassesArmor();
+            DamageSource ts = new DamageSource("TwinSet").setDamageBypassesArmor();
             target.attackEntityFrom(ts, magicDamage);
             player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.TwinSetActive")), true);
             target.playSound(SoundEvents.BLOCK_GLASS_BREAK,2,2f);

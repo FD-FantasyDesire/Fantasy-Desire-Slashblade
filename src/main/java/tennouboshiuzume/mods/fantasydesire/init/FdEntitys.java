@@ -94,5 +94,26 @@ public class FdEntitys {
                 1,
                 false
         );
+        EntityRegistry.registerModEntity(
+                new ResourceLocation(MODID,"entityicefallmanager"),
+                EntityIceFallManager.class,
+                "EntityIceFallManager",
+                8,
+                FantasyDesire.instance,
+                64,
+                1,
+                false
+        );
+        EntityRegistry.registerModEntity(
+                new ResourceLocation(MODID,"entityBeam"),
+                EntityBeam.class,
+                "EntityBeam",
+                9,
+                FantasyDesire.instance,
+                64,
+                1,
+                false
+        );
+
     }
 }

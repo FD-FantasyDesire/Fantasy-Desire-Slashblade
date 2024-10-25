@@ -29,6 +29,23 @@ public class TargetUtils {
         }
         return hostileEntities;
     }
+    public static List<Entity> findAllHostileEntitiesE(Entity player, float range, boolean overWallCheck) {
+        World world = player.world;
+        List<Entity> hostileEntities = new ArrayList<>();
+
+        // 获取玩家附近的所有符合条件的生物实体
+        List<Entity> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(range), EntitySelectorAttackable.getInstance());
+
+        for (Entity entity : entities) {
+            if (entity.isEntityAlive() && (player.getDistance(entity) < range)) {
+                if (overWallCheck && isObstructed(world, player, entity)) {
+                    continue;
+                }
+                hostileEntities.add(entity);
+            }
+        }
+        return hostileEntities;
+    }
 
     public static List<EntityLivingBase> findAllHostileEntities(Entity player, float range, Entity nonTarget, boolean overWallCheck) {
         World world = player.world;
@@ -38,6 +55,24 @@ public class TargetUtils {
         List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(range), entity -> EntitySelectorAttackable.getInstance().apply(entity) && !entity.equals(nonTarget));
 
         for (EntityLivingBase entity : entities) {
+
+            if (entity.isEntityAlive() && (player.getDistance(entity) < range)) {
+                if (overWallCheck && isObstructed(world, player, entity)) {
+                    continue;
+                }
+                hostileEntities.add(entity);
+            }
+        }
+        return hostileEntities;
+    }
+    public static List<Entity> findAllHostileEntitiesE(Entity player, float range, Entity nonTarget, boolean overWallCheck) {
+        World world = player.world;
+        List<Entity> hostileEntities = new ArrayList<>();
+
+        // 获取玩家附近的所有符合条件的生物实体
+        List<Entity> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, player.getEntityBoundingBox().grow(range), entity -> EntitySelectorAttackable.getInstance().apply(entity) && !entity.equals(nonTarget));
+
+        for (Entity entity : entities) {
 
             if (entity.isEntityAlive() && (player.getDistance(entity) < range)) {
                 if (overWallCheck && isObstructed(world, player, entity)) {
@@ -136,14 +171,15 @@ public class TargetUtils {
         return currentEnemy.getEntityId();
     }
 
+//    更精确的视线检测
     public static boolean isObstructed(World world, Entity player, Entity target) {
         // 玩家和实体的眼睛位置
         Vec3d playerPos = player.getPositionEyes(1.0F);
 
         // 目标实体的顶部、中间和底部位置
-        Vec3d targetTopPos = new Vec3d(target.posX, target.posY + target.height - 0.05f, target.posZ);
+        Vec3d targetTopPos = new Vec3d(target.posX, target.posY + target.height - 0.1f, target.posZ);
         Vec3d targetMidPos = new Vec3d(target.posX, target.posY + target.height / 2.0, target.posZ);
-        Vec3d targetBottomPos = new Vec3d(target.posX, target.posY + 0.05f, target.posZ);
+        Vec3d targetBottomPos = new Vec3d(target.posX, target.posY + 0.1f, target.posZ);
 
         // 对三次位置进行 rayTraceBlocks 检查，任何一次不通过（有遮挡）则返回 true
         RayTraceResult resultTop = world.rayTraceBlocks(playerPos, targetTopPos);

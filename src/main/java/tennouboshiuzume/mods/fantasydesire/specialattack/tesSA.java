@@ -13,14 +13,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import tennouboshiuzume.mods.fantasydesire.entity.EntityBeam;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverCharge;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
+import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.lang.annotation.Target;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -42,59 +46,24 @@ public class tesSA extends SpecialAttackBase {
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
 
         if(!world.isRemote){
-
-            ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
-            ItemSlashBlade.SpecialAttackType.set(tag, 201);
-            Entity target = null;
-
-            int entityId = ItemSlashBlade.TargetEntityId.get(tag);
-
-            if(entityId != 0){
-                Entity tmp = world.getEntityByID(entityId);
-                if(tmp != null){
-                    if(tmp.getDistance(player) < 30.0f)
-                        target = tmp;
-                }
-            }
-
-            if(target == null){
-                target = getEntityToWatch(player);
-            }
-
-            if(target != null){
-                ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.SlashDim);
-
-                final int cost = -40;
-                if(!ItemSlashBlade.ProudSoul.tryAdd(tag,cost,false)){
-                    ItemSlashBlade.damageItem(stack, 10, player);
-                }
-
-
-                StylishRankManager.setNextAttackType(player, StylishRankManager.AttackTypes.PhantomSword);
-                blade.attackTargetEntity(stack, target, player, true);
-                player.onCriticalHit(target);
-
-                ReflectionAccessHelper.setVelocity(target, 0, 0, 0);
-                //target.addVelocity(0.0, 0.55D, 0.0);
-
-                if(target instanceof EntityLivingBase){
-                    blade.setDaunting((EntityLivingBase)target);
-                    ((EntityLivingBase) target).hurtTime = 0;
-                    ((EntityLivingBase) target).hurtResistantTime = 0;
-                }
-
-                int level = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
-                float magicDamage = 1.0f + ItemSlashBlade.AttackAmplifier.get(tag) * (level / 5.0f);
-
-                int count = 0;
-
-                if(!world.isRemote){
-                    EntityOverCharge entityDrive = new EntityOverCharge(world,player,magicDamage);
-                    entityDrive.setColor(0x00FF00);
-                    entityDrive.setHitScale(20f);
-                    entityDrive.setLifeTime(100);
-                    entityDrive.setIsOverWall(true);
-                    world.spawnEntity(entityDrive);
+            List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(player, 60f, false);
+            Collections.shuffle(target);
+            if(!target.isEmpty()){
+                for (int i = 0;i<1 ; i++){
+                    EntityLivingBase CTarget = target.get(i % target.size());
+                    EntityBeam entityBeam = new EntityBeam(world,player,1);
+                    entityBeam.setInitialPosition(CTarget.posX,CTarget.posY,CTarget.posZ, CTarget.rotationYaw, CTarget.rotationPitch,0,0.3f);
+                    entityBeam.setLifeTime(60 * 20);
+                    entityBeam.setInterval(100);
+                    entityBeam.setIsOverWall(true);
+                    entityBeam.setMultiHit(true);
+                    entityBeam.setTargetingCenter(player);
+                    entityBeam.setRange(30f);
+                    entityBeam.setColor(0xFFFFFF);
+                    entityBeam.setOnHitParticle(EnumParticleTypes.EXPLOSION_LARGE,0);
+                    entityBeam.setTargetEntityId(CTarget.getEntityId());
+                    entityBeam.setUpdateParticle(EnumParticleTypes.END_ROD,0.3f);
+                    world.spawnEntity(entityBeam);
                 }
             }
         }

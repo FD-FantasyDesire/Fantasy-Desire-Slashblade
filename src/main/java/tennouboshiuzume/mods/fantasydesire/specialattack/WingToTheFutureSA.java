@@ -38,6 +38,7 @@ import java.util.Random;
 public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecialAttack, ISuperSpecialAttack {
 
     String name = "tennouboshiuzume.slashblade.ChikeFlare";
+
     @Override
     public String toString() {
         return "WingToTheFutureSA";
@@ -46,12 +47,13 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
     @Override
     public void doSpacialAttack(ItemStack stack, EntityPlayer player) {
 //        一切刀转化
-        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName())){
-            if(player.getHealth()<30){
-                ItemStack resultBlade = WorldBladeStandCrafting.crafting(stack,name);
-                player.setHeldItem(EnumHand.MAIN_HAND,resultBlade);
+        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName())) {
+            if (player.getHealth() < 30) {
+                ItemStack resultBlade = WorldBladeStandCrafting.crafting(stack, name);
+                player.setHeldItem(EnumHand.MAIN_HAND, resultBlade);
+            } else {
+                player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.WingToTheFutureFail")), true);
             }
-//            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.WingToTheFutureFail")), true);
             return;
         }
         World world = player.world;
@@ -138,10 +140,10 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
 
     @Override
     public void doJustSpacialAttack(ItemStack stack, EntityPlayer player) {
-        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName())){
-            if(player.getHealth()<30){
-                ItemStack resultBlade = WorldBladeStandCrafting.crafting(stack,name);
-                player.setHeldItem(EnumHand.MAIN_HAND,resultBlade);
+        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName())) {
+            if (player.getHealth() < 30) {
+                ItemStack resultBlade = WorldBladeStandCrafting.crafting(stack, name);
+                player.setHeldItem(EnumHand.MAIN_HAND, resultBlade);
             }
 //            player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.WingToTheFutureFail")), true);
             return;
@@ -211,6 +213,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
                         entityDrive.setIsOverWall(true);
                         entityDrive.setParticle(EnumParticleTypes.END_ROD);
                         entityDrive.setParticleVec(3);
+                        entityDrive.setTrueDamage(true, 1);
                         entityDrive.setRoll(front ? -45.0f : 45.0f);
                         entityDrive.setDriveVector(0.3f + 0.05f * currentValue);
                         entityDrive.setColor(front ? 0xFFFF00 : 0x00FFFF);
@@ -224,7 +227,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
 
     @Override
     public void doSuperSpecialAttack(ItemStack stack, EntityPlayer player) {
-        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName())){
+        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName())) {
             player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.WingToTheFutureFail")), true);
             return;
         }
@@ -235,11 +238,11 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
         ItemSlashBlade blade = (ItemSlashBlade) stack.getItem();
 
-//        final int cost = -2000;
-//        if(!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)){
-//            return;
-//        }
-//        stack.setItemDamage(stack.getMaxDamage()/2);
+        final int cost = -2000;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            return;
+        }
+        stack.setItemDamage(stack.getMaxDamage() / 2);
 
         StylishRankManager.setNextAttackType(player, StylishRankManager.AttackTypes.PhantomSword);
 
@@ -249,14 +252,14 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
         int rank = StylishRankManager.getStylishRank(player);
         if (5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
-
+        magicDamage *= Math.max(rank, 1);
 
         int countdown = 1;
         if (!world.isRemote) {
 
             List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player, 120f, 45f, false);
 
-            int wingCount = Math.max(4, target.size() / 16);
+            int wingCount = Math.max(3, target.size() / 8);
 
             for (int i = 0; i < wingCount; i++) {
 
@@ -312,6 +315,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
                         entityDrive.setBurst(true);
                         entityDrive.setExpRadius(1f);
                         entityDrive.setIsOverWall(true);
+                        entityDrive.setTrueDamage(true, 20);
                         entityDrive.setParticle(EnumParticleTypes.END_ROD);
                         entityDrive.setColor(front ? 0xFFFF00 : 0x00FFFF);
                         world.spawnEntity(entityDrive);

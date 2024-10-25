@@ -147,6 +147,8 @@ public class ImmortalSoul implements ISpecialEffect, IRemovable {
                         entityDrive.setInterval(10);
 //                        标记目标
                         entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromList(i, target));
+                        entityDrive.setParticle(EnumParticleTypes.END_ROD);
+                        entityDrive.setParticleVec(10);
 //                        System.out.println("Spawn");
                         player.world.spawnEntity(entityDrive);
                     }

@@ -28,6 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IThrowableEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.tools.nsc.doc.model.Public;
 import tennouboshiuzume.mods.fantasydesire.util.ColorUtils;
 
 import java.util.ArrayList;
@@ -62,6 +63,8 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile, ITh
     protected List<Entity> alreadyHitEntity = new ArrayList<Entity>();
 
     protected float AttackLevel = 0.0f;
+
+    protected float TrueDamageLevel = 0.0f;
 
     /**
      * ■コンストラクタ
@@ -228,6 +231,7 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile, ITh
     private static final DataParameter<Boolean> Burst = EntityDataManager.<Boolean>createKey(EntityPhantomSwordExBase.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> NonPlayer = EntityDataManager.<Boolean>createKey(EntityPhantomSwordExBase.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Float> ExpRadius = EntityDataManager.<Float>createKey(EntityPhantomSwordExBase.class, DataSerializers.FLOAT);
+    private static final DataParameter<Boolean> TrueDamage = EntityDataManager.<Boolean>createKey(EntityPhantomSwordExBase.class, DataSerializers.BOOLEAN);
 
     /**
      * ■イニシャライズ
@@ -266,6 +270,8 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile, ITh
         this.getDataManager().register(ExpRadius, 1.0f);
 
         this.getDataManager().register(NonPlayer, false);
+
+        this.getDataManager().register(TrueDamage, false);
     }
 
     public void setRainbow(boolean rainbow, float colorStep, int colorTotalStep, float colorStepScale) {
@@ -273,6 +279,15 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile, ITh
         this.colorStep = colorStep;
         this.colorTotalStep = colorTotalStep;
         this.colorStepScale = colorStepScale;
+    }
+
+    public void setTrueDamage(boolean trueDamage, float trueDamageLevel) {
+        this.getDataManager().set(TrueDamage, trueDamage);
+        this.TrueDamageLevel = trueDamageLevel;
+    }
+
+    public boolean getTrueDamage() {
+        return this.getDataManager().get(TrueDamage);
     }
 
     public boolean getBurst() {
@@ -791,7 +806,6 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile, ITh
 
         if (movingobjectposition != null && movingobjectposition.entityHit != null && movingobjectposition.entityHit instanceof EntityPlayer) {
             EntityPlayer entityplayer = (EntityPlayer) movingobjectposition.entityHit;
-
             if (entityplayer.capabilities.disableDamage || (this.getThrower() != null && this.getThrower() instanceof EntityPlayer && !((EntityPlayer) this.getThrower()).canAttackPlayer(entityplayer))) {
                 movingobjectposition = null;
             }
@@ -995,8 +1009,8 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile, ITh
         lastTickPosY = posY;
         lastTickPosZ = posZ;
         super.onUpdate();
-        if (Rainbow){
-            setColor(ColorUtils.getSmoothTransitionColor(ticksExisted*colorStepScale + colorStep, colorTotalStep,true));
+        if (Rainbow) {
+            setColor(ColorUtils.getSmoothTransitionColor(ticksExisted * colorStepScale + colorStep, colorTotalStep, true));
         }
         if (this.ridingEntity2 != null) {
             updateRidden();

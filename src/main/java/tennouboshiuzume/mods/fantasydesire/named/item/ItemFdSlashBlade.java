@@ -1,16 +1,21 @@
 package tennouboshiuzume.mods.fantasydesire.named.item;
 
+import com.mojang.authlib.GameProfile;
 import mods.flammpfeil.slashblade.ItemSlashBladeNamed;
 import mods.flammpfeil.slashblade.TagPropertyAccessor;
+import mods.flammpfeil.slashblade.util.ResourceLocationRaw;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.PlayerProfileCache;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -21,15 +26,13 @@ import java.util.*;
 
 import org.lwjgl.input.Keyboard;
 
-
 import static tennouboshiuzume.mods.fantasydesire.util.BladeUtils.*;
 import static tennouboshiuzume.mods.fantasydesire.util.ItemUtils.FD_BLADE;
 
-/**
- * @author Cat, AbbyQAQ, Moflop, 520
- * @updateDate 2020/02/13
- */
 public class ItemFdSlashBlade extends ItemSlashBladeNamed {
+    private static ResourceLocationRaw texture = new ResourceLocationRaw("flammpfeil.slashblade", "model/blade.png");
+    private ResourceLocationRaw model = new ResourceLocationRaw("flammpfeil.slashblade", "model/blade.obj");
+
     public ItemFdSlashBlade(ToolMaterial par2EnumToolMaterial, float baseAttackModifiers, String name) {
         super(par2EnumToolMaterial, baseAttackModifiers);
         this.setUnlocalizedName("tennouboshiuzume.Fantasydesire." + name);
@@ -53,6 +56,7 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
             NBTTagCompound tag = getItemTagCompound(par1ItemStack);
             this.addInformationOwner(par1ItemStack, par2EntityPlayer, par3List, par4);
             this.addInformationSwordClass(par1ItemStack, par2EntityPlayer, par3List, par4);
+            this.addInformationBladeBound(par1ItemStack, par2EntityPlayer, par3List, par4);
             this.addInformationKillCount(par1ItemStack, par2EntityPlayer, par3List, par4);
             this.addInformationProudSoul(par1ItemStack, par2EntityPlayer, par3List, par4);
             this.addInformationSpecialAttack(par1ItemStack, par2EntityPlayer, par3List, par4);
@@ -62,6 +66,7 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
             this.addInformationMaxAttack(par1ItemStack, par2EntityPlayer, par3List, par4);
             this.addInformationBladeLore(par1ItemStack, par2EntityPlayer, par3List, par4);
             this.addInformationEffectLore(par1ItemStack, par2EntityPlayer, par3List, par4);
+            this.addInformationAttackLore(par1ItemStack, par2EntityPlayer, par3List, par4);
             this.addInformationCrafting(par1ItemStack, par2EntityPlayer, par3List, par4);
             if (tag.hasKey("adjustX")) {
                 float ax = tag.getFloat("adjustX");
@@ -73,9 +78,7 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
         }
     }
 
-    /**
-     * 显示神刀
-     */
+    //    显示自定刀铭
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformationSwordClass(ItemStack par1ItemStack,
@@ -101,10 +104,7 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
         }
     }
 
-
-    /**
-     * 防止拔刀剑重复注册
-     */
+    //    注册创造物品栏
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
         if (this.isInCreativeTab(tab)) {
@@ -132,13 +132,11 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
                                         EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
         NBTTagCompound tag = getItemTagCompound(par1ItemStack);
         if (isFdBlade.get(tag) && !isInCreativeTab.get(tag) && tag.hasKey("BladeLore")) {
-            NBTTagList BladeLore = tag.getTagList("BladeLore", 8);
+            int count = tag.getInteger("BladeLore");
             String name = getUnlocalizedName(par1ItemStack);
-            if (!Keyboard.isKeyDown(42) && !Keyboard.isKeyDown(54)) {
-                for (int i = 0; i < BladeLore.tagCount(); i++) {
-                    String loreText = BladeLore.getStringTagAt(i);
-                    par3List.add(I18n.format(name + "." + loreText));
-
+            if (!Keyboard.isKeyDown(42) && !Keyboard.isKeyDown(54) && !Keyboard.isKeyDown(29) && !Keyboard.isKeyDown(157)) {
+                for (int i = 0; i < count; i++) {
+                    par3List.add(I18n.format(name + ".desc" + i));
                 }
             }
         }
@@ -149,16 +147,30 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
     public void addInformationEffectLore(ItemStack par1ItemStack,
                                          EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
         NBTTagCompound tag = getItemTagCompound(par1ItemStack);
-        if (isFdBlade.get(tag) && !isInCreativeTab.get(tag) && tag.hasKey("EffectLore")) {
-            NBTTagList EffectLore = tag.getTagList("EffectLore", 8);
+        if (isFdBlade.get(tag) && !isInCreativeTab.get(tag) && tag.hasKey("SpecialEffectLore")) {
+            int count = tag.getInteger("SpecialEffectLore");
             String name = getUnlocalizedName(par1ItemStack);
-
             if (!Keyboard.isKeyDown(42) && !Keyboard.isKeyDown(54)) {
                 par3List.add("§7" + I18n.format("tennouboshiuzume.slashblade.info.hold", new Object[0]) + " §e§o" + I18n.format("tennouboshiuzume.slashblade.info.shift", new Object[0]) + " §r§7" + I18n.format("tennouboshiuzume.slashblade.info.forEffectDetails", new Object[0]) + "§r");
             } else {
-                for (int i = 0; i < EffectLore.tagCount(); i++) {
-                    String loreText = EffectLore.getStringTagAt(i);
-                    par3List.add(I18n.format(name + "." + loreText));
+                for (int i = 0; i < count; i++) {
+                    par3List.add(I18n.format(name + ".SEdesc" + i));
+                }
+            }
+        }
+    }
+
+    public void addInformationAttackLore(ItemStack par1ItemStack,
+                                         EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+        NBTTagCompound tag = getItemTagCompound(par1ItemStack);
+        if (isFdBlade.get(tag) && !isInCreativeTab.get(tag) && tag.hasKey("SpecialAttackLore")) {
+            int count = tag.getInteger("SpecialAttackLore");
+            String name = getUnlocalizedName(par1ItemStack);
+            if (!Keyboard.isKeyDown(29) && !Keyboard.isKeyDown(157)) {
+                par3List.add("§7" + I18n.format("tennouboshiuzume.slashblade.info.hold", new Object[0]) + " §e§o" + I18n.format("tennouboshiuzume.slashblade.info.ctrl", new Object[0]) + " §r§7" + I18n.format("tennouboshiuzume.slashblade.info.forAttackDetails", new Object[0]) + "§r");
+            } else {
+                for (int i = 0; i < count; i++) {
+                    par3List.add(I18n.format(name + ".SAdesc" + i));
                 }
             }
         }
@@ -176,6 +188,21 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
                 par3List.add(I18n.format(bladename + ".crafting"));
             }
 
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void addInformationBladeBound(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+        NBTTagCompound tag = getItemTagCompound(par1ItemStack);
+        if (tag.hasUniqueId("Owner")){
+            UUID ownerid = tag.getUniqueId("Owner");
+            if (ownerid.equals(par2EntityPlayer.getUniqueID())){
+                par3List.add("§6"+I18n.format("tennouboshiuzume.slashblade.info.BoundOnYou"));
+            }else {
+                par3List.add("§4"+I18n.format("tennouboshiuzume.slashblade.info.Bound")+":"+ownerid);
+            }
+        }else {
+            par3List.add("§7"+I18n.format("tennouboshiuzume.slashblade.info.noBound"));
         }
     }
 }

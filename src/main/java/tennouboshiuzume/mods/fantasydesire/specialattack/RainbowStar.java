@@ -175,8 +175,9 @@ public class RainbowStar extends SpecialAttackBase implements IJustSpecialAttack
         int rank = StylishRankManager.getStylishRank(player);
         if (5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+        magicDamage*=Math.max(rank,1);
+
         Random random = player.getRNG();
-        magicDamage = 1;
 
         if (!world.isRemote) {
             List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player, 30, player, true));
@@ -185,8 +186,8 @@ public class RainbowStar extends SpecialAttackBase implements IJustSpecialAttack
                 int count = 0;
                 for (EntityLivingBase targetEntity : target) {
                     for (int i = 0; i < rains; i++) {
-                        float yaw = (360f / target.size()*rains) * count;
-                        float pitch = 90f+(float)(random.nextGaussian() * 10f);
+                        float yaw = (360f / rains) * count;
+                        float pitch = (float) (random.nextGaussian() * 30f);
                         float roll = (float) (random.nextInt(360) - 180);
                         Vec3d basePos = new Vec3d(0, 0, 1);
                         Vec3d spawnPos = new Vec3d(targetEntity.posX, targetEntity.posY + targetEntity.height/2, targetEntity.posZ)
@@ -206,7 +207,7 @@ public class RainbowStar extends SpecialAttackBase implements IJustSpecialAttack
                                 1.75f
                         );
                         entityDrive.setInterval(0);
-                        entityDrive.setColor(ColorUtils.getSmoothTransitionColor(count, target.size(), true));
+                        entityDrive.setColor(ColorUtils.getSmoothTransitionColor(count, target.size()*rains, true));
                         entityDrive.setTargetEntityId(targetEntity.getEntityId());
                         entityDrive.setIsOverWall(true);
                         entityDrive.setScale(2f);

@@ -18,4 +18,6 @@ public class FdSEs {
     public static ISpecialEffect EvolutionIce = SpecialEffects.register(new EvolutionIce());
     public static ISpecialEffect RainbowFlux = SpecialEffects.register(new RainbowFlux());
     public static ISpecialEffect ColorFlux = SpecialEffects.register(new ColorFlux());
+    public static ISpecialEffect PrismFlux = SpecialEffects.register(new PrismFlux());
+    public static ISpecialEffect SentientHook = SpecialEffects.register(new SentientHook());
 }
