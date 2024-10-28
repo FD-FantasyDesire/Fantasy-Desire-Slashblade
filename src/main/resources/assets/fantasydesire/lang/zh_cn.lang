@@ -140,12 +140,15 @@ slashblade.seffect.name.RainbowFlux=§f虹光通量
 slashblade.seffect.name.ColorFlux=§f全色汇流
 slashblade.seffect.name.PrismFlux=§f棱光通量
 slashblade.seffect.name.SentientHook=§d感知抓钩
+slashblade.seffect.name.ItemMagnet=§1→§f战利品磁引§4←
+slashblade.seffect.name.CounterBlade=§7镜面刃缘
 
 
 #Text
 tennouboshiuzume.tip.ImmortalSoulActive=§e同伴灵魂的炽热传达了过来……
 tennouboshiuzume.tip.ImmortalSoulActive1=§6同伴灵魂的炽热传达了过来……§4没有下次了！
 tennouboshiuzume.tip.WingToTheFutureFail=§4你和同伴还没有建立深刻的联系...
+tennouboshiuzume.tip.WingToTheFutureSuccess=§e§l接下来就是重头戏了！伙伴！！！
 
 tennouboshiuzume.tip.TwinSetFail=§5没有同时装备对应的另一把双子拔刀…
 tennouboshiuzume.tip.BloodDrainEv=§d§l狩魂 Type-VI：§4§l+%s初始伤害
@@ -167,12 +170,14 @@ tennouboshiuzume.info.PureSnow=§f纯净的天降奇迹
 tennouboshiuzume.info.Eshahar=§b永恒璀璨彗星
 
 tennouboshiuzume.info.ChikeFlare.crafting=如果你的拔刀非常珍贵，那么请对该SA有所了解再考虑使用
-
 tennouboshiuzume.info.NR.SMS=所以重置版作者为什么不直接把完整版做进重置版里呢？
 
 tennouboshiuzume.info.PrismFlux.crafting=覆盖虹光通量的效果，以取消剑气的代价换取攻击时发出折射幻影剑的能力
+tennouboshiuzume.info.SentientHook.crafting=鞘击挥砍时；拉近前方90°距离30米内的敌人
+tennouboshiuzume.info.ItemMagnet.crafting=在主手时：吸引15格范围内的经验球和可拾取物品
+tennouboshiuzume.info.CounterBlade.crafting=受击时：对20格范围内敌人触发攻击判定，不造成伤害
+tennouboshiuzume.info.RainbowFlux.crafting=§4让§c你§6的§e刀§2光§a和§b幻§3影§1剑§9变§d酷
 
-tennouboshiuzume.info.SentientHook.crafting=挥砍时；拉近前方90°距离30米内的敌人
 #Secret
 
 item.tennouboshiuzume.slashblade.ChikeFlare.secret=§e于垂死的边缘，呼唤你体内沉睡的另一个灵魂

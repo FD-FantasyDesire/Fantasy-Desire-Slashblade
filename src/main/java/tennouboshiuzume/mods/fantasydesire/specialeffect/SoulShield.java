@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.client.event.sound.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,58 +27,61 @@ import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
+import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
+import tennouboshiuzume.mods.fantasydesire.util.MathUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 
-/**
- * Created by Furia on 15/06/19.
- */
 
 public class SoulShield implements ISpecialEffect, IRemovable {
     private static final String EffectKey = "SoulShield";
-
-    private boolean useBlade(ItemSlashBlade.ComboSequence sequence){
-        if(sequence.useScabbard) return false;
-        if(sequence == ItemSlashBlade.ComboSequence.None) return false;
-        if(sequence == ItemSlashBlade.ComboSequence.Noutou) return false;
-        return true;
-    }
+//      原始效果，已取消
+//    private boolean useBlade(ItemSlashBlade.ComboSequence sequence){
+//        if(sequence.useScabbard) return false;
+//        if(sequence == ItemSlashBlade.ComboSequence.None) return false;
+//        if(sequence == ItemSlashBlade.ComboSequence.Noutou) return false;
+//        return true;
+//    }
+//
+//    @SubscribeEvent
+//    public void onUpdateItemSlashBlade(SlashBladeEvent.OnUpdateEvent event){
+//
+//        if(!SpecialEffects.isPlayer(event.entity)) return;
+//        EntityPlayer player = (EntityPlayer) event.entity;
+//
+//        NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
+//        if(!useBlade(ItemSlashBlade.getComboSequence(tag))) return;
+//
+//        switch (SpecialEffects.isEffective(player,event.blade,this)){
+//            case None:
+//                return;
+//            case NonEffective:
+//                return;
+//            case Effective:
+//                if (player.getRNG().nextInt(4) != 0) return;
+//                break;
+//        }
+//
+//        PotionEffect haste = player.getActivePotionEffect(MobEffects.MINING_FATIGUE);
+//        int check = haste != null ? haste.getAmplifier() != 1 ? 3 : 4 : 2;
+//
+//        if (player.swingProgressInt != check) return;
+//
+//        player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE,20 * 30, 0));
+//        player.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING,20 * 30,0));
+//    }
 
     @SubscribeEvent
-    public void onUpdateItemSlashBlade(SlashBladeEvent.OnUpdateEvent event){
-
-        if(!SpecialEffects.isPlayer(event.entity)) return;
-        EntityPlayer player = (EntityPlayer) event.entity;
-
-        NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
-        if(!useBlade(ItemSlashBlade.getComboSequence(tag))) return;
-
-        switch (SpecialEffects.isEffective(player,event.blade,this)){
-            case None:
-                return;
-            case NonEffective:
-                return;
-            case Effective:
-                if (player.getRNG().nextInt(4) != 0) return;
-                break;
-        }
-
-        PotionEffect haste = player.getActivePotionEffect(MobEffects.MINING_FATIGUE);
-        int check = haste != null ? haste.getAmplifier() != 1 ? 3 : 4 : 2;
-
-        if (player.swingProgressInt != check) return;
-
-        player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE,20 * 30, 0));
-        player.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING,20 * 30,0));
-    }
-    @SubscribeEvent
-    public void onPlayerHurt(LivingHurtEvent event){
+    public void onPlayerHurt(LivingHurtEvent event) {
         if (!(event.getEntityLiving() instanceof EntityPlayer)) return;
         EntityPlayer player = (EntityPlayer) event.getEntityLiving();
         if (!(player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemSlashBlade)) return;
         ItemStack blade = player.getHeldItem(EnumHand.MAIN_HAND);
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(blade);
-        switch (SpecialEffects.isEffective(player,blade, FdSEs.SoulShield)){
+        if (!blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))
+            return;
+        switch (SpecialEffects.isEffective(player, blade, FdSEs.SoulShield)) {
             /** 任何时候可触发 */
             case None:
                 return;
@@ -88,15 +92,16 @@ public class SoulShield implements ISpecialEffect, IRemovable {
             case Effective:
                 break;
         }
-        if (player.getRNG().nextInt(4) == 0) {
-            player.world.playSound(null,player.posX,player.posY,player.posZ,SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.PLAYERS,1.0f,2.0f);
-            ParticleUtils.spawnParticle(player.world, EnumParticleTypes.END_ROD,false,player.posX,player.posY+player.height/2,player.posZ,2,0 ,0 ,0,0.2f);
+        if (MathUtils.randomCheck(25)) {
+            player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.PLAYERS, 1.0f, 2.0f);
+            ParticleUtils.spawnParticle(player.world, EnumParticleTypes.END_ROD, false, player.posX, player.posY + player.height / 2, player.posZ, 2, 0, 0, 0, 0.2f);
             event.setCanceled(true);
-            blade.damageItem(1,player);
-            player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION,20 * 5,4));
-        }else{
+            blade.damageItem(1, player);
+            player.setAbsorptionAmount(20);
+//            player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION,20 * 5,4));
+        } else {
             float originalDamage = event.getAmount();
-            float reducedDamage = Math.min(originalDamage,5f) ;
+            float reducedDamage = Math.min(originalDamage, 5f);
             event.setAmount(reducedDamage);
         }
     }

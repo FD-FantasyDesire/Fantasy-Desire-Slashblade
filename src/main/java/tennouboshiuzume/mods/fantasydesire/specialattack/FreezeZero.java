@@ -109,14 +109,14 @@ public class FreezeZero extends SpecialAttackBase implements ISuperSpecialAttack
 
         ItemSlashBlade blade = (ItemSlashBlade) stack.getItem();
 
-        int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
-        float baseModif = blade.getBaseAttackModifiers(tag);
-        float magicDamage = 1.0f + (baseModif / 2.0f);
-        int rank = StylishRankManager.getStylishRank(player);
-        if (5 <= rank)
-            magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
-
-        magicDamage*=Math.max(rank,1);
+//        int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
+//        float baseModif = blade.getBaseAttackModifiers(tag);
+//        float magicDamage = 1.0f + (baseModif / 2.0f);
+//        int rank = StylishRankManager.getStylishRank(player);
+//        if (5 <= rank)
+//            magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+//
+//        magicDamage*=Math.max(rank,1);
 
         //            检查进化等级
         float SAscale = 1;
@@ -145,25 +145,6 @@ public class FreezeZero extends SpecialAttackBase implements ISuperSpecialAttack
         }
 
         if (!world.isRemote) {
-//            EntityOverChargeBFG entitiDrive = new EntityOverChargeBFG(world, player, magicDamage/6);
-//            entitiDrive.setInitialPosition(player.posX,
-//                    player.posY+player.height/2,
-//                    player.posZ,
-//                    0,
-//                    0,
-//                    0,
-//                    0);
-//            entitiDrive.setColor(0xAAFFFF);
-//            entitiDrive.setIsCold(true);
-//            entitiDrive.setScale(SAscale);
-//            entitiDrive.setMultiHit(true);
-//            entitiDrive.setHitScale(10f);
-//            entitiDrive.setIsOverWall(true);
-//            entitiDrive.setParticle(EnumParticleTypes.SNOW_SHOVEL);
-//            entitiDrive.setLifeTime(60);
-//            entitiDrive.setInterval(0);
-//            entitiDrive.setSound(SoundEvents.BLOCK_GLASS_BREAK,1,0.5f);
-//            world.spawnEntity(entitiDrive);
             EntityIceFallManager entityDrive = new EntityIceFallManager(world,player,6f * SAscale);
             world.spawnEntity(entityDrive);
         }

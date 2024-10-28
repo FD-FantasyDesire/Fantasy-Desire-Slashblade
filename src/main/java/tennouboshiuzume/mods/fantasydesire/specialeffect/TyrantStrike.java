@@ -21,9 +21,11 @@ import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
 import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
+import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 
 import java.util.Random;
 
@@ -42,9 +44,8 @@ public class TyrantStrike implements ISpecialEffect, IRemovable {
 
     @SubscribeEvent
     public void onImpactEffectEvent(SlashBladeEvent.ImpactEffectEvent event){
-
-//        if(!useBlade(event.sequence)) return;
-
+        if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))
+            return;
         if(!SpecialEffects.isPlayer(event.user)) return;
         EntityPlayer player = (EntityPlayer) event.user;
 
@@ -99,14 +100,13 @@ public class TyrantStrike implements ISpecialEffect, IRemovable {
                         -yaw,
                         -pitch-180f,
                         roll,
-                        1.75f);
+                        2.5f);
                 entityDrive.setInterval(0);
                 entityDrive.setScale(2.5f);
                 entityDrive.setLifeTime(120);
-                entityDrive.setColor(0xFF0000);
+                entityDrive.setColor(0xBB00FF);
                 entityDrive.setParticle(EnumParticleTypes.EXPLOSION_LARGE);
                 entityDrive.setIsOverWall(true);
-                entityDrive.setDriveVector(5.0f);
                 entityDrive.setTrueDamage(true,5);
                 entityDrive.setPotionEffect(new PotionEffect(MobEffects.LEVITATION,20*5,1));
                 entityDrive.setTargetEntityId(target.getEntityId());
@@ -114,11 +114,9 @@ public class TyrantStrike implements ISpecialEffect, IRemovable {
             }
         }
         event.target.playSound(SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE,2.5f,2.0f);
-
         player.onEnchantmentCritical(event.target);
         event.target.addPotionEffect(new PotionEffect(MobEffects.GLOWING,20*5,0));
         event.target.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS,20*5,3));
-
     }
 
     @Override

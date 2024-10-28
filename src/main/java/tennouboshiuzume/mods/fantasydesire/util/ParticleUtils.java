@@ -17,12 +17,12 @@ public class ParticleUtils {
         }
     }
 
-    public static void  spawnParticleLine(World world,EnumParticleTypes types,double startX,double startY,double startZ,double endX,double endY,double endZ,int count){
+    public static void  spawnParticleLine(World world,EnumParticleTypes types,double startX,double startY,double startZ,double endX,double endY,double endZ,double dX,double dY,double dZ,int count,float speed){
         if (!world.isRemote){
             // 粒子数量（决定线的平滑度）
 
             double range = MathUtils.getDistancePos(startX,startY,startZ,endX,endY,endZ);
-            System.out.println("range"+range);
+//            System.out.println("range"+range);
             // 计算向量
             double x1 = (endX - startX);
             double y1 = (endY - startY);
@@ -38,7 +38,7 @@ public class ParticleUtils {
                         particlePos.x+startX,
                         particlePos.y+startY,
                         particlePos.z+startZ,
-                        1, 0.0, 0.0, 0.0,0);
+                        count, dX, dY, dZ,speed);
             }
         }
     }

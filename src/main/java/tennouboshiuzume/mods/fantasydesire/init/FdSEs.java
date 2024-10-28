@@ -20,4 +20,6 @@ public class FdSEs {
     public static ISpecialEffect ColorFlux = SpecialEffects.register(new ColorFlux());
     public static ISpecialEffect PrismFlux = SpecialEffects.register(new PrismFlux());
     public static ISpecialEffect SentientHook = SpecialEffects.register(new SentientHook());
+    public static ISpecialEffect ItemMagnet = SpecialEffects.register(new ItemMagnet());
+    public static ISpecialEffect CounterBlade = SpecialEffects.register(new CounterBlade());
 }

@@ -63,6 +63,8 @@ public class EntityTwinSlashManager extends Entity implements IThrowableEntity {
     {
         super(par1World);
         ticksExisted = 0;
+        //■サイズ変更
+        setSize(1.0F, 1.0F);
     }
 
 
@@ -107,9 +109,6 @@ public class EntityTwinSlashManager extends Entity implements IThrowableEntity {
         //■生存タイマーリセット
         ticksExisted = 0;
 
-        //■サイズ変更
-        setSize(64.0F, 32.0F);
-
         //■初期位置・初期角度等の設定
         setLocationAndAngles(thrower.posX,
                 thrower.posY,
@@ -134,327 +133,326 @@ public class EntityTwinSlashManager extends Entity implements IThrowableEntity {
             ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
             if(stack.getItem() instanceof ItemSlashBlade)
                 this.blade = stack;
-        }
-        ItemStack stack = this.blade;
-        EntityPlayer player = (EntityPlayer) thrower;
-        NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
-        if (thrower != null && !world.isRemote) {
-            ParticleUtils.spawnParticle(world,EnumParticleTypes.FIREWORKS_SPARK,true,thrower.posX,thrower.posY+thrower.height/4,thrower.posZ,10,0,0,0,0);
-        }
-        if(this.ticksExisted == 1 && this.getThrower() != null) {
+            NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
+            if (thrower != null && !world.isRemote) {
+                ParticleUtils.spawnParticle(world,EnumParticleTypes.FIREWORKS_SPARK,true,thrower.posX,thrower.posY+thrower.height/4,thrower.posZ,10,0,0,0,0);
+            }
+            if(this.ticksExisted == 1 && this.getThrower() != null) {
 
-            if (player != null) {
-                player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw,0);
-                {
-                    ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
-                    int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
-                    float baseModif = blade.getBaseAttackModifiers(tag);
-                    float magicDamage = 1.0f + (baseModif/2.0f);
-                    int rank = StylishRankManager.getStylishRank(player);
-                    if(5 <= rank)
-                        magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
-                    int count = Math.min(Math.max(player.experienceLevel/10,1),5);
-                    Vec3d BHpos = player.getLookVec().scale(11).addVector(player.posX,player.posY,player.posZ);
+                if (player != null) {
+                    player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw,0);
+                    {
+                        ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
+                        int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
+                        float baseModif = blade.getBaseAttackModifiers(tag);
+                        float magicDamage = 1.0f + (baseModif/2.0f);
+                        int rank = StylishRankManager.getStylishRank(player);
+                        if(5 <= rank)
+                            magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+                        int count = Math.min(Math.max(player.experienceLevel/10,1),5);
+                        Vec3d BHpos = player.getLookVec().scale(11).addVector(player.posX,player.posY,player.posZ);
 
-                    if(!world.isRemote){
-                        {
-                            EntityOverChargeBFG entityDrive = new EntityOverChargeBFG(world, player, magicDamage);
-                            entityDrive.setIsBlackhole(true);
-                            entityDrive.setScale(5f);
-                            entityDrive.setHitScale(count);
-                            entityDrive.setInitialPosition(BHpos.x, BHpos.y, BHpos.z, 0, 0, 0, 0);
-                            entityDrive.setIsOverWall(true);
-                            entityDrive.setMultiHit(true);
-                            entityDrive.setColor(0x00C8FF);
-                            entityDrive.setLifeTime(80);
-                            world.spawnEntity(entityDrive);
+                        if(!world.isRemote){
+                            {
+                                EntityOverChargeBFG entityDrive = new EntityOverChargeBFG(world, player, magicDamage);
+                                entityDrive.setIsBlackhole(true);
+                                entityDrive.setScale(5f);
+                                entityDrive.setHitScale(count);
+                                entityDrive.setInitialPosition(BHpos.x, BHpos.y, BHpos.z, 0, 0, 0, 0);
+                                entityDrive.setIsOverWall(true);
+                                entityDrive.setMultiHit(true);
+                                entityDrive.setColor(0x00C8FF);
+                                entityDrive.setLifeTime(80);
+                                world.spawnEntity(entityDrive);
+                            }
+                            {
+                                EntityOverCharge entityDrive = new EntityOverCharge(world, player, magicDamage);
+                                entityDrive.setScale(3f);
+                                entityDrive.setInitialPosition(BHpos.x, BHpos.y, BHpos.z, 90, 90, 0, 0);
+                                entityDrive.setIsOverWall(true);
+                                entityDrive.setMultiHit(true);
+                                entityDrive.setColor(0xFF0089);
+                                entityDrive.setInterval(0);
+                                entityDrive.setSound(SoundEvents.ENTITY_WITHER_BREAK_BLOCK,3,0.5f);
+                                entityDrive.setLifeTime(80);
+                                world.spawnEntity(entityDrive);
+                            }
                         }
+                    }
+
+
+                    player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw-18,0);
+                }
+
+                ReflectionAccessHelper.setVelocity(this.getThrower(), 0, 0, 0);
+                double playerDist = 9;
+                if (!player.onGround)
+                    playerDist *= 0.33f;
+                ReflectionAccessHelper.setVelocity(player,
+                        -Math.sin(Math.toRadians(player.rotationYaw)) * playerDist,
+                        -Math.sin(Math.toRadians(MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f))) * playerDist,
+                        Math.cos(Math.toRadians(player.rotationYaw)) * playerDist);
+
+                ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
+
+                int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
+                float baseModif = blade.getBaseAttackModifiers(tag);
+                float magicDamage = 1.0f + (baseModif/2.0f);
+                int rank = StylishRankManager.getStylishRank(player);
+                if(5 <= rank)
+                    magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+                magicDamage*=Math.max(rank,1);
+                int count = Math.min(Math.max(player.experienceLevel/10,1),5);
+
+                if(!world.isRemote){
+                    for (int i = 0;i<count;i++){
                         {
-                            EntityOverCharge entityDrive = new EntityOverCharge(world, player, magicDamage);
+                            EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
+                            entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), 45, 3f);
                             entityDrive.setScale(3f);
-                            entityDrive.setInitialPosition(BHpos.x, BHpos.y, BHpos.z, 90, 90, 0, 0);
-                            entityDrive.setIsOverWall(true);
-                            entityDrive.setMultiHit(true);
+                            entityDrive.setInterval(i*2);
+                            entityDrive.setLifeTime(100+i*2);
                             entityDrive.setColor(0xFF0089);
-                            entityDrive.setInterval(0);
-                            entityDrive.setSound(SoundEvents.ENTITY_WITHER_BREAK_BLOCK,3,0.5f);
-                            entityDrive.setLifeTime(80);
+                            entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,0.5f);
+                            entityDrive.setParticle(EnumParticleTypes.END_ROD);
+                            world.spawnEntity(entityDrive);
+                        }
+                        {
+                            EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
+                            entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), -45, 3f);
+                            entityDrive.setScale(3f);
+                            entityDrive.setInterval(i*2);
+                            entityDrive.setLifeTime(100+i*2);
+                            entityDrive.setColor(0x00C8FF);
+                            entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,2f);
+                            entityDrive.setParticle(EnumParticleTypes.END_ROD);
                             world.spawnEntity(entityDrive);
                         }
                     }
                 }
-
-
-                player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw-18,0);
+                UntouchableTime.setUntouchableTime(player, 20);
+                ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.SlashEdge);
             }
+            if(this.ticksExisted == 6 && this.getThrower() != null) {
+                if (player != null) {
+                    player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw+180-36,0);
+                }
+                ReflectionAccessHelper.setVelocity(this.getThrower(), 0, 0, 0);
+                double playerDist = 9;
+                if (!player.onGround)
+                    playerDist *= 0.33f;
+                ReflectionAccessHelper.setVelocity(player,
+                        -Math.sin(Math.toRadians(player.rotationYaw)) * playerDist,
+                        -Math.sin(Math.toRadians(MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f))) * playerDist,
+                        Math.cos(Math.toRadians(player.rotationYaw)) * playerDist);
 
-            ReflectionAccessHelper.setVelocity(this.getThrower(), 0, 0, 0);
-            double playerDist = 9;
-            if (!player.onGround)
-                playerDist *= 0.33f;
-            ReflectionAccessHelper.setVelocity(player,
-                    -Math.sin(Math.toRadians(player.rotationYaw)) * playerDist,
-                    -Math.sin(Math.toRadians(MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f))) * playerDist,
-                    Math.cos(Math.toRadians(player.rotationYaw)) * playerDist);
+                ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
 
-            ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
+                int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
+                float baseModif = blade.getBaseAttackModifiers(tag);
+                float magicDamage = 1.0f + (baseModif/2.0f);
+                int rank = StylishRankManager.getStylishRank(player);
+                if(5 <= rank)
+                    magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+                magicDamage*=Math.max(rank,1);
+                int count = Math.min(Math.max(player.experienceLevel/10,1),5);
 
-            int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
-            float baseModif = blade.getBaseAttackModifiers(tag);
-            float magicDamage = 1.0f + (baseModif/2.0f);
-            int rank = StylishRankManager.getStylishRank(player);
-            if(5 <= rank)
-                magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
-            magicDamage*=Math.max(rank,1);
-            int count = Math.min(Math.max(player.experienceLevel/10,1),5);
-
-            if(!world.isRemote){
-                for (int i = 0;i<count;i++){
-                    {
-                        EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
-                        entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), 45, 3f);
-                        entityDrive.setScale(3f);
-                        entityDrive.setInterval(i*2);
-                        entityDrive.setLifeTime(100+i*2);
-                        entityDrive.setColor(0xFF0089);
-                        entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,0.5f);
-                        entityDrive.setParticle(EnumParticleTypes.END_ROD);
-                        world.spawnEntity(entityDrive);
-                    }
-                    {
-                        EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
-                        entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), -45, 3f);
-                        entityDrive.setScale(3f);
-                        entityDrive.setInterval(i*2);
-                        entityDrive.setLifeTime(100+i*2);
-                        entityDrive.setColor(0x00C8FF);
-                        entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,2f);
-                        entityDrive.setParticle(EnumParticleTypes.END_ROD);
-                        world.spawnEntity(entityDrive);
+                if(!world.isRemote){
+                    for (int i = 0;i<count;i++){
+                        {
+                            EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
+                            entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), 45, 3f);
+                            entityDrive.setScale(3f);
+                            entityDrive.setInterval(i*2);
+                            entityDrive.setLifeTime(100+i*2);
+                            entityDrive.setColor(0xFF0089);
+                            entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,0.5f);
+                            entityDrive.setParticle(EnumParticleTypes.END_ROD);
+                            world.spawnEntity(entityDrive);
+                        }
+                        {
+                            EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
+                            entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), -45, 3f);
+                            entityDrive.setScale(3f);
+                            entityDrive.setInterval(i*2);
+                            entityDrive.setLifeTime(100+i*2);
+                            entityDrive.setColor(0x00C8FF);
+                            entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,2f);
+                            entityDrive.setParticle(EnumParticleTypes.END_ROD);
+                            world.spawnEntity(entityDrive);
+                        }
                     }
                 }
+                UntouchableTime.setUntouchableTime(player, 20);
+                ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.ReturnEdge);
             }
-            UntouchableTime.setUntouchableTime(player, 20);
-            ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.SlashEdge);
-        }
-        if(this.ticksExisted == 6 && this.getThrower() != null) {
-            if (player != null) {
-                player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw+180-36,0);
-            }
-            ReflectionAccessHelper.setVelocity(this.getThrower(), 0, 0, 0);
-            double playerDist = 9;
-            if (!player.onGround)
-                playerDist *= 0.33f;
-            ReflectionAccessHelper.setVelocity(player,
-                    -Math.sin(Math.toRadians(player.rotationYaw)) * playerDist,
-                    -Math.sin(Math.toRadians(MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f))) * playerDist,
-                    Math.cos(Math.toRadians(player.rotationYaw)) * playerDist);
+            if(this.ticksExisted == 11 && this.getThrower() != null) {
+                if (player != null) {
+                    player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw+180-36,0);
+                }
+                ReflectionAccessHelper.setVelocity(this.getThrower(), 0, 0, 0);
+                double playerDist = 9;
+                if (!player.onGround)
+                    playerDist *= 0.33f;
+                ReflectionAccessHelper.setVelocity(player,
+                        -Math.sin(Math.toRadians(player.rotationYaw)) * playerDist,
+                        -Math.sin(Math.toRadians(MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f))) * playerDist,
+                        Math.cos(Math.toRadians(player.rotationYaw)) * playerDist);
 
-            ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
+                ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
 
-            int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
-            float baseModif = blade.getBaseAttackModifiers(tag);
-            float magicDamage = 1.0f + (baseModif/2.0f);
-            int rank = StylishRankManager.getStylishRank(player);
-            if(5 <= rank)
-                magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
-            magicDamage*=Math.max(rank,1);
-            int count = Math.min(Math.max(player.experienceLevel/10,1),5);
+                int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
+                float baseModif = blade.getBaseAttackModifiers(tag);
+                float magicDamage = 1.0f + (baseModif/2.0f);
+                int rank = StylishRankManager.getStylishRank(player);
+                if(5 <= rank)
+                    magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+                magicDamage*=Math.max(rank,1);
+                int count = Math.min(Math.max(player.experienceLevel/10,1),5);
 
-            if(!world.isRemote){
-                for (int i = 0;i<count;i++){
-                    {
-                        EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
-                        entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), 45, 3f);
-                        entityDrive.setScale(3f);
-                        entityDrive.setInterval(i*2);
-                        entityDrive.setLifeTime(100+i*2);
-                        entityDrive.setColor(0xFF0089);
-                        entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,0.5f);
-                        entityDrive.setParticle(EnumParticleTypes.END_ROD);
-                        world.spawnEntity(entityDrive);
-                    }
-                    {
-                        EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
-                        entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), -45, 3f);
-                        entityDrive.setScale(3f);
-                        entityDrive.setInterval(i*2);
-                        entityDrive.setLifeTime(100+i*2);
-                        entityDrive.setColor(0x00C8FF);
-                        entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,2f);
-                        entityDrive.setParticle(EnumParticleTypes.END_ROD);
-                        world.spawnEntity(entityDrive);
+                if(!world.isRemote){
+                    for (int i = 0;i<count;i++){
+                        {
+                            EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
+                            entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), 45, 3f);
+                            entityDrive.setScale(3f);
+                            entityDrive.setInterval(i*2);
+                            entityDrive.setLifeTime(100+i*2);
+                            entityDrive.setColor(0xFF0089);
+                            entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,0.5f);
+                            entityDrive.setParticle(EnumParticleTypes.END_ROD);
+                            world.spawnEntity(entityDrive);
+                        }
+                        {
+                            EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
+                            entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), -45, 3f);
+                            entityDrive.setScale(3f);
+                            entityDrive.setInterval(i*2);
+                            entityDrive.setLifeTime(100+i*2);
+                            entityDrive.setColor(0x00C8FF);
+                            entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,2f);
+                            entityDrive.setParticle(EnumParticleTypes.END_ROD);
+                            world.spawnEntity(entityDrive);
+                        }
                     }
                 }
+                UntouchableTime.setUntouchableTime(player, 20);
+                ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.SlashEdge);
             }
-            UntouchableTime.setUntouchableTime(player, 20);
-            ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.ReturnEdge);
-        }
-        if(this.ticksExisted == 11 && this.getThrower() != null) {
-            if (player != null) {
-                player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw+180-36,0);
-            }
-            ReflectionAccessHelper.setVelocity(this.getThrower(), 0, 0, 0);
-            double playerDist = 9;
-            if (!player.onGround)
-                playerDist *= 0.33f;
-            ReflectionAccessHelper.setVelocity(player,
-                    -Math.sin(Math.toRadians(player.rotationYaw)) * playerDist,
-                    -Math.sin(Math.toRadians(MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f))) * playerDist,
-                    Math.cos(Math.toRadians(player.rotationYaw)) * playerDist);
+            if(this.ticksExisted == 16 && this.getThrower() != null) {
+                if (player != null) {
+                    player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw+180-36,0);
+                }
+                ReflectionAccessHelper.setVelocity(this.getThrower(), 0, 0, 0);
+                double playerDist = 9;
+                if (!player.onGround)
+                    playerDist *= 0.33f;
+                ReflectionAccessHelper.setVelocity(player,
+                        -Math.sin(Math.toRadians(player.rotationYaw)) * playerDist,
+                        -Math.sin(Math.toRadians(MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f))) * playerDist,
+                        Math.cos(Math.toRadians(player.rotationYaw)) * playerDist);
 
-            ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
+                ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
 
-            int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
-            float baseModif = blade.getBaseAttackModifiers(tag);
-            float magicDamage = 1.0f + (baseModif/2.0f);
-            int rank = StylishRankManager.getStylishRank(player);
-            if(5 <= rank)
-                magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
-            magicDamage*=Math.max(rank,1);
-            int count = Math.min(Math.max(player.experienceLevel/10,1),5);
+                int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
+                float baseModif = blade.getBaseAttackModifiers(tag);
+                float magicDamage = 1.0f + (baseModif/2.0f);
+                int rank = StylishRankManager.getStylishRank(player);
+                if(5 <= rank)
+                    magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+                magicDamage*=Math.max(rank,1);
+                int count = Math.min(Math.max(player.experienceLevel/10,1),5);
 
-            if(!world.isRemote){
-                for (int i = 0;i<count;i++){
-                    {
-                        EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
-                        entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), 45, 3f);
-                        entityDrive.setScale(3f);
-                        entityDrive.setInterval(i*2);
-                        entityDrive.setLifeTime(100+i*2);
-                        entityDrive.setColor(0xFF0089);
-                        entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,0.5f);
-                        entityDrive.setParticle(EnumParticleTypes.END_ROD);
-                        world.spawnEntity(entityDrive);
-                    }
-                    {
-                        EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
-                        entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), -45, 3f);
-                        entityDrive.setScale(3f);
-                        entityDrive.setInterval(i*2);
-                        entityDrive.setLifeTime(100+i*2);
-                        entityDrive.setColor(0x00C8FF);
-                        entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,2f);
-                        entityDrive.setParticle(EnumParticleTypes.END_ROD);
-                        world.spawnEntity(entityDrive);
+                if(!world.isRemote){
+                    for (int i = 0;i<count;i++){
+                        {
+                            EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
+                            entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), 45, 3f);
+                            entityDrive.setScale(3f);
+                            entityDrive.setInterval(i*2);
+                            entityDrive.setLifeTime(100+i*2);
+                            entityDrive.setColor(0xFF0089);
+                            entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,0.5f);
+                            entityDrive.setParticle(EnumParticleTypes.END_ROD);
+                            world.spawnEntity(entityDrive);
+                        }
+                        {
+                            EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
+                            entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), -45, 3f);
+                            entityDrive.setScale(3f);
+                            entityDrive.setInterval(i*2);
+                            entityDrive.setLifeTime(100+i*2);
+                            entityDrive.setColor(0x00C8FF);
+                            entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,2f);
+                            entityDrive.setParticle(EnumParticleTypes.END_ROD);
+                            world.spawnEntity(entityDrive);
+                        }
                     }
                 }
+                UntouchableTime.setUntouchableTime(player, 20);
+                ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.ReturnEdge);
             }
-            UntouchableTime.setUntouchableTime(player, 20);
-            ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.SlashEdge);
-        }
-        if(this.ticksExisted == 16 && this.getThrower() != null) {
-            if (player != null) {
-                player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw+180-36,0);
-            }
-            ReflectionAccessHelper.setVelocity(this.getThrower(), 0, 0, 0);
-            double playerDist = 9;
-            if (!player.onGround)
-                playerDist *= 0.33f;
-            ReflectionAccessHelper.setVelocity(player,
-                    -Math.sin(Math.toRadians(player.rotationYaw)) * playerDist,
-                    -Math.sin(Math.toRadians(MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f))) * playerDist,
-                    Math.cos(Math.toRadians(player.rotationYaw)) * playerDist);
+            if(this.ticksExisted == 21 && this.getThrower() != null) {
+                if (player != null) {
+                    player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw+180-36,0);
+                }
+                ReflectionAccessHelper.setVelocity(this.getThrower(), 0, 0, 0);
+                double playerDist = 9;
+                if (!player.onGround)
+                    playerDist *= 0.33f;
+                ReflectionAccessHelper.setVelocity(player,
+                        -Math.sin(Math.toRadians(player.rotationYaw)) * playerDist,
+                        -Math.sin(Math.toRadians(MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f))) * playerDist,
+                        Math.cos(Math.toRadians(player.rotationYaw)) * playerDist);
 
-            ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
+                ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
 
-            int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
-            float baseModif = blade.getBaseAttackModifiers(tag);
-            float magicDamage = 1.0f + (baseModif/2.0f);
-            int rank = StylishRankManager.getStylishRank(player);
-            if(5 <= rank)
-                magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
-            magicDamage*=Math.max(rank,1);
-            int count = Math.min(Math.max(player.experienceLevel/10,1),5);
+                int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
+                float baseModif = blade.getBaseAttackModifiers(tag);
+                float magicDamage = 1.0f + (baseModif/2.0f);
+                int rank = StylishRankManager.getStylishRank(player);
+                if(5 <= rank)
+                    magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+                magicDamage*=Math.max(rank,1);
+                int count = Math.min(Math.max(player.experienceLevel/10,1),5);
 
-            if(!world.isRemote){
-                for (int i = 0;i<count;i++){
-                    {
-                        EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
-                        entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), 45, 3f);
-                        entityDrive.setScale(3f);
-                        entityDrive.setInterval(i*2);
-                        entityDrive.setLifeTime(100+i*2);
-                        entityDrive.setColor(0xFF0089);
-                        entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,0.5f);
-                        entityDrive.setParticle(EnumParticleTypes.END_ROD);
-                        world.spawnEntity(entityDrive);
-                    }
-                    {
-                        EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
-                        entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), -45, 3f);
-                        entityDrive.setScale(3f);
-                        entityDrive.setInterval(i*2);
-                        entityDrive.setLifeTime(100+i*2);
-                        entityDrive.setColor(0x00C8FF);
-                        entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,2f);
-                        entityDrive.setParticle(EnumParticleTypes.END_ROD);
-                        world.spawnEntity(entityDrive);
+                if(!world.isRemote){
+                    for (int i = 0;i<count;i++){
+                        {
+                            EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
+                            entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), 45, 3f);
+                            entityDrive.setScale(3f);
+                            entityDrive.setInterval(i*2);
+                            entityDrive.setLifeTime(100+i*2);
+                            entityDrive.setColor(0xFF0089);
+                            entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,0.5f);
+                            entityDrive.setParticle(EnumParticleTypes.END_ROD);
+                            world.spawnEntity(entityDrive);
+                        }
+                        {
+                            EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
+                            entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), -45, 3f);
+                            entityDrive.setScale(3f);
+                            entityDrive.setInterval(i*2);
+                            entityDrive.setLifeTime(100+i*2);
+                            entityDrive.setColor(0x00C8FF);
+                            entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,2f);
+                            entityDrive.setParticle(EnumParticleTypes.END_ROD);
+                            world.spawnEntity(entityDrive);
+                        }
                     }
                 }
+                UntouchableTime.setUntouchableTime(player, 20);
+                ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.SlashEdge);
             }
-            UntouchableTime.setUntouchableTime(player, 20);
-            ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.ReturnEdge);
-        }
-        if(this.ticksExisted == 21 && this.getThrower() != null) {
-            if (player != null) {
-                player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw+180-36,0);
-            }
-            ReflectionAccessHelper.setVelocity(this.getThrower(), 0, 0, 0);
-            double playerDist = 9;
-            if (!player.onGround)
-                playerDist *= 0.33f;
-            ReflectionAccessHelper.setVelocity(player,
-                    -Math.sin(Math.toRadians(player.rotationYaw)) * playerDist,
-                    -Math.sin(Math.toRadians(MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f))) * playerDist,
-                    Math.cos(Math.toRadians(player.rotationYaw)) * playerDist);
 
-            ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
-
-            int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
-            float baseModif = blade.getBaseAttackModifiers(tag);
-            float magicDamage = 1.0f + (baseModif/2.0f);
-            int rank = StylishRankManager.getStylishRank(player);
-            if(5 <= rank)
-                magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
-            magicDamage*=Math.max(rank,1);
-            int count = Math.min(Math.max(player.experienceLevel/10,1),5);
-
-            if(!world.isRemote){
-                for (int i = 0;i<count;i++){
-                    {
-                        EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
-                        entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), 45, 3f);
-                        entityDrive.setScale(3f);
-                        entityDrive.setInterval(i*2);
-                        entityDrive.setLifeTime(100+i*2);
-                        entityDrive.setColor(0xFF0089);
-                        entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,0.5f);
-                        entityDrive.setParticle(EnumParticleTypes.END_ROD);
-                        world.spawnEntity(entityDrive);
-                    }
-                    {
-                        EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);
-                        entityDrive.setInitialPosition(player.posX, player.posY + player.eyeHeight, player.posZ, player.rotationYaw, MathHelper.clamp(player.rotationPitch, -30.0f, 30.0f), -45, 3f);
-                        entityDrive.setScale(3f);
-                        entityDrive.setInterval(i*2);
-                        entityDrive.setLifeTime(100+i*2);
-                        entityDrive.setColor(0x00C8FF);
-                        entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,2f);
-                        entityDrive.setParticle(EnumParticleTypes.END_ROD);
-                        world.spawnEntity(entityDrive);
-                    }
+            if (ticksExisted>=35||thrower==null){
+                if (player != null) {
+                    player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw-180-18,0);
                 }
+                this.setDead();
             }
-            UntouchableTime.setUntouchableTime(player, 20);
-            ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.SlashEdge);
-        }
 
-        if (ticksExisted>=35||thrower==null){
-            if (player != null) {
-                player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw-180-18,0);
-            }
-            this.setDead();
         }
     }
 

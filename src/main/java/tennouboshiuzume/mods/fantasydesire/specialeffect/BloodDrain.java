@@ -22,6 +22,7 @@ import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
 import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
@@ -46,7 +47,7 @@ public class BloodDrain implements ISpecialEffect, IRemovable {
     public void onImpactEffectEvent(SlashBladeEvent.ImpactEffectEvent event){
 
 //        if(!useBlade(event.sequence)) return;
-
+        if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.CrimsonScythe", 1).getUnlocalizedName()))return;
         if(!SpecialEffects.isPlayer(event.user)) return;
         EntityPlayer player = (EntityPlayer) event.user;
 
@@ -64,7 +65,8 @@ public class BloodDrain implements ISpecialEffect, IRemovable {
         ItemSlashBlade.ProudSoul.tryAdd(tag,2,false);
         Integer proudSoul = ItemSlashBlade.ProudSoul.get(tag);
         float addDamage = (float)  proudSoul/2000;
-        ItemSlashBlade.setBaseAttackModifier(tag,12 + addDamage);
+        NBTTagCompound example = ItemSlashBlade.getItemTagCompound(BladeUtils.getCustomBlade("tennouboshiuzume.slashblade.CrimsonScythe"));
+        ItemSlashBlade.setBaseAttackModifier(tag,ItemSlashBlade.BaseAttackModifier.get(example) + addDamage);
 //        状态栏提示
         String formattedDamage = String.format("%.2f", addDamage);
         player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.BloodDrainEv", formattedDamage)), true);

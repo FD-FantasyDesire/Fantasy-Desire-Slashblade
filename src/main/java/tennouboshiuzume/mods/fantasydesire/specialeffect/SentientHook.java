@@ -9,6 +9,7 @@ import mods.flammpfeil.slashblade.specialeffect.ISpecialEffect;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import mods.flammpfeil.slashblade.util.SlashBladeEvent;
 import mods.flammpfeil.slashblade.util.SlashBladeHooks;
+import net.minecraft.client.audio.Sound;
 import net.minecraft.client.renderer.entity.RenderLeashKnot;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -23,8 +24,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityDriveEx;
@@ -32,6 +35,7 @@ import tennouboshiuzume.mods.fantasydesire.entity.EntityOverChargeBFG;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
+import tennouboshiuzume.mods.fantasydesire.util.MathUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
@@ -93,15 +97,15 @@ public class SentientHook implements ISpecialEffect, IRemovable
                 if (target.getDistance(player)>5){
                     if (pull){
                         pullEntityTowards(target,player.posX,player.posY+player.eyeHeight,player.posZ,0.2);
+                        target.playSound(SoundEvents.ITEM_ARMOR_EQUIP_CHAIN,1,2);
                         if (!player.world.isRemote){
-                            ParticleUtils.spawnParticleLine(player.world, EnumParticleTypes.WATER_BUBBLE,player.posX,player.posY+player.height/2,player.posZ,target.posX,target.posY+target.height/2,target.posZ,30);
+                            ParticleUtils.spawnParticleLine(player.world, EnumParticleTypes.REDSTONE,player.posX,player.posY+player.height/2,player.posZ,target.posX,target.posY+target.height/2,target.posZ,0.98,0.39,0.39,0,1);
                         }
                     }
                 }
             }
         }
     }
-
     private void pullEntityTowards(Entity entity, double targetX, double targetY, double targetZ, double strength) {
 
         double dx = targetX - entity.posX;

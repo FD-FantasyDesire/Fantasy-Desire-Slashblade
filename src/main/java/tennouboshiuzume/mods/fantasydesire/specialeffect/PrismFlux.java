@@ -28,6 +28,7 @@ import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverCharge;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
+import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.*;
 
@@ -48,6 +49,15 @@ public class PrismFlux implements ISpecialEffect, IRemovable {
         EntityPlayer player = (EntityPlayer) event.user;
 
         if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.PureSnow", 1).getUnlocalizedName())) return;
+
+        switch (SpecialEffects.isEffective(player, event.blade, FdSEs.RainbowFlux)) {
+            case None:
+                return;
+            case Effective:
+                break;
+            case NonEffective:
+                return;
+        }
 
         switch (SpecialEffects.isEffective(player, event.blade, this)) {
             case None:

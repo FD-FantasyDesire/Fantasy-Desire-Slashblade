@@ -51,6 +51,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
             if (player.getHealth() < 30) {
                 ItemStack resultBlade = WorldBladeStandCrafting.crafting(stack, name);
                 player.setHeldItem(EnumHand.MAIN_HAND, resultBlade);
+                player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.WingToTheFutureSuccess")), true);
             } else {
                 player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.WingToTheFutureFail")), true);
             }

@@ -52,7 +52,7 @@ import java.util.logging.Level;
 public class ImmortalSoul implements ISpecialEffect, IRemovable {
     private static final String EffectKey = "ImmortalSoul";
 
-    //    当玩家死亡时，如果耀魂大于1000，免除该次死亡，并且攻击伤害+2
+    //    当玩家死亡时，如果耀魂大于1000，免除该次死亡，并且基础攻击伤害+2
     @SubscribeEvent
     public void onPlayerDeath(LivingDeathEvent event) {
         if (!(event.getEntityLiving() instanceof EntityPlayer)) return;

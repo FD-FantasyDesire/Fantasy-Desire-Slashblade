@@ -13,10 +13,6 @@ import tennouboshiuzume.mods.fantasydesire.common.CommonProxy;
 import tennouboshiuzume.mods.fantasydesire.entity.*;
 import tennouboshiuzume.mods.fantasydesire.util.ItemUtils;
 
-/**
- * @author Moflop
- * @updateDate 2020/02/12
- */
 public class ClientProxy extends CommonProxy {
 
     @Override

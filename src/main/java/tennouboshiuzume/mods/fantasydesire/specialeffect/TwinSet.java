@@ -80,7 +80,6 @@ public class TwinSet implements ISpecialEffect
         ){
             return;
         }
-
         if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.TwinBlade", 1).getUnlocalizedName())
         ){
             return;
@@ -102,6 +101,8 @@ public class TwinSet implements ISpecialEffect
             case NonEffective:
                 return;
         }
+
+
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
         NBTTagCompound offtag = ItemSlashBlade.getItemTagCompound(offBlade);
 

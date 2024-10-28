@@ -50,6 +50,15 @@ public class FdBlades {
         loadBlade(new PureSnow());
     }
 
+    public static CreativeTabs getCreativeTabByName(String tabName) {
+        for (CreativeTabs tab : CreativeTabs.CREATIVE_TAB_ARRAY) {
+            if (tab.getTabLabel().equals(tabName)) {
+                return tab;
+            }
+        }
+        return null;  // 如果没有找到符合条件的标签，返回 null
+    }
+    CreativeTabs fdTab = getCreativeTabByName("FantasyDesire");
 
     public void loadBlade(Object blade) {
         SlashBlade.InitEventBus.register(blade);
@@ -119,9 +128,6 @@ public class FdBlades {
             NBTTagList lore = new NBTTagList();
             lore.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.info.PrismFlux.crafting")));
             displayTag.setTag("Lore",lore);
-//            tag.setInteger("RepairCost", -80);
-
-
             SlashBlade.addRecipe("PrismFlux",
                     new ShapedOreRecipe(new ResourceLocation(FantasyDesire.MODID, "PrismFlux"),
                             crystalSoul,
@@ -140,18 +146,16 @@ public class FdBlades {
                     ));
         }
         {
-//            棱光通量 晶态魂
+//            感知抓钩 晶态魂
             NBTTagCompound tag = new NBTTagCompound();
             ItemStack crystalSoul = crystalSoulOrg;
             crystalSoul.setTagCompound(tag);
-            SpecialEffects.addEffect(crystalSoul, "SentientHook",10);
+            SpecialEffects.addEffect(crystalSoul, "SentientHook",5);
             NBTTagCompound displayTag = new NBTTagCompound();
             crystalSoul.setTagInfo("display",displayTag);
             NBTTagList lore = new NBTTagList();
             lore.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.info.SentientHook.crafting")));
             displayTag.setTag("Lore",lore);
-//            tag.setInteger("RepairCost", -80);
-
             SlashBlade.addRecipe("SentientHook",
                     new ShapedOreRecipe(new ResourceLocation(FantasyDesire.MODID, "SentientHook"),
                             crystalSoul,
@@ -161,6 +165,52 @@ public class FdBlades {
                             'A', sphereSoulOrg,
                             'B', new ItemStack(Items.LEAD),
                             'C', new ItemStack(Items.STRING)
+                    ));
+        }
+        {
+//            战利品磁吸 晶态魂
+            NBTTagCompound tag = new NBTTagCompound();
+            ItemStack crystalSoul = crystalSoulOrg;
+            crystalSoul.setTagCompound(tag);
+            SpecialEffects.addEffect(crystalSoul, "ItemMagnet",1);
+            NBTTagCompound displayTag = new NBTTagCompound();
+            crystalSoul.setTagInfo("display",displayTag);
+            NBTTagList lore = new NBTTagList();
+            lore.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.info.ItemMagnet.crafting")));
+            displayTag.setTag("Lore",lore);
+            SlashBlade.addRecipe("ItemMagnet",
+                    new ShapedOreRecipe(new ResourceLocation(FantasyDesire.MODID, "ItemMagnet"),
+                            crystalSoul,
+                            "A B",
+                            "A B",
+                            "CDC",
+                            'A', new ItemStack(Items.DYE,1,4),
+                            'B', new ItemStack(Items.REDSTONE),
+                            'C', new ItemStack(Items.ENDER_PEARL),
+                            'D',sphereSoulOrg
+                    ));
+        }
+        {
+//            镜面刃缘 晶态魂
+            NBTTagCompound tag = new NBTTagCompound();
+            ItemStack crystalSoul = crystalSoulOrg;
+            crystalSoul.setTagCompound(tag);
+            SpecialEffects.addEffect(crystalSoul, "CounterBlade",35);
+            NBTTagCompound displayTag = new NBTTagCompound();
+            crystalSoul.setTagInfo("display",displayTag);
+            NBTTagList lore = new NBTTagList();
+            lore.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.info.CounterBlade.crafting")));
+            displayTag.setTag("Lore",lore);
+            SlashBlade.addRecipe("CounterBlade",
+                    new ShapedOreRecipe(new ResourceLocation(FantasyDesire.MODID, "CounterBlade"),
+                            crystalSoul,
+                            "AAB",
+                            "ACD",
+                            "BDD",
+                            'A', new ItemStack(Items.QUARTZ),
+                            'B', new ItemStack(Items.IRON_SWORD),
+                            'C', sphereSoulOrg,
+                            'D', new ItemStack(Blocks.GLASS_PANE)
                     ));
         }
 

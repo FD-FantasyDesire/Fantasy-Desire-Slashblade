@@ -8,6 +8,7 @@ import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import mods.flammpfeil.slashblade.util.SlashBladeEvent;
 import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -74,6 +75,8 @@ public class TwinBlade {
         if (!(ItemSlashBlade.ProudSoul.get(tag)>=1000)) return;
 
         if(!event.blade.getUnlocalizedName().equals(targetBlade.getUnlocalizedName())) return;
+
+        if(!(EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, event.blade)>=3)) return;
 
         ItemStack resultBlade = WorldBladeStandCrafting.crafting(event.blade,name);
 

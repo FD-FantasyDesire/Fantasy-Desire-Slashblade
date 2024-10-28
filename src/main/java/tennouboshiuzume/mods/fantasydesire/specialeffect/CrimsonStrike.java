@@ -22,10 +22,12 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityDriveEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverChargeBFG;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
+import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.util.List;
@@ -57,6 +59,7 @@ public class CrimsonStrike implements ISpecialEffect
     @SubscribeEvent
     public void onUpdateItemSlashBlade(SlashBladeEvent.OnUpdateEvent event)
     {
+        if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.CrimsonScythe", 1).getUnlocalizedName()))return;
         if (!SpecialEffects.isPlayer(event.entity))
             return;
         EntityPlayer player = (EntityPlayer)event.entity;

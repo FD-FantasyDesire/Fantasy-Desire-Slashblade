@@ -2,6 +2,7 @@ package tennouboshiuzume.mods.fantasydesire.util;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.Random;
 
@@ -68,14 +69,32 @@ public class MathUtils
 
     static Random random = new Random();
     public static boolean randomCheck(int chance){
-        // 生成 0 到 99 之间的随机数，检查是否小于等于 chance
         return random.nextInt(100) < chance;
     }
-    static double getDistancePos(double startX,double startY,double startZ,double endX,double endY,double endZ) {
+    public static double getDistancePos(double startX,double startY,double startZ,double endX,double endY,double endZ) {
         double f = startX - endX;
         double f1 = startY - endY;
         double f2 = startZ - endZ;
         return MathHelper.sqrt(f * f + f1 * f1 + f2 * f2);
+    }
+    public static Vec3d rotateAroundAxis(Vec3d vec, Vec3d axis, double angle) {
+        double cos = Math.cos(angle);
+        double sin = Math.sin(angle);
+        double oneMinusCos = 1.0 - cos;
+
+        double x = (cos + axis.x * axis.x * oneMinusCos) * vec.x
+                + (axis.x * axis.y * oneMinusCos - axis.z * sin) * vec.y
+                + (axis.x * axis.z * oneMinusCos + axis.y * sin) * vec.z;
+
+        double y = (axis.y * axis.x * oneMinusCos + axis.z * sin) * vec.x
+                + (cos + axis.y * axis.y * oneMinusCos) * vec.y
+                + (axis.y * axis.z * oneMinusCos - axis.x * sin) * vec.z;
+
+        double z = (axis.z * axis.x * oneMinusCos - axis.y * sin) * vec.x
+                + (axis.z * axis.y * oneMinusCos + axis.x * sin) * vec.y
+                + (cos + axis.z * axis.z * oneMinusCos) * vec.z;
+
+        return new Vec3d(x, y, z);
     }
 
 };

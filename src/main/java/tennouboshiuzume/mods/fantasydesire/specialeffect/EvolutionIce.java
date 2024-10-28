@@ -65,7 +65,7 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
         int evo_2 = 3000;
         int evo_1 = 300;
 
-        DamageSource OverCold = new EntityDamageSource("directMagic", player).setDamageIsAbsolute();
+        DamageSource OverCold = new EntityDamageSource("OverCold", player).setDamageIsAbsolute();
         int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, event.blade));
         float baseModif = ItemSlashBlade.BaseAttackModifier.get(tag);
         float magicDamage = 1.0f + (baseModif / 2.0f);
@@ -75,45 +75,52 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
         target.extinguish();
         World world = player.world;
 
-        if (proudSoul >= evo_3) {
+        if (proudSoul >= evo_3 && target.isEntityAlive()) {
 //            evo 3
             ItemFdSlashBlade.bladeType.set(tag, "OverCold_3");
             ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_3");
-            if (MathUtils.randomCheck(35))return;
-            ItemSlashBlade.ProudSoul.tryAdd(tag,10,false);
-            summonFrostStar(world,player,target,10,magicDamage*2f,3f,4);
-        } else if (proudSoul >= evo_2) {
+            if (MathUtils.randomCheck(35)) return;
+            summonFrostStar(world, player, target, 10, magicDamage * 2f, 3f, 4);
+            if (target.getHealth() < magicDamage){
+                ItemSlashBlade.ProudSoul.tryAdd(tag, 5, false);
+                ItemSlashBlade.KillCount.tryAdd(tag, 1, false);
+            }
+        } else if (proudSoul >= evo_2 && target.isEntityAlive()) {
 //            evo 2
             ItemFdSlashBlade.bladeType.set(tag, "OverCold_2");
             ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_2");
-            if (MathUtils.randomCheck(30))return;
-            ItemSlashBlade.ProudSoul.tryAdd(tag,10,false);
-            summonFrostStar(world,player,target,5,magicDamage*1.5f,1.5f,2);
-        } else if (proudSoul >= evo_1) {
+            if (MathUtils.randomCheck(30)) return;
+            summonFrostStar(world, player, target, 5, magicDamage * 1.5f, 1.5f, 2);
+            if (target.getHealth() < magicDamage){
+                ItemSlashBlade.ProudSoul.tryAdd(tag, 3, false);
+                ItemSlashBlade.KillCount.tryAdd(tag, 1, false);
+            }
+        } else if (proudSoul >= evo_1 && target.isEntityAlive()) {
 //            evo 1
             ItemFdSlashBlade.bladeType.set(tag, "OverCold_1");
             ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_1");
-            if (!MathUtils.randomCheck(25))return;
+            if (!MathUtils.randomCheck(25)) return;
             target.attackEntityFrom(OverCold, magicDamage);
             target.hurtTime = 0;
-        } else {
+        } else if (target.isEntityAlive()) {
 //            evo 0
             ItemFdSlashBlade.bladeType.set(tag, "OverCold_0");
             ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_0");
-            if (!MathUtils.randomCheck(20))return;
+            if (!MathUtils.randomCheck(20)) return;
             target.attackEntityFrom(OverCold, magicDamage * 0.5f);
             target.hurtTime = 0;
+
         }
     }
 
-    private void summonFrostStar(World world,EntityPlayer player,EntityLivingBase target, int duration,float damage,float hitScale,int color){
+    private void summonFrostStar(World world, EntityPlayer player, EntityLivingBase target, int duration, float damage, float hitScale, int color) {
         Random random = player.getRNG();
-        if (!world.isRemote){
+        if (!world.isRemote) {
             float yaw = (float) (random.nextInt(360));
             float pitch = -90f + (float) (random.nextGaussian() * 10f);
-            float roll = (float) (random.nextInt(360)-180);
-            Vec3d basePos = new Vec3d(0,0,1);
-            Vec3d spawnPos = new Vec3d(target.posX,target.posY+target.height/2,target.posZ)
+            float roll = (float) (random.nextInt(360) - 180);
+            Vec3d basePos = new Vec3d(0, 0, 1);
+            Vec3d spawnPos = new Vec3d(target.posX, target.posY + target.height / 2, target.posZ)
                     .add(basePos
                             .rotatePitch((float) Math.toRadians(pitch))
                             .rotateYaw((float) Math.toRadians(yaw))
@@ -132,7 +139,7 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
             entityDrive.setColor(freezeColor[random.nextInt(color)]);
             entityDrive.setScale(3f);
             entityDrive.setInterval(0);
-            entityDrive.setSound(SoundEvents.BLOCK_GLASS_BREAK,1,0.5f);
+            entityDrive.setSound(SoundEvents.BLOCK_GLASS_BREAK, 1, 0.5f);
             entityDrive.setTargetEntityId(target.getEntityId());
             entityDrive.setIsOverWall(true);
             entityDrive.setIsNonPlayer(true);
@@ -140,6 +147,7 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
             world.spawnEntity(entityDrive);
         }
     }
+
     private final int[] freezeColor = new int[]{
             0xAAFFFF,
             0x00AAFF,

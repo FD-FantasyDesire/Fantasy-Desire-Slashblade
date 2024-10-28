@@ -16,6 +16,9 @@ import mods.flammpfeil.slashblade.util.SlashBladeHooks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
+import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
+
 public class CheatRumble implements ISpecialEffect, IRemovable {
     private static final String EffectKey = "CheatRumble";
 
@@ -25,10 +28,11 @@ public class CheatRumble implements ISpecialEffect, IRemovable {
         if(sequence == ItemSlashBlade.ComboSequence.Noutou) return false;
         return true;
     }
-//    该效果仅为还原原作角色一击必杀的效果，一般情况下玩家不可能获得
+//    该效果仅为还原原作角色一击必杀的效果，一般情况下玩家不可能获得 :D
     @SubscribeEvent
     public void onImpactEffectEvent(SlashBladeEvent.ImpactEffectEvent event){
-
+        if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))
+            return;
         if(!useBlade(event.sequence)) return;
         if(!SpecialEffects.isPlayer(event.user)) return;
         EntityPlayer player = (EntityPlayer) event.user;
