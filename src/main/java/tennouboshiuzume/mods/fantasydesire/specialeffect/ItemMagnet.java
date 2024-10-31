@@ -21,6 +21,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
+import tennouboshiuzume.mods.fantasydesire.util.MathUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class ItemMagnet implements ISpecialEffect, IRemovable
 
             for (Entity item : list){
 
-                if (player.getDistance(item)<=1.5 && item instanceof EntityXPOrb){
+                if (MathUtils.getDistancePos(player.posX,player.posY+player.height/2,player.posZ,item.posX,item.posY+item.height/2,item.posZ) <=3 && item instanceof EntityXPOrb){
                     EntityXPOrb xpOrb = (EntityXPOrb) item;
                     player.xpCooldown = 10;
                     item.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP,0.1f,1f);
@@ -109,7 +110,7 @@ public class ItemMagnet implements ISpecialEffect, IRemovable
                     item.setDead();
                 }
 //                ParticleUtils.spawnParticle(item.world,EnumParticleTypes.END_ROD,true,item.posX,item.posY+item.height/2,item.posZ,1,0 ,0 ,0,0.1f);
-                if (player.getDistance(item) <= range &&player.getDistance(item)>1.5){
+                if (player.getDistance(item) <= range &&player.getDistance(item)>2){
                     double dx = player.posX - item.posX;
                     double dy = player.posY+player.height/2 - item.posY;
                     double dz = player.posZ - item.posZ;

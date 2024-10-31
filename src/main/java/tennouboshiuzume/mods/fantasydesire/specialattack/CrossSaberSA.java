@@ -81,7 +81,7 @@ public class CrossSaberSA extends SpecialAttackBase {
                 }
 
                 int level = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
-                float magicDamage = 1.0f + ItemSlashBlade.AttackAmplifier.get(tag) * (level / 5.0f);
+                float magicDamage = 1.0f + ItemSlashBlade.BaseAttackModifier.get(tag) / 2.0f;
                 int rank = StylishRankManager.getStylishRank(player);
                 if(5 <= rank){
                     magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level /5.0f));

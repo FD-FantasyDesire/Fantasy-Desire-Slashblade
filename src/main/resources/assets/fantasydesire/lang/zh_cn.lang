@@ -1,7 +1,7 @@
 
 #Blade
 item.tennouboshiuzume.slashblade.ChikeFlare.name=§6希望的门票§b「奇克§e芙蕾雅」
-item.tennouboshiuzume.slashblade.MordernGunblade.name=§fYRM-67 §b智能枪刃
+item.tennouboshiuzume.slashblade.ModernGunblade.name=§fYRM-67 §b智能枪刃
 item.tennouboshiuzume.slashblade.CrimsonScythe.name=§cDK-001 §4深红恶魔
 item.tennouboshiuzume.slashblade.TwinBlade.name=§bMOOD§f/§dDOOM §6双子圣灵
 item.tennouboshiuzume.slashblade.OverCold.name=§3Crystallization-11² §1永冻纪元
@@ -26,23 +26,23 @@ item.tennouboshiuzume.slashblade.ChikeFlare.SAdesc1=     §fSA:连续发射大�
 item.tennouboshiuzume.slashblade.ChikeFlare.SAdesc2=     §fJustSA：瞬间发射三轮羽翼幻影剑，锁定单个目标
 item.tennouboshiuzume.slashblade.ChikeFlare.SAdesc3=     §f超·SA：发射目标数*2根追踪羽翼幻影剑，锁定前方120°，距离45格范围内的所有目标
 
-item.tennouboshiuzume.slashblade.MordernGunblade.desc0=§f似乎是以距今2070年前，毁灭了前文明的AI核心所制作的武器
-item.tennouboshiuzume.slashblade.MordernGunblade.desc1=§f根据的其系统中的运行日志记载，无数的白光淹没了世界，只有少数人活了下来
-item.tennouboshiuzume.slashblade.MordernGunblade.desc2=§f或许与神的孩子有着什么联系
+item.tennouboshiuzume.slashblade.ModernGunblade.desc0=§f似乎是以距今2070年前，毁灭了前文明的AI核心所制作的武器
+item.tennouboshiuzume.slashblade.ModernGunblade.desc1=§f根据的其系统中的运行日志记载，无数的白光淹没了世界，只有少数人活了下来
+item.tennouboshiuzume.slashblade.ModernGunblade.desc2=§f或许与神的孩子有着什么联系
 
-item.tennouboshiuzume.slashblade.MordernGunblade.SEdesc0=§bWG-Zero 智能弹药系统：
-item.tennouboshiuzume.slashblade.MordernGunblade.SEdesc1=   §f挥砍时：发射玩家等级÷10的智能幻影剑，最大连发5
-item.tennouboshiuzume.slashblade.MordernGunblade.SEdesc2=§aWG-Omega 冲击波发射器：
-item.tennouboshiuzume.slashblade.MordernGunblade.SEdesc3=   §f挥砍时：发射可穿透障碍的高速能量球
-item.tennouboshiuzume.slashblade.MordernGunblade.SEdesc4=§7通过使用SA来切换两种SE的激活
+item.tennouboshiuzume.slashblade.ModernGunblade.SEdesc0=§bWG-Zero 智能弹药系统：
+item.tennouboshiuzume.slashblade.ModernGunblade.SEdesc1=   §f挥砍时：发射玩家等级÷10的智能幻影剑，最大连发5
+item.tennouboshiuzume.slashblade.ModernGunblade.SEdesc2=§aWG-Omega 冲击波发射器：
+item.tennouboshiuzume.slashblade.ModernGunblade.SEdesc3=   §f挥砍时：发射可穿透障碍的高速能量球
+item.tennouboshiuzume.slashblade.ModernGunblade.SEdesc4=§7通过使用SA来切换两种SE的激活
 
-item.tennouboshiuzume.slashblade.MordernGunblade.SAdesc0=§b§l充能扫射：
-item.tennouboshiuzume.slashblade.MordernGunblade.SAdesc1=   §f以环形发射大量智能幻影剑，追踪30格内所有可见敌人
-item.tennouboshiuzume.slashblade.MordernGunblade.SAdesc2=§a§l超载充能：
-item.tennouboshiuzume.slashblade.MordernGunblade.SAdesc3=   §f发射连锁能量球，向掠过的敌人发射幻影剑，最后产生爆炸
-item.tennouboshiuzume.slashblade.MordernGunblade.SAdesc4=§6超·SA：§f§l白色之神·全人类安乐死射线
-item.tennouboshiuzume.slashblade.MordernGunblade.SAdesc5=   §f锁定半径60米内的数个敌人，施放射线打击，持续60s
-item.tennouboshiuzume.slashblade.MordernGunblade.SAdesc6=   §f若目标死亡则在玩家半径30m内继续搜索
+item.tennouboshiuzume.slashblade.ModernGunblade.SAdesc0=§b§l充能扫射：
+item.tennouboshiuzume.slashblade.ModernGunblade.SAdesc1=   §f以环形发射大量智能幻影剑，追踪30格内所有可见敌人
+item.tennouboshiuzume.slashblade.ModernGunblade.SAdesc2=§a§l超载充能：
+item.tennouboshiuzume.slashblade.ModernGunblade.SAdesc3=   §f发射连锁能量球，向掠过的敌人发射幻影剑，最后产生爆炸
+item.tennouboshiuzume.slashblade.ModernGunblade.SAdesc4=§6超·SA：§f§l白色之神·全人类安乐死射线
+item.tennouboshiuzume.slashblade.ModernGunblade.SAdesc5=   §f锁定半径60米内的数个敌人，施放射线打击，持续60s
+item.tennouboshiuzume.slashblade.ModernGunblade.SAdesc6=   §f若目标死亡则在玩家半径30m内继续搜索
 
 
 item.tennouboshiuzume.slashblade.CrimsonScythe.desc0=§f具有§c“收割”§f与§d“吸收”§f能力的巨镰
@@ -141,8 +141,10 @@ slashblade.seffect.name.ColorFlux=§f全色汇流
 slashblade.seffect.name.PrismFlux=§f棱光通量
 slashblade.seffect.name.SentientHook=§d感知抓钩
 slashblade.seffect.name.ItemMagnet=§1→§f战利品磁引§4←
-slashblade.seffect.name.CounterBlade=§7镜面刃缘
-
+slashblade.seffect.name.CounterBlade=§1镜面刃缘
+slashblade.seffect.name.ExplosionBullet=§4WG-HyperBlast 绝肃爆裂弹头
+slashblade.seffect.name.ThunderBullet=§eWG-FallenBlossom 宙霆能量电容
+slashblade.seffect.name.SoulForging=§5灵魂锻造负载
 
 #Text
 tennouboshiuzume.tip.ImmortalSoulActive=§e同伴灵魂的炽热传达了过来……
@@ -172,42 +174,33 @@ tennouboshiuzume.info.Eshahar=§b永恒璀璨彗星
 tennouboshiuzume.info.ChikeFlare.crafting=如果你的拔刀非常珍贵，那么请对该SA有所了解再考虑使用
 tennouboshiuzume.info.NR.SMS=所以重置版作者为什么不直接把完整版做进重置版里呢？
 
+tennouboshiuzume.info.SoulForging.crafting=当你用铁砧砸到放在铁块上的刀挂台，就会消耗你大于10000的耀魂来锻造，基础只需要1000点，每多一次锻造就会获得一级该SE，每有一级该SE便需要额外花费50，直到2500点
 tennouboshiuzume.info.PrismFlux.crafting=覆盖虹光通量的效果，以取消剑气的代价换取攻击时发出折射幻影剑的能力
 tennouboshiuzume.info.SentientHook.crafting=鞘击挥砍时；拉近前方90°距离30米内的敌人
 tennouboshiuzume.info.ItemMagnet.crafting=在主手时：吸引15格范围内的经验球和可拾取物品
 tennouboshiuzume.info.CounterBlade.crafting=受击时：对20格范围内敌人触发攻击判定，不造成伤害
 tennouboshiuzume.info.RainbowFlux.crafting=§4让§c你§6的§e刀§2光§a和§b幻§3影§1剑§9变§d酷
+tennouboshiuzume.info.ExplosionBullet.crafting=§4仅枪刃可用，击中6米外的敌人时产生爆炸（警告：可能造成战利品丢失！）
+tennouboshiuzume.info.ThunderBullet.crafting=§e仅枪刃可用，击中6米外的敌人时，有10%%概率触发宙霆雷击（警告：可能造成严重卡顿！）
 
 #Secret
 
 item.tennouboshiuzume.slashblade.ChikeFlare.secret=§e于垂死的边缘，呼唤你体内沉睡的另一个灵魂
-
-item.tennouboshiuzume.slashblade.MordernGunblade.secret=§b畸形扭曲之物，亦是科技进化的起点
-
+item.tennouboshiuzume.slashblade.ModernGunblade.secret=§b畸形扭曲之物，亦是科技进化的起点
 item.tennouboshiuzume.slashblade.CrimsonScythe.secret=§c束魂于熔岩之中献祭，换取炼狱的力量
-
 item.tennouboshiuzume.slashblade.TwinBlade.secret=§6厄运与情绪的双子，在终焉的虚无中浮沉
-
 item.tennouboshiuzume.slashblade.OverCold.secret=§3极寒之地再度冰封，重回史前冰封时代
-
 item.tennouboshiuzume.slashblade.PureSnow.secret=§f纯净无暇的造物，从太古永恒之光中呼唤而来
-
 item.tennouboshiuzume.slashblade.Eshahar.secret=§a不可能之物
 
 #Crafting
 
 item.tennouboshiuzume.slashblade.ChikeFlare.crafting=§e生命值低于4点时，使用任意拔刀剑发动SA：翱向未来之翼
-
-item.tennouboshiuzume.slashblade.MordernGunblade.crafting=§bTNT爆炸波及放置枯石太刀的耀魂铁锭刀挂台
-
+item.tennouboshiuzume.slashblade.ModernGunblade.crafting=§bTNT爆炸波及放置枯石太刀的耀魂铁锭刀挂台
 item.tennouboshiuzume.slashblade.CrimsonScythe.crafting=§c将1000以上击杀的无铭·无名放置在岩浆中的耀魂铁锭刀挂台上
-
 item.tennouboshiuzume.slashblade.TwinBlade.crafting=§6将1000以上击杀的无铭·无铭附魔上耐久III，放置于末地虚空中的耀魂铁锭刀挂台上
-
 item.tennouboshiuzume.slashblade.OverCold.crafting=§3将1000以上击杀的无铭·无名放置在冰刺之地的耀魂铁锭刀挂台上，下方需要有冰块
-
 item.tennouboshiuzume.slashblade.PureSnow.crafting=§f将1000以上击杀的无铭·无名放置在主世界Y>250的耀魂铁锭刀挂台上，于正午时转化
-
 item.tennouboshiuzume.slashblade.Eshahar.crafting=§4无获得方式
 
 
@@ -220,6 +213,38 @@ tennouboshiuzume.slashblade.info.shift=SHIFT
 tennouboshiuzume.slashblade.info.ctrl=CTRL
 tennouboshiuzume.slashblade.info.forEffectDetails=查看效果介绍
 tennouboshiuzume.slashblade.info.forAttackDetails=查看特殊攻击介绍
+
+#Advancement
+tennouboshiuzume.fantasydesire.advancement=幻想塑愿
+tennouboshiuzume.fantasydesire.advancement.Desc=§6欢迎来到心次元
+tennouboshiuzume.fantasydesire.advancement.Start=幻想的伊始
+tennouboshiuzume.fantasydesire.advancement.Start.Desc=真正的第一步
+tennouboshiuzume.fantasydesire.advancement.TrueName=真实之名！
+tennouboshiuzume.fantasydesire.advancement.TrueName.Desc=用铁砧砸钻石块上的刀挂台，还原你意外改名的拔刀剑名字
+tennouboshiuzume.fantasydesire.advancement.SoulForging=灵魂锻造
+tennouboshiuzume.fantasydesire.advancement.SoulForging.Desc=用铁砧砸铁块上的刀挂台，消耗耀魂来为你的拔刀剑增加锻造数
+tennouboshiuzume.fantasydesire.advancement.OverDimension=超越次元
+tennouboshiuzume.fantasydesire.advancement.OverDimension.Desc=与你灵魂深处的另一个灵魂共鸣
+tennouboshiuzume.fantasydesire.advancement.OverSoul=灵魂链接·MAX
+tennouboshiuzume.fantasydesire.advancement.OverSoul.Desc=被你永恒的伙伴拯救
+tennouboshiuzume.fantasydesire.advancement.AncientIntelligence=古代智能
+tennouboshiuzume.fantasydesire.advancement.AncientIntelligence.Desc=唤醒毁灭纪元的神明残存的一部分
+tennouboshiuzume.fantasydesire.advancement.CrimsonOne=深红一号
+tennouboshiuzume.fantasydesire.advancement.CrimsonOne.Desc=锻造收割一切的深红镰刀
+tennouboshiuzume.fantasydesire.advancement.Twinset=纷争双子
+tennouboshiuzume.fantasydesire.advancement.Twinset.Desc=平息虚空深处的争端
+tennouboshiuzume.fantasydesire.advancement.ColdAndColder_0=冰川纪元开幕式
+tennouboshiuzume.fantasydesire.advancement.ColdAndColder_0.Desc=获得史前冰川之力
+tennouboshiuzume.fantasydesire.advancement.ColdAndColder_1=比冰更冷
+tennouboshiuzume.fantasydesire.advancement.ColdAndColder_1.Desc=进化到第二阶段
+tennouboshiuzume.fantasydesire.advancement.ColdAndColder_2=绝对零度
+tennouboshiuzume.fantasydesire.advancement.ColdAndColder_2.Desc=进化到第三阶段
+tennouboshiuzume.fantasydesire.advancement.ColdAndColder_3=千宙深寒
+tennouboshiuzume.fantasydesire.advancement.ColdAndColder_3.Desc=进化到最终阶段
+tennouboshiuzume.fantasydesire.advancement.PureRainOfRainbow=纯净虹光
+tennouboshiuzume.fantasydesire.advancement.PureRainOfRainbow.Desc=转化绝对纯净的永恒光之刃
+
+
 
 #代码 官方名称 MOTD代码
 #§0	黑色	\u00A70

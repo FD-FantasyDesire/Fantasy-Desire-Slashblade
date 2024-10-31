@@ -83,7 +83,7 @@ public class EnergyBullet implements ISpecialEffect, IRemovable
 
         if (player.swingProgressInt != check)
             return;
-        if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.MordernGunblade", 1).getUnlocalizedName())
+        if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ModernGunblade", 1).getUnlocalizedName())
         ) {
             player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.GunbladeFail")), true);
             return;
@@ -113,7 +113,11 @@ public class EnergyBullet implements ISpecialEffect, IRemovable
         if (rank >= 5) {
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag)*(level/5.0f + 0.5f);
         }
-        Random random = player.getRNG();
+        int color = 0x99FF00;
+        if (SpecialEffects.isEffective(player,stack,"ThunderBullet") == SpecialEffects.State.Effective && SpecialEffects.isEffective(player,stack,"ExplosionBullet") != SpecialEffects.State.Effective)
+            color = 0xFFFF00;
+        if (SpecialEffects.isEffective(player,stack,"ThunderBullet") != SpecialEffects.State.Effective && SpecialEffects.isEffective(player,stack,"ExplosionBullet") == SpecialEffects.State.Effective)
+            color = 0xFF0000;
         EntityOverChargeBFG entityDrive = new EntityOverChargeBFG(world,player,magicDamage);
         entityDrive.setInitialPosition(player.getLookVec().x+player.posX,player.getLookVec().y+player.posY+1.3f,player.getLookVec().z+player.posZ, player.rotationYaw, player.rotationPitch,0f,2f);
         entityDrive.setInterval(0);
@@ -123,7 +127,7 @@ public class EnergyBullet implements ISpecialEffect, IRemovable
         entityDrive.setSound(SoundEvents.ENTITY_SHULKER_SHOOT,2,2f);
         entityDrive.setParticle(EnumParticleTypes.VILLAGER_HAPPY);
         entityDrive.setLifeTime(100);
-        entityDrive.setColor(0x99FF00);
+        entityDrive.setColor(color);
         world.spawnEntity(entityDrive);
     }
 

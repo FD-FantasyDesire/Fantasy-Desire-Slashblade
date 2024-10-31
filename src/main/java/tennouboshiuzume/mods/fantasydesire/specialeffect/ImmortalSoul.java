@@ -9,6 +9,7 @@ import net.minecraft.client.particle.ParticleTotem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -35,6 +36,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
+import tennouboshiuzume.mods.fantasydesire.util.AdvancementUtils;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
@@ -93,6 +95,7 @@ public class ImmortalSoul implements ISpecialEffect, IRemovable {
         } else {
             player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.ImmortalSoulActive1")), true);
         }
+        AdvancementUtils.grantAdvancementToPlayer((EntityPlayerMP) player,"fantasydesire:oversoul");
         event.setCanceled(true);
     }
 

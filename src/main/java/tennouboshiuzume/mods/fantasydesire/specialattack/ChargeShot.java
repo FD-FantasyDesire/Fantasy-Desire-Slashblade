@@ -6,6 +6,7 @@ import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.specialattack.ISuperSpecialAttack;
 import mods.flammpfeil.slashblade.specialattack.SpecialAttackBase;
+import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -41,7 +42,7 @@ public class ChargeShot extends SpecialAttackBase implements ISuperSpecialAttack
 
     @Override
     public void doSpacialAttack(ItemStack stack, EntityPlayer player) {
-        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.MordernGunblade", 1).getUnlocalizedName())
+        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ModernGunblade", 1).getUnlocalizedName())
         ){
             player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.GunbladeFail")),true);
             return;
@@ -61,6 +62,11 @@ public class ChargeShot extends SpecialAttackBase implements ISuperSpecialAttack
         if(5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
         magicDamage*=Math.max(rank,1);
+        int color = 0x00FFFF;
+        if (SpecialEffects.isEffective(player,stack,"ThunderBullet") == SpecialEffects.State.Effective && SpecialEffects.isEffective(player,stack,"ExplosionBullet") != SpecialEffects.State.Effective)
+            color = 0xFFFF00;
+        if (SpecialEffects.isEffective(player,stack,"ThunderBullet") != SpecialEffects.State.Effective && SpecialEffects.isEffective(player,stack,"ExplosionBullet") == SpecialEffects.State.Effective)
+            color = 0xFF0000;
 
         if (!world.isRemote) {
 
@@ -105,7 +111,7 @@ public class ChargeShot extends SpecialAttackBase implements ISuperSpecialAttack
 
                     entityDrive.setInitialPosition(circlePoint.x, playerPos.y + player.height/2, circlePoint.z, i * (360f / points) +player.rotationYaw -90, 0, 0, 3f);
                     entityDrive.setLifeTime(160);
-                    entityDrive.setColor(isBurst ? 0x00FFFF : 0xFFFFFF);
+                    entityDrive.setColor(isBurst ? color : 0xFFFFFF);
                     entityDrive.setSound(SoundEvents.ENTITY_WITHER_BREAK_BLOCK, 2f, 2f);
                     entityDrive.setScale(0.2f);
                     entityDrive.setIsOverWall(true);

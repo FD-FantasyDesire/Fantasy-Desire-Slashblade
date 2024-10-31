@@ -5,6 +5,7 @@ import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.ability.UntouchableTime;
 import mods.flammpfeil.slashblade.entity.EntityDrive;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
+import mods.flammpfeil.slashblade.specialeffect.IRemovable;
 import mods.flammpfeil.slashblade.specialeffect.ISpecialEffect;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import mods.flammpfeil.slashblade.util.SlashBladeEvent;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class CrimsonStrike implements ISpecialEffect
+public class CrimsonStrike implements ISpecialEffect, IRemovable
 {
     private static final String EffectKey = "CrimsonStrike";
 
@@ -136,5 +137,15 @@ public class CrimsonStrike implements ISpecialEffect
     public String getEffectKey()
     {
         return EffectKey;
+    }
+
+    @Override
+    public boolean canCopy(ItemStack itemStack) {
+        return false;
+    }
+
+    @Override
+    public boolean canRemoval(ItemStack itemStack) {
+        return false;
     }
 }

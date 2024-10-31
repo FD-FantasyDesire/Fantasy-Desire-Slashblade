@@ -1,12 +1,14 @@
 package tennouboshiuzume.mods.fantasydesire.entity;
 
 
+import javafx.scene.effect.Lighting;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 //他妈的霓虹金，两个类弄一样名字干什么了
 import mods.flammpfeil.slashblade.util.ReflectionAccessHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.init.MobEffects;
 import net.minecraft.network.datasync.DataSerializers;

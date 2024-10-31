@@ -41,6 +41,9 @@ public class FdTabs {
             items.add(getRecipeOutput("SentientHook"));
             items.add(getRecipeOutput("PrismFlux"));
             items.add(getRecipeOutput("CounterBlade"));
+            items.add(customSoul("ExplosionBullet",60));
+            items.add(customSoul("ThunderBullet",60));
+            items.add(customSoul("SoulForging",0));
         }
         public ItemStack getRecipeOutput(String recipeId) {
             // 使用配方ID查询配方

@@ -4,6 +4,7 @@ import mods.flammpfeil.slashblade.entity.EntityDrive;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.specialattack.SpecialAttackBase;
+import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -29,7 +30,7 @@ public class OverCharge extends SpecialAttackBase {
 
     @Override
     public void doSpacialAttack(ItemStack stack, EntityPlayer player) {
-        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.MordernGunblade", 1).getUnlocalizedName())
+        if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ModernGunblade", 1).getUnlocalizedName())
         ){
             player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.GunbladeFail")),true);
             return;
@@ -37,6 +38,12 @@ public class OverCharge extends SpecialAttackBase {
         World world = player.world;
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
+        int color = 0x99FF00;
+        if (SpecialEffects.isEffective(player,stack,"ThunderBullet") == SpecialEffects.State.Effective && SpecialEffects.isEffective(player,stack,"ExplosionBullet") != SpecialEffects.State.Effective)
+            color = 0xFFFF00;
+        if (SpecialEffects.isEffective(player,stack,"ThunderBullet") != SpecialEffects.State.Effective && SpecialEffects.isEffective(player,stack,"ExplosionBullet") == SpecialEffects.State.Effective)
+            color = 0xFF0000;
+        int count = Math.max(Math.min(player.experienceLevel/10,7),2);
 
         if(!world.isRemote){
             ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
@@ -53,10 +60,10 @@ public class OverCharge extends SpecialAttackBase {
             magicDamage*=Math.max(rank,1);
 
             EntityOverChargeBFG entityDrive = new EntityOverChargeBFG(world,player,magicDamage);
-            entityDrive.setColor(0x99FF00);
+            entityDrive.setColor(color);
             entityDrive.setBFG(true);
             entityDrive.setScale(3f);
-            entityDrive.setHitScale(7f);
+            entityDrive.setHitScale(count);
             entityDrive.setExpRadius(10f);
             entityDrive.setLifeTime(40);
             entityDrive.setIsOverWall(false);

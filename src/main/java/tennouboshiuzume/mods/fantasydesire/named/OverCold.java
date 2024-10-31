@@ -46,7 +46,7 @@ public class OverCold {
         ItemSlashBlade.ModelName.set(tag, "named/OverCold_0");
         ItemSlashBlade.SpecialAttackType.set(tag, 210);
         ItemSlashBlade.StandbyRenderType.set(tag, 3);
-        ItemSlashBlade.BaseAttackModifier.set(tag, 12.0F);
+        ItemSlashBlade.BaseAttackModifier.set(tag, 10.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xAAFFFF);
         SpecialEffects.addEffect(customblade, FdSEs.ColdLeak);
         SpecialEffects.addEffect(customblade, FdSEs.EvolutionIce);

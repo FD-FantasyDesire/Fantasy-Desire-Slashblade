@@ -25,13 +25,11 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityDriveEx;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityOverChargeBFG;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
+import tennouboshiuzume.mods.fantasydesire.entity.*;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -80,7 +78,7 @@ public class TripleBullet implements ISpecialEffect, IRemovable {
         if (player.swingProgressInt != check)
             return;
 
-        if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.MordernGunblade", 1).getUnlocalizedName())
+        if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ModernGunblade", 1).getUnlocalizedName())
         ) {
             player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.GunbladeFail")), true);
             return;
@@ -109,16 +107,26 @@ public class TripleBullet implements ISpecialEffect, IRemovable {
         if (rank >= 5) {
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (level / 5.0 + 0.5f);
         }
+
+        int color = 0x00FFFF;
+        if (SpecialEffects.isEffective(player,stack,"ThunderBullet") == SpecialEffects.State.Effective && SpecialEffects.isEffective(player,stack,"ExplosionBullet") != SpecialEffects.State.Effective)
+            color = 0xFFFF00;
+        if (SpecialEffects.isEffective(player,stack,"ThunderBullet") != SpecialEffects.State.Effective && SpecialEffects.isEffective(player,stack,"ExplosionBullet") == SpecialEffects.State.Effective)
+            color = 0xFF0000;
+
         Random random = player.getRNG();
 //            追踪弹
         List<EntityLivingBase> target = TargetUtils.findHostileEntitiesInFOV(player, 60, 30f, true);
+
+        target.sort(Comparator.comparingDouble(player::getDistance));
+
         int round = Math.min(Math.max(player.experienceLevel / 10, 1), 5);
         for (int i = 0; i < round; i++) {
-            EntityPhantomSwordEx entityDrive = new EntityPhantomSwordEx(world, player, magicDamage);
+            EntitySeekSoulPhantomSword entityDrive = new EntitySeekSoulPhantomSword(world, player, magicDamage);
             entityDrive.setInterval(1 + i);
             entityDrive.setScale(0.2f);
             entityDrive.setSound(SoundEvents.ENTITY_WITHER_SHOOT, 3f, 2f);
-            entityDrive.setColor(0x00CCCC);
+            entityDrive.setColor(color);
             entityDrive.setInitialPosition(player.getLookVec().x + player.posX,
                     player.getLookVec().y + player.posY + 1.2f,
                     player.getLookVec().z + player.posZ,
@@ -127,7 +135,6 @@ public class TripleBullet implements ISpecialEffect, IRemovable {
                     random.nextInt(180),
                     3f);
             entityDrive.setLifeTime(100 + i);
-            entityDrive.setParticle(EnumParticleTypes.FIREWORKS_SPARK);
             if (!target.isEmpty()) {
                 entityDrive.setTargetEntityId(TargetUtils.setTargetEntityFromList(i, target));
                 TargetUtils.setTargetEntityFromListByEntity(i, target).addPotionEffect(new PotionEffect(MobEffects.GLOWING, 20 * 6, 0));

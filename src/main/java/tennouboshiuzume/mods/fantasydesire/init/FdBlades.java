@@ -66,12 +66,13 @@ public class FdBlades {
 
     ItemStack sphereSoulOrg = SlashBlade.findItemStack(SlashBlade.modid, SlashBlade.SphereBladeSoulStr, 1);
     ItemStack quadSoulOrg = SlashBlade.findItemStack(SlashBlade.modid, SlashBlade.TrapezohedronBladeSoulStr, 1);
-    ItemStack crystalSoulOrg =SlashBlade.findItemStack(SlashBlade.modid,SlashBlade.CrystalBladeSoulStr,1);
+    ItemStack crystalSoulOrg = SlashBlade.findItemStack(SlashBlade.modid,SlashBlade.CrystalBladeSoulStr,1);
+
     public void addSoulRecipe(){
         {
 //            翱向未来之翼 SA球
             NBTTagCompound saTag = new NBTTagCompound();
-            ItemStack sphereSoul = sphereSoulOrg;
+            ItemStack sphereSoul = SlashBlade.findItemStack(SlashBlade.modid, SlashBlade.SphereBladeSoulStr, 1);
             sphereSoul.setTagCompound(saTag);
             ItemSlashBlade.SpecialAttackType.set(saTag, 200);
             NBTTagCompound displayTag = new NBTTagCompound();
@@ -90,13 +91,13 @@ public class FdBlades {
                             'A', new ItemStack(Items.TOTEM_OF_UNDYING),
                             'B', new ItemStack(Items.NETHER_STAR),
                             'C', new ItemStack(Items.GOLDEN_APPLE,1,1),
-                            'D', BladeUtils.findItemStack("flammpfeil.slashblade", "sphere_bladesoul", 1)
+                            'D', sphereSoulOrg.copy()
                     ));
         }
         {
 //            真·磁暴幻影剑 SA球
             NBTTagCompound saTag = new NBTTagCompound();
-            ItemStack sphereSoul = sphereSoulOrg;
+            ItemStack sphereSoul = sphereSoulOrg.copy();
             sphereSoul.setTagCompound(saTag);
             ItemSlashBlade.SpecialAttackType.set(saTag, 204);
             NBTTagCompound displayTag = new NBTTagCompound();
@@ -104,7 +105,6 @@ public class FdBlades {
             NBTTagList lore = new NBTTagList();
             lore.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.info.NR.SMS")));
             displayTag.setTag("Lore",lore);
-
             SlashBlade.addRecipe("MagnetStorm",
                     new ShapedOreRecipe(new ResourceLocation(FantasyDesire.MODID, "SMS_Soul"),
                             sphereSoul,
@@ -114,13 +114,13 @@ public class FdBlades {
                             'A', new ItemStack(Items.DIAMOND),
                             'B', new ItemStack(Items.NETHER_STAR),
                             'C', new ItemStack(Blocks.STAINED_GLASS,1,3),
-                            'D', BladeUtils.findItemStack("flammpfeil.slashblade", "sphere_bladesoul", 1)
+                            'D', sphereSoulOrg.copy()
                     ));
         }
         {
 //            棱光通量 晶态魂
             NBTTagCompound tag = new NBTTagCompound();
-            ItemStack crystalSoul = crystalSoulOrg;
+            ItemStack crystalSoul = crystalSoulOrg.copy();
             crystalSoul.setTagCompound(tag);
             SpecialEffects.addEffect(crystalSoul, "PrismFlux",50);
             NBTTagCompound displayTag = new NBTTagCompound();
@@ -138,7 +138,7 @@ public class FdBlades {
                             'B', new ItemStack(Blocks.STAINED_GLASS,1,1),
                             'C', new ItemStack(Blocks.STAINED_GLASS,1,5),
                             'D', new ItemStack(Blocks.STAINED_GLASS,1,4),
-                            'E', crystalSoulOrg,
+                            'E', sphereSoulOrg.copy(),
                             'F', new ItemStack(Blocks.STAINED_GLASS,1,11),
                             'G', new ItemStack(Blocks.STAINED_GLASS,1,3),
                             'H', new ItemStack(Blocks.STAINED_GLASS,1,10),
@@ -148,7 +148,7 @@ public class FdBlades {
         {
 //            感知抓钩 晶态魂
             NBTTagCompound tag = new NBTTagCompound();
-            ItemStack crystalSoul = crystalSoulOrg;
+            ItemStack crystalSoul = crystalSoulOrg.copy();
             crystalSoul.setTagCompound(tag);
             SpecialEffects.addEffect(crystalSoul, "SentientHook",5);
             NBTTagCompound displayTag = new NBTTagCompound();
@@ -162,7 +162,7 @@ public class FdBlades {
                             "  A",
                             "  B",
                             "CC ",
-                            'A', sphereSoulOrg,
+                            'A', sphereSoulOrg.copy(),
                             'B', new ItemStack(Items.LEAD),
                             'C', new ItemStack(Items.STRING)
                     ));
@@ -170,7 +170,7 @@ public class FdBlades {
         {
 //            战利品磁吸 晶态魂
             NBTTagCompound tag = new NBTTagCompound();
-            ItemStack crystalSoul = crystalSoulOrg;
+            ItemStack crystalSoul = crystalSoulOrg.copy();
             crystalSoul.setTagCompound(tag);
             SpecialEffects.addEffect(crystalSoul, "ItemMagnet",1);
             NBTTagCompound displayTag = new NBTTagCompound();
@@ -187,13 +187,13 @@ public class FdBlades {
                             'A', new ItemStack(Items.DYE,1,4),
                             'B', new ItemStack(Items.REDSTONE),
                             'C', new ItemStack(Items.ENDER_PEARL),
-                            'D',sphereSoulOrg
+                            'D',sphereSoulOrg.copy()
                     ));
         }
         {
 //            镜面刃缘 晶态魂
             NBTTagCompound tag = new NBTTagCompound();
-            ItemStack crystalSoul = crystalSoulOrg;
+            ItemStack crystalSoul = crystalSoulOrg.copy();
             crystalSoul.setTagCompound(tag);
             SpecialEffects.addEffect(crystalSoul, "CounterBlade",35);
             NBTTagCompound displayTag = new NBTTagCompound();
@@ -209,8 +209,54 @@ public class FdBlades {
                             "BDD",
                             'A', new ItemStack(Items.QUARTZ),
                             'B', new ItemStack(Items.IRON_SWORD),
-                            'C', sphereSoulOrg,
+                            'C', sphereSoulOrg.copy(),
                             'D', new ItemStack(Blocks.GLASS_PANE)
+                    ));
+        }
+        {
+//            爆裂弹头 晶态魂
+            NBTTagCompound tag = new NBTTagCompound();
+            ItemStack crystalSoul = crystalSoulOrg.copy();
+            crystalSoul.setTagCompound(tag);
+            SpecialEffects.addEffect(crystalSoul, FdSEs.ExplosionBullet);
+            NBTTagCompound displayTag = new NBTTagCompound();
+            crystalSoul.setTagInfo("display",displayTag);
+            NBTTagList lore = new NBTTagList();
+            lore.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.info.ExplosionBullet.crafting")));
+            displayTag.setTag("Lore",lore);
+            SlashBlade.addRecipe("ExplosionBullet",
+                    new ShapedOreRecipe(new ResourceLocation(FantasyDesire.MODID, "ExplosionBullet"),
+                            crystalSoul,
+                            " BA",
+                            "BCB",
+                            "DB ",
+                            'A', new ItemStack(Blocks.TNT),
+                            'B', new ItemStack(Items.IRON_INGOT),
+                            'C', sphereSoulOrg.copy(),
+                            'D', new ItemStack(Items.NETHER_STAR)
+                    ));
+        }
+        {
+//            宙霆电容 晶态魂
+            NBTTagCompound tag = new NBTTagCompound();
+            ItemStack crystalSoul = crystalSoulOrg.copy();
+            crystalSoul.setTagCompound(tag);
+            SpecialEffects.addEffect(crystalSoul,  FdSEs.ThunderBullet);
+            NBTTagCompound displayTag = new NBTTagCompound();
+            crystalSoul.setTagInfo("display",displayTag);
+            NBTTagList lore = new NBTTagList();
+            lore.appendTag(new NBTTagString(I18n.format("tennouboshiuzume.info.ThunderBullet.crafting")));
+            displayTag.setTag("Lore",lore);
+            SlashBlade.addRecipe("ThunderBullet",
+                    new ShapedOreRecipe(new ResourceLocation(FantasyDesire.MODID, "ThunderBullet"),
+                            crystalSoul,
+                            " BA",
+                            "BCB",
+                            "DB ",
+                            'A', new ItemStack(Blocks.REDSTONE_BLOCK),
+                            'B', new ItemStack(Items.QUARTZ),
+                            'C', sphereSoulOrg.copy(),
+                            'D', new ItemStack(Items.NETHER_STAR)
                     ));
         }
 

@@ -233,6 +233,7 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile, ITh
     private static final DataParameter<Float> ExpRadius = EntityDataManager.<Float>createKey(EntityPhantomSwordExBase.class, DataSerializers.FLOAT);
     private static final DataParameter<Boolean> TrueDamage = EntityDataManager.<Boolean>createKey(EntityPhantomSwordExBase.class, DataSerializers.BOOLEAN);
 
+
     /**
      * ■イニシャライズ
      */

@@ -22,4 +22,7 @@ public class FdSEs {
     public static ISpecialEffect SentientHook = SpecialEffects.register(new SentientHook());
     public static ISpecialEffect ItemMagnet = SpecialEffects.register(new ItemMagnet());
     public static ISpecialEffect CounterBlade = SpecialEffects.register(new CounterBlade());
+    public static ISpecialEffect ExplosionBullet = SpecialEffects.register(new ExplosionBullet());
+    public static ISpecialEffect ThunderBullet = SpecialEffects.register(new ThunderBullet());
+    public static ISpecialEffect SoulForging = SpecialEffects.register(new SoulForging());
 }

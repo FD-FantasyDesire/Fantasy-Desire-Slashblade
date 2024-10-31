@@ -8,6 +8,7 @@ import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import mods.flammpfeil.slashblade.util.SlashBladeEvent;
 import mods.flammpfeil.slashblade.util.SlashBladeHooks;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -28,10 +29,7 @@ import scala.tools.nsc.doc.model.Public;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
-import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
-import tennouboshiuzume.mods.fantasydesire.util.EntityUtils;
-import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
-import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
+import tennouboshiuzume.mods.fantasydesire.util.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -45,7 +43,7 @@ public class BladeStandEvents {
 
     //  灵魂锻造
     @SubscribeEvent
-    public void OnAnvilFall(SlashBladeEvent.BladeStandAttack event) {
+    public void OnAnvilFallIron(SlashBladeEvent.BladeStandAttack event) {
 //        是否有刀
         if (!event.entityBladeStand.hasBlade()) return;
 //        是否为单刀挂架
@@ -59,15 +57,41 @@ public class BladeStandEvents {
         boolean isDone = false;
         while (proundSoul >= 10000) {
 //            计算耀魂消耗
-            int cost = Math.min(1000 + 50 * ItemSlashBlade.RepairCount.get(req), 2500);
+            int ForgeLevel = ItemSlashBlade.getSpecialEffect(event.blade).getInteger("SoulForging");
+            System.out.println(ForgeLevel);
+            int cost = Math.min(1000 + 50 * ForgeLevel, 2500);
             ItemSlashBlade.ProudSoul.tryAdd(req, -cost, false);
             ItemSlashBlade.RepairCount.tryAdd(req, 1, false);
 //            System.out.println(ItemSlashBlade.RepairCount.get(req) + "Repair," + cost + "ProundSoul, Remain:" + proundSoul);
             ParticleUtils.spawnParticle(event.entityBladeStand.world, EnumParticleTypes.SPELL_MOB, false, event.entityBladeStand.posX, event.entityBladeStand.posY + event.entityBladeStand.height / 2, event.entityBladeStand.posZ, 3, 0.5, 0, 0.5, 0.5f);
             proundSoul = ItemSlashBlade.ProudSoul.get(req);
             isDone = true;
+            SpecialEffects.addEffect(event.blade,"SoulForging",ForgeLevel+1);
         }
-        if (isDone) event.entityBladeStand.playSound(SoundEvents.BLOCK_ANVIL_USE, 1, 0.5f);
-    }
+        if (isDone){
+            event.entityBladeStand.playSound(SoundEvents.BLOCK_ANVIL_USE, 1, 0.5f);
+            AdvancementUtils.grantAdvancementToPlayersInRange(event.entityBladeStand.world,event.entityBladeStand.posX, event.entityBladeStand.posY , event.entityBladeStand.posZ,5,"fantasydesire:SoulForging");
+        }
 
+    }
+//    真实之名
+    @SubscribeEvent
+    public void OnAnvilFallDiamond(SlashBladeEvent.BladeStandAttack event) {
+//        是否有刀
+        if (!event.entityBladeStand.hasBlade()) return;
+//        是否为单刀挂架
+        if (EntityBladeStand.getType(event.entityBladeStand) != EntityBladeStand.StandType.Single) return;
+//        是否为铁砧对刀挂架造成伤害（至少从两格以上落下）
+        if (!event.damageSource.damageType.equals("anvil")) return;
+//        检测刀挂架是否放在铁块上
+        if (!(EntityUtils.getBlockUnderEntity(event.entityBladeStand).getBlock() == Blocks.DIAMOND_BLOCK)) return;
+        NBTTagCompound req = ItemSlashBlade.getItemTagCompound(event.blade);
+        if (event.blade.hasDisplayName()){
+            event.blade.clearCustomName();
+            AdvancementUtils.grantAdvancementToPlayersInRange(event.entityBladeStand.world,event.entityBladeStand.posX,
+                    event.entityBladeStand.posY ,
+                    event.entityBladeStand.posZ,
+                    5,"fantasydesire:TrueName");
+        }
+    }
 }

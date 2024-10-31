@@ -33,7 +33,7 @@ import tennouboshiuzume.mods.fantasydesire.util.WorldBladeStandCrafting;
 import java.util.Map;
 
 public class ModernGunblade {
-    String name = "tennouboshiuzume.slashblade.MordernGunblade";
+    String name = "tennouboshiuzume.slashblade.ModernGunblade";
     String materialName = "flammpfeil.slashblade.named.Koseki";
     @SubscribeEvent
     public void init(LoadEvent.InitEvent event){
@@ -49,7 +49,7 @@ public class ModernGunblade {
         ItemSlashBlade.ModelName.set(tag, "named/SmartPistol");
         ItemSlashBlade.SpecialAttackType.set(tag, 201);
         ItemSlashBlade.StandbyRenderType.set(tag, 3);
-        ItemSlashBlade.BaseAttackModifier.set(tag, 8.0F);
+        ItemSlashBlade.BaseAttackModifier.set(tag, 4.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0x00FFFF);
         SpecialEffects.addEffect(customblade,FdSEs.TripleBullet);
         SpecialEffects.addEffect(customblade,FdSEs.EnergyBullet);
