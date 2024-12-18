@@ -48,6 +48,7 @@ public class FdBlades {
         loadBlade(new TwinBlade());
         loadBlade(new OverCold());
         loadBlade(new PureSnow());
+        loadBlade(new ArdorBlossomStar());
     }
 
     public static CreativeTabs getCreativeTabByName(String tabName) {

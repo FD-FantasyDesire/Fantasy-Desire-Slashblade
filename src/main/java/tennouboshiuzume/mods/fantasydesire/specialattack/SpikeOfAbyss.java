@@ -38,6 +38,10 @@ public class SpikeOfAbyss extends SpecialAttackBase {
         World world = player.world;
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
+        final int cost = -200;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            return;
+        }
         int rains = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel))-2, 1),8);
 
         ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();

@@ -6,6 +6,7 @@ item.tennouboshiuzume.slashblade.CrimsonScythe.name=§cDK-001 §4深红恶魔
 item.tennouboshiuzume.slashblade.TwinBlade.name=§bMOOD§f/§dDOOM §6双子圣灵
 item.tennouboshiuzume.slashblade.OverCold.name=§3Crystallization-11² §1永冻纪元
 item.tennouboshiuzume.slashblade.PureSnow.name=§f素雪§3「云音」
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.name=§4「红艳煞」
 item.tennouboshiuzume.slashblade.Eshahar.name=§a艾夏哈尔
 
 #Desc
@@ -108,6 +109,26 @@ item.tennouboshiuzume.slashblade.PureSnow.SAdesc1=      SA:根据玩家等级召
 item.tennouboshiuzume.slashblade.PureSnow.SAdesc2=      JustSA:根据玩家等级，召唤至多120根虹色幻影剑，聚焦攻击指向的敌人
 item.tennouboshiuzume.slashblade.PureSnow.SAdesc3=      超·SA:召唤虹色幻影剑从四周聚焦攻击附近30格内所有可见敌人
 
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.desc0=§4个体的战斗威胁程度略高。
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.desc1=§4但考虑到其在特定场合中的自毁特性……
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.desc2=§4红焰蛾最终判定，WAW-5。
+
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc0=§4渴火
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc1=      §4手持时：若自身处于燃烧状态或拥有抗火效果，提升感应度，攻击对敌人追加燃烧伤害
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc2=          §f感应度>50%%时：以降低感应度为代价回复耐久度
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc3=          §f感应度>75%%时：向周围敌人传播燃烧，侵蚀SA
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc4=          §f感应度>95%%时：§4§k侵蚀§r§4SA
+
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SAdesc0=§e§l点火
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SAdesc1=      若自身未处于燃烧状态，则点燃自身60秒，若已处于燃烧状态，则熄灭火焰
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SAdesc2=§4§l红艳煞 最大感应【劣化侵蚀】
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SAdesc3=      使周围处于燃烧状态的敌人引爆，爆炸威力基于力量和冲击附魔等级乘积
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SAdesc4=      引爆会使自身遭受巨额伤害，并且可能致死
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SAdesc5=      使用后感应度降低为0%%
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SAdesc6=      如果以超SA形式施放，引发的爆炸会造成地形破坏
+
+
+
 #Special Attack
 
 flammpfeil.slashblade.specialattack.WingToTheFutureSA=§6§l翱向未来之翼
@@ -123,7 +144,8 @@ flammpfeil.slashblade.specialattack.FreezeZero=§3§kΩ§b永冻§3§kΩ§f：§
 flammpfeil.slashblade.specialattack.RainbowStar=§4I§cm§6a§eg§2i§an§ba§3t§1i§9o§dn §f虹色星海
 flammpfeil.slashblade.specialattack.SpikeOfAbyss=§4§kSpike Of Abyss
 flammpfeil.slashblade.specialattack.StatMultipler=§l主角外挂
-
+flammpfeil.slashblade.specialattack.ABS=§e§l点火
+flammpfeil.slashblade.specialattack.ABMS=§4§l红艳煞 最大感应【劣化侵蚀】
 
 #Special Effect
 slashblade.seffect.name.CheatRumble=§4作弊冲撞
@@ -146,6 +168,8 @@ slashblade.seffect.name.CounterBlade=§1镜面刃缘
 slashblade.seffect.name.ExplosionBullet=§4WG-HyperBlast 绝肃爆裂弹头
 slashblade.seffect.name.ThunderBullet=§eWG-FallenBlossom 宙霆能量电容
 slashblade.seffect.name.SoulForging=§5灵魂锻造负载
+slashblade.seffect.name.SoulReaper=§4灵魂劫掠
+slashblade.seffect.name.FollowFire=§4渴火
 
 #Text
 tennouboshiuzume.tip.ImmortalSoulActive=§e同伴灵魂的炽热传达了过来……
@@ -155,6 +179,7 @@ tennouboshiuzume.tip.WingToTheFutureSuccess=§e§l接下来就是重头戏了！
 
 tennouboshiuzume.tip.TwinSetFail=§5没有同时装备对应的另一把双子拔刀…
 tennouboshiuzume.tip.BloodDrainEv=§d§l狩魂 Type-VI：§4§l+%s初始伤害
+tennouboshiuzume.tip.HeatRate=§6§lE.G.O. 红艳煞 当前感应度：§4§l+%s%%
 tennouboshiuzume.tip.TwinSetActive=§5双子系统：“追刃”效果发动，攻击追加斩击
 tennouboshiuzume.tip.GunbladeFail=§4当前的武器并不是一把“枪刃”！
 
@@ -171,11 +196,13 @@ tennouboshiuzume.info.OverCold_2=§e纪元-∏§f：§9Cryogenian
 tennouboshiuzume.info.OverCold_3=§e纪元-Ω§f：§1Huronian
 tennouboshiuzume.info.PureSnow=§f纯净的天降奇迹
 tennouboshiuzume.info.Eshahar=§b永恒璀璨彗星
+tennouboshiuzume.info.ego=§eE.G.O.
 
 tennouboshiuzume.info.ChikeFlare.crafting=如果你的拔刀非常珍贵，那么请对该SA有所了解再考虑使用
 tennouboshiuzume.info.NR.SMS=所以重置版作者为什么不直接把完整版做进重置版里呢？
 
 tennouboshiuzume.info.SoulForging.crafting=当你用铁砧砸到放在铁块上的刀挂台，消耗其大于10000的耀魂来锻造，基础只需要1000点，每多一次锻造就会获得一级该SE，每有一级该SE便需要额外花费50，直到2500点
+tennouboshiuzume.info.SoulReaper.crafting=击中敌人时自身每有1等级有1%%概率+2耀魂，否则-4耀魂
 tennouboshiuzume.info.PrismFlux.crafting=覆盖虹光通量的效果，以取消剑气的代价换取攻击时发出折射幻影剑的能力
 tennouboshiuzume.info.SentientHook.crafting=鞘击挥砍时；拉近前方90°距离30米内的敌人
 tennouboshiuzume.info.ItemMagnet.crafting=在主手时：吸引15格范围内的经验球和可拾取物品
@@ -185,7 +212,6 @@ tennouboshiuzume.info.ExplosionBullet.crafting=§4仅枪刃可用，击中6米�
 tennouboshiuzume.info.ThunderBullet.crafting=§e仅枪刃可用，击中6米外的敌人时，有10%%概率触发宙霆雷击（警告：可能造成严重卡顿！）
 
 #Secret
-
 item.tennouboshiuzume.slashblade.ChikeFlare.secret=§e于垂死的边缘，呼唤你体内沉睡的另一个灵魂
 item.tennouboshiuzume.slashblade.ModernGunblade.secret=§b畸形扭曲之物，亦是科技进化的起点
 item.tennouboshiuzume.slashblade.CrimsonScythe.secret=§c束魂于熔岩之中献祭，换取炼狱的力量
@@ -195,7 +221,7 @@ item.tennouboshiuzume.slashblade.PureSnow.secret=§f纯净无暇的造物，从�
 item.tennouboshiuzume.slashblade.Eshahar.secret=§a不可能之物
 
 #Crafting
-
+item.tennouboshiuzume.slashblade.Locked.crafting=§f你的知识（XP）不足以理解这个物品的制造方法
 item.tennouboshiuzume.slashblade.ChikeFlare.crafting=§e生命值低于4点时，使用任意拔刀剑发动SA：翱向未来之翼
 item.tennouboshiuzume.slashblade.ModernGunblade.crafting=§bTNT爆炸波及放置枯石太刀的耀魂铁锭刀挂台
 item.tennouboshiuzume.slashblade.CrimsonScythe.crafting=§c将1000以上击杀的无铭·无名放置在岩浆中的耀魂铁锭刀挂台上
@@ -214,6 +240,8 @@ tennouboshiuzume.slashblade.info.shift=SHIFT
 tennouboshiuzume.slashblade.info.ctrl=CTRL
 tennouboshiuzume.slashblade.info.forEffectDetails=查看效果介绍
 tennouboshiuzume.slashblade.info.forAttackDetails=查看特殊攻击介绍
+tennouboshiuzume.slashblade.info.unReadable=§4§l§k一一一一一一一一一一一一
+tennouboshiuzume.slashblade.info.notYourBlade=§6§l     这不是你的刀
 
 #Advancement
 tennouboshiuzume.fantasydesire.advancement=幻想塑愿

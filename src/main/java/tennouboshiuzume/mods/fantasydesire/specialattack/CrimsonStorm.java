@@ -46,6 +46,11 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
 
+        final int cost = -20;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            ItemSlashBlade.damageItem(stack, 10, player);
+        }
+
         ItemSlashBlade blade = (ItemSlashBlade) stack.getItem();
 
         float baseModif = blade.getBaseAttackModifiers(tag);
@@ -116,6 +121,11 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
 
+        final int cost = -2000;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            return;
+        }
+        stack.setItemDamage(stack.getMaxDamage() / 2);
 
         ItemSlashBlade blade = (ItemSlashBlade) stack.getItem();
 

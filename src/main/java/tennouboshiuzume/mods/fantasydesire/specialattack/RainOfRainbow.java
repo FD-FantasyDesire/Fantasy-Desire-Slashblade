@@ -38,6 +38,10 @@ public class RainOfRainbow extends SpecialAttackBase {
         World world = player.world;
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
+        final int cost = -200;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            ItemSlashBlade.damageItem(stack, 10, player);
+        }
         int rains = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel)) - 2, 1), 8);
         int level = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
         float magicDamage = 1.0f + ItemSlashBlade.BaseAttackModifier.get(tag)/2;

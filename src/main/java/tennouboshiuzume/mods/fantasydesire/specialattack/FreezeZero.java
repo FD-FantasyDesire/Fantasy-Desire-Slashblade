@@ -43,6 +43,11 @@ public class FreezeZero extends SpecialAttackBase implements ISuperSpecialAttack
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
 
+        final int cost = -20;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            ItemSlashBlade.damageItem(stack, 10, player);
+        }
+
         ItemSlashBlade blade = (ItemSlashBlade) stack.getItem();
 
         int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
@@ -106,18 +111,11 @@ public class FreezeZero extends SpecialAttackBase implements ISuperSpecialAttack
         World world = player.world;
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
-
-        ItemSlashBlade blade = (ItemSlashBlade) stack.getItem();
-
-//        int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
-//        float baseModif = blade.getBaseAttackModifiers(tag);
-//        float magicDamage = 1.0f + (baseModif / 2.0f);
-//        int rank = StylishRankManager.getStylishRank(player);
-//        if (5 <= rank)
-//            magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
-//
-//        magicDamage*=Math.max(rank,1);
-
+        final int cost = -2000;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            return;
+        }
+        stack.setItemDamage(stack.getMaxDamage() / 2);
         //            检查进化等级
         float SAscale = 1;
 

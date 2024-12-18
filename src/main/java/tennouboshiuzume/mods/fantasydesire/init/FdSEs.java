@@ -26,5 +26,5 @@ public class FdSEs {
     public static ISpecialEffect ThunderBullet = SpecialEffects.register(new ThunderBullet());
     public static ISpecialEffect SoulForging = SpecialEffects.register(new SoulForging());
     public static ISpecialEffect SoulReaper = SpecialEffects.register(new SoulReaper());
-
+    public static ISpecialEffect FollowFire = SpecialEffects.register(new FollowFire());
 }

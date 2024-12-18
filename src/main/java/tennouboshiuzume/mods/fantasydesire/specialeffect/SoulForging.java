@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 public class SoulForging implements ISpecialEffect, IRemovable {
 
-//    嘿！这只是一个占位计数器SE！
+//    嘿！这只是一个占位计数器SE！用于计算灵魂锻造的次数！
     @Override
     public boolean canCopy(ItemStack itemStack) {
         return false;

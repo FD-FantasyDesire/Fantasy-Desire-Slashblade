@@ -7,14 +7,11 @@ import mods.flammpfeil.slashblade.named.event.LoadEvent;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import mods.flammpfeil.slashblade.util.SlashBladeEvent;
 import mods.flammpfeil.slashblade.util.SlashBladeHooks;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tennouboshiuzume.mods.fantasydesire.init.FdBlades;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
@@ -41,6 +38,7 @@ public class TwinBlade {
         ItemSlashBlade.StandbyRenderType.set(tag, 2);
         ItemSlashBlade.BaseAttackModifier.set(tag, 7.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0x00C8FF);
+        ItemFdSlashBlade.unlockLevel.set(tag,30);
         SpecialEffects.addEffect(customblade,FdSEs.TwinSet);
         customblade.addEnchantment(Enchantments.INFINITY,1);
         customblade.addEnchantment(Enchantments.FLAME,5);

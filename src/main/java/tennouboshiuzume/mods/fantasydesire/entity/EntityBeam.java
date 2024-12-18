@@ -454,12 +454,15 @@ public class EntityBeam extends Entity implements IProjectile, IThrowableEntity 
     public boolean doTargeting() {
         //boolean result = super.doTargeting();
 
-        int targetid = this.getTargetEntityId();
-        if (getTargetEntityId()!=0){
-            targetingCenter = world.getEntityByID(this.getTargetingCenterID());
-        }else {
+        int targetid = getTargetEntityId();
+        Entity potentialCenter = world.getEntityByID(getTargetingCenterID());
+
+        if (potentialCenter != null) {
+            targetingCenter = potentialCenter;
+        } else {
             targetingCenter = this;
         }
+        world.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY,targetingCenter.posX,targetingCenter.posY+3,targetingCenter.posZ,0,0,0,10);
         if (targetid == 0) { // 如果当前没有目标实体（targetid == 0）
             List<Entity> list = Collections.emptyList();
             // 在当前实体周围 expandFactor（30）范围内查找所有实体，并排除自身
@@ -835,6 +838,9 @@ public class EntityBeam extends Entity implements IProjectile, IThrowableEntity 
     {
         target.hurtResistantTime = 0;
         target.attackEntityFrom(ds, damage);
+        target.motionX=0;
+        target.motionY=0;
+        target.motionZ=0;
         if (onHitParticle!=null){
             ((WorldServer) this.world).spawnParticle(onHitParticle,
                     true,

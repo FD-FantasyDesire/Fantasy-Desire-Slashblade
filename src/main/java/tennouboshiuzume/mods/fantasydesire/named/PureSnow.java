@@ -46,6 +46,7 @@ public class PureSnow {
         ItemSlashBlade.StandbyRenderType.set(tag, 1);
         ItemSlashBlade.BaseAttackModifier.set(tag, 7.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xFFFFFF);
+        ItemFdSlashBlade.unlockLevel.set(tag,60);
         SpecialEffects.addEffect(customblade,FdSEs.RainbowFlux);
         SpecialEffects.addEffect(customblade,FdSEs.ColorFlux);
         tag.setInteger("BladeLore",  3);

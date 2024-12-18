@@ -31,9 +31,11 @@ import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.WorldBladeStandCrafting;
 
-public class ChikeFlare {
-    String name = "tennouboshiuzume.slashblade.ChikeFlare";
-    String materialName = "flammpfeil.slashblade.named.yamato";
+import javax.swing.border.EmptyBorder;
+
+public class ArdorBlossomStar  {
+    String name = "tennouboshiuzume.slashblade.ArdorBlossomStar";
+//    String materialName = "flammpfeil.slashblade.named.yamato";
     @SubscribeEvent
     public void init(LoadEvent.InitEvent event){
         ItemStack customblade = new ItemStack(FdBlades.Fd_BLADE,1,0);
@@ -43,26 +45,21 @@ public class ChikeFlare {
         ItemFdSlashBlade.CustomMaxDamage.set(tag, 66);
         ItemFdSlashBlade.IsDefaultBewitched.set(tag, true);
         ItemFdSlashBlade.isFdBlade.set(tag, true);
-        ItemFdSlashBlade.bladeType.set(tag, "fantasy");
-        ItemSlashBlade.TextureName.set(tag, "named/ChikeFlare");
-        ItemSlashBlade.ModelName.set(tag, "named/ChikeFlare");
-        ItemSlashBlade.SpecialAttackType.set(tag, 200);
+        ItemFdSlashBlade.bladeType.set(tag, "ego");
+        ItemSlashBlade.TextureName.set(tag, "named/ArdorBlossomStar");
+        ItemSlashBlade.ModelName.set(tag, "named/ArdorBlossomStar");
+        ItemSlashBlade.SpecialAttackType.set(tag, 212);
         ItemSlashBlade.StandbyRenderType.set(tag, 2);
         ItemSlashBlade.BaseAttackModifier.set(tag, 2.0F);
-        ItemSlashBlade.SummonedSwordColor.set(tag, 0xFFFF00);
-        ItemFdSlashBlade.unlockLevel.set(tag,67);
-        SpecialEffects.addEffect(customblade, FdSEs.CheatRumble);
-        SpecialEffects.addEffect(customblade, FdSEs.TyrantStrike);
-        SpecialEffects.addEffect(customblade, FdSEs.SoulShield);
-        SpecialEffects.addEffect(customblade, FdSEs.ImmortalSoul);
+        ItemSlashBlade.SummonedSwordColor.set(tag, 0xFFCC00);
+        ItemFdSlashBlade.unlockLevel.set(tag,80);
+        SpecialEffects.addEffect(customblade, FdSEs.FollowFire);
         tag.setInteger("BladeLore", 3);
-        tag.setInteger("SpecialEffectLore",7);
-        tag.setInteger("SpecialAttackLore", 4);
-        customblade.addEnchantment(Enchantments.UNBREAKING, 10);
-        customblade.addEnchantment(Enchantments.SHARPNESS,7);
-        customblade.addEnchantment(Enchantments.POWER, 7);
-        customblade.addEnchantment(Enchantments.LOOTING, 3);
-        customblade.addEnchantment(Enchantments.MENDING,1);
+        tag.setInteger("SpecialEffectLore",5);
+        tag.setInteger("SpecialAttackLore", 7);
+        customblade.addEnchantment(Enchantments.FIRE_ASPECT, 10);
+        customblade.addEnchantment(Enchantments.FIRE_PROTECTION,10);
+        customblade.addEnchantment(Enchantments.FLAME,10);
         BladeUtils.registerCustomItemStack(name, customblade);
         BladeUtils.FdNamedBlades.add(name);
     }

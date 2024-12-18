@@ -47,11 +47,14 @@ public class ChargeShot extends SpecialAttackBase implements ISuperSpecialAttack
             player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.GunbladeFail")),true);
             return;
         }
+
         World world = player.world;
 
-        Random random = new Random();
-
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
+        final int cost = -20;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            ItemSlashBlade.damageItem(stack, 10, player);
+        }
         int ringcount = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel))-2, 1),8);
         ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
 
@@ -128,7 +131,7 @@ public class ChargeShot extends SpecialAttackBase implements ISuperSpecialAttack
 
         }
 
-        ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.Kiriage);
+        ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.HiraTuki);
     }
     @Override
     public void doSuperSpecialAttack(ItemStack stack,EntityPlayer player){
@@ -173,6 +176,6 @@ public class ChargeShot extends SpecialAttackBase implements ISuperSpecialAttack
                 }
             }
         }
-        ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.Kiriorosi);
+        ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.HiraTuki);
     }
 }

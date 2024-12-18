@@ -43,6 +43,10 @@ public class RainbowStar extends SpecialAttackBase implements IJustSpecialAttack
         World world = player.world;
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
+        final int cost = -20;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            return;
+        }
         int rains = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel)) - 2, 1), 6);
         int level = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
         float magicDamage = 1.0f + ItemSlashBlade.AttackAmplifier.get(tag) * (level / 5.0f);
@@ -101,6 +105,10 @@ public class RainbowStar extends SpecialAttackBase implements IJustSpecialAttack
         World world = player.world;
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
+        final int cost = -20;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            ItemSlashBlade.damageItem(stack, 10, player);
+        }
         int level = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
         float magicDamage = 1.0f + ItemSlashBlade.AttackAmplifier.get(tag) * (level / 5.0f);
         int rank = StylishRankManager.getStylishRank(player);
@@ -169,6 +177,11 @@ public class RainbowStar extends SpecialAttackBase implements IJustSpecialAttack
         World world = player.world;
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
+        final int cost = -2000;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            return;
+        }
+        stack.setItemDamage(stack.getMaxDamage() / 2);
         int rains = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel)) - 2, 1), 6);
         int level = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
         float magicDamage = 1.0f + ItemSlashBlade.AttackAmplifier.get(tag) * (level / 5.0f);

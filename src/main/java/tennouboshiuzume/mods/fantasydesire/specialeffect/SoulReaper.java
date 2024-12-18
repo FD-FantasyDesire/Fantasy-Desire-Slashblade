@@ -7,6 +7,7 @@ import mods.flammpfeil.slashblade.entity.EntityBladeStand;
 import mods.flammpfeil.slashblade.specialeffect.IRemovable;
 import mods.flammpfeil.slashblade.specialeffect.ISpecialEffect;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
+import mods.flammpfeil.slashblade.util.BlockPos;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderEye;
@@ -36,6 +37,7 @@ import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.*;
 
+import java.lang.reflect.Field;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +53,6 @@ public class SoulReaper implements ISpecialEffect, IRemovable {
     public void onImpactEffectEvent(SlashBladeEvent.ImpactEffectEvent event) {
         if (!SpecialEffects.isPlayer(event.user)) return;
         EntityPlayer player = (EntityPlayer) event.user;
-
         switch (SpecialEffects.isEffective(player, event.blade, this)) {
             case None:
                 return;
@@ -61,13 +62,9 @@ public class SoulReaper implements ISpecialEffect, IRemovable {
                 return;
         }
         EntityLivingBase target = event.target;
-
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
-        ItemSlashBlade.ProudSoul.tryAdd(tag, (MathUtils.randomCheck(Math.min(player.experienceLevel,100))? +5 : -5), false);
-//        ParticleUtils.spawnParticle(target.world, EnumParticleTypes.PORTAL, false, target.posX, target.posY + target.posY / 2, +target.posZ, 10, 0, 0, 0, 1);
-//        EntityEnderEye
-//        player.ticksExisted;
-        target.world.playEvent(2003,target.getPosition(),0);
+        ItemSlashBlade.ProudSoul.tryAdd(tag, (MathUtils.randomCheck(Math.min(player.experienceLevel,100))? +2 : -4), false);
+        target.world.playEvent(2003,target.getPosition().add(0,target.height/2,0),0);
     }
 
     @Override

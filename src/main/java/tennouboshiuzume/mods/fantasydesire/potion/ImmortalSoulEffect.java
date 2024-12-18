@@ -12,7 +12,7 @@ public class ImmortalSoulEffect extends FdPotionBase {
     @Override
     public void performEffect(EntityLivingBase entity, int amplifier) {
         // 药水效果逻辑
-
+        // 不需要效果，已通过拔刀剑效果实现，该药水效果仅用做用户可见标识
     }
 
     @Override

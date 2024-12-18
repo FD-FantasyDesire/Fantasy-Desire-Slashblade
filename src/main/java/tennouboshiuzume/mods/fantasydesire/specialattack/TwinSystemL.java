@@ -103,13 +103,13 @@ public class TwinSystemL extends SpecialAttackBase implements ISuperSpecialAttac
         if(5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
         int count = Math.min(Math.max(player.experienceLevel/10,1),5);
+        final int cost = -20;
+        if(!ItemSlashBlade.ProudSoul.tryAdd(tag,cost,false)){
+            ItemSlashBlade.damageItem(stack, 10, player);
+        }
 
         if(!world.isRemote){
 
-            final int cost = -20;
-            if(!ItemSlashBlade.ProudSoul.tryAdd(tag,cost,false)){
-                ItemSlashBlade.damageItem(stack, 10, player);
-            }
             for (int i = 0;i<count;i++){
                 {
                     EntityDriveEx entityDrive = new EntityDriveEx(world, player, magicDamage);

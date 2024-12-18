@@ -44,7 +44,7 @@ public class FdTabs {
             items.add(customSoul("ExplosionBullet",60));
             items.add(customSoul("ThunderBullet",60));
             items.add(customSoul("SoulForging",0));
-            items.add(customSoul("SoulReaper",100));
+            items.add(customSoul("SoulReaper",-1));
         }
         public ItemStack getRecipeOutput(String recipeId) {
             // 使用配方ID查询配方

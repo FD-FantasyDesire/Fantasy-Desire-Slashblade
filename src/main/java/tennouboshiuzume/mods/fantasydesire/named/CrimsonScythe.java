@@ -53,6 +53,7 @@ public class CrimsonScythe {
         ItemSlashBlade.StandbyRenderType.set(tag, 2);
         ItemSlashBlade.BaseAttackModifier.set(tag, 12.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xFF0000);
+        ItemFdSlashBlade.unlockLevel.set(tag,75);
         SpecialEffects.addEffect(customblade,FdSEs.CrimsonStrike);
         SpecialEffects.addEffect(customblade,FdSEs.BloodDrain);
         tag.setTag("BladeLore",  new NBTTagInt(3));

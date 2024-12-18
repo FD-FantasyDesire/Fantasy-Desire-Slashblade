@@ -51,6 +51,7 @@ public class ModernGunblade {
         ItemSlashBlade.StandbyRenderType.set(tag, 3);
         ItemSlashBlade.BaseAttackModifier.set(tag, 4.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0x00FFFF);
+        ItemFdSlashBlade.unlockLevel.set(tag,20);
         SpecialEffects.addEffect(customblade,FdSEs.TripleBullet);
         SpecialEffects.addEffect(customblade,FdSEs.EnergyBullet);
         tag.setTag("BladeLore",  new NBTTagInt(3));

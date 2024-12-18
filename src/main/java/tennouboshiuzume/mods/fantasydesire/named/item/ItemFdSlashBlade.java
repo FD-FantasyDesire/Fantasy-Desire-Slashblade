@@ -1,6 +1,5 @@
 package tennouboshiuzume.mods.fantasydesire.named.item;
 
-import com.mojang.authlib.GameProfile;
 import mods.flammpfeil.slashblade.ItemSlashBladeNamed;
 import mods.flammpfeil.slashblade.TagPropertyAccessor;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
@@ -11,13 +10,8 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerProfileCache;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
@@ -48,6 +42,8 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
     public static TagPropertyAccessor.TagPropertyBoolean isInCreativeTab = new TagPropertyAccessor.TagPropertyBoolean("isInCreativeTab");
     public static TagPropertyAccessor.TagPropertyBoolean isFdBlade = new TagPropertyAccessor.TagPropertyBoolean("isFdBlade");
     public static TagPropertyAccessor.TagPropertyString bladeType = new TagPropertyAccessor.TagPropertyString("bladeType");
+    public static TagPropertyAccessor.TagPropertyIntegerWithRange unlockLevel = new TagPropertyAccessor.TagPropertyIntegerWithRange("unlockLevel",0,1000);
+    public static TagPropertyAccessor.TagPropertyIntegerWithRange SpecialCharge = new TagPropertyAccessor.TagPropertyIntegerWithRange("SpecialCharge", 0, 999999999);
     public static TagPropertyAccessor.TagPropertyFloat bladeScale = new TagPropertyAccessor.TagPropertyFloat("bladeScale");
 
     @Override
@@ -57,27 +53,39 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
         boolean par4 = inFlag.isAdvanced();
         if (par2EntityPlayer != null) {
             NBTTagCompound tag = getItemTagCompound(par1ItemStack);
-            this.addInformationOwner(par1ItemStack, par2EntityPlayer, par3List, par4);
-            this.addInformationSwordClass(par1ItemStack, par2EntityPlayer, par3List, par4);
-            this.addInformationBladeBound(par1ItemStack, par2EntityPlayer, par3List, par4);
-            this.addInformationKillCount(par1ItemStack, par2EntityPlayer, par3List, par4);
-            this.addInformationProudSoul(par1ItemStack, par2EntityPlayer, par3List, par4);
-            this.addInformationSpecialAttack(par1ItemStack, par2EntityPlayer, par3List, par4);
-            this.addInformationRepairCount(par1ItemStack, par2EntityPlayer, par3List, par4);
-            this.addInformationRangeAttack(par1ItemStack, par2EntityPlayer, par3List, par4);
-            this.addInformationSpecialEffec(par1ItemStack, par2EntityPlayer, par3List, par4);
-            this.addInformationMaxAttack(par1ItemStack, par2EntityPlayer, par3List, par4);
-            this.addInformationBladeLore(par1ItemStack, par2EntityPlayer, par3List, par4);
-            this.addInformationEffectLore(par1ItemStack, par2EntityPlayer, par3List, par4);
-            this.addInformationAttackLore(par1ItemStack, par2EntityPlayer, par3List, par4);
-            this.addInformationCrafting(par1ItemStack, par2EntityPlayer, par3List, par4);
-            if (tag.hasKey("adjustX")) {
-                float ax = tag.getFloat("adjustX");
-                float ay = tag.getFloat("adjustY");
-                float az = tag.getFloat("adjustZ");
-                par3List.add(String.format("adjust x:%.1f y:%.1f z:%.1f", ax, ay, az));
+            if (tag.hasUniqueId("Owner")){
+                UUID ownerid = tag.getUniqueId("Owner");
+                if (ownerid != null && !ownerid.equals(par2EntityPlayer.getUniqueID())) {
+                    par3List.add(I18n.format("tennouboshiuzume.slashblade.info.unReadable"));
+                    par3List.add(I18n.format("tennouboshiuzume.slashblade.info.notYourBlade"));
+                    par3List.add(I18n.format("tennouboshiuzume.slashblade.info.unReadable"));
+                    return;
+                }
             }
-            this.addInformationEnergy(par1ItemStack, par2EntityPlayer, par3List, par4);
+            {
+
+                this.addInformationOwner(par1ItemStack, par2EntityPlayer, par3List, par4);
+                this.addInformationSwordClass(par1ItemStack, par2EntityPlayer, par3List, par4);
+                this.addInformationBladeBound(par1ItemStack, par2EntityPlayer, par3List, par4);
+                this.addInformationKillCount(par1ItemStack, par2EntityPlayer, par3List, par4);
+                this.addInformationProudSoul(par1ItemStack, par2EntityPlayer, par3List, par4);
+                this.addInformationSpecialAttack(par1ItemStack, par2EntityPlayer, par3List, par4);
+                this.addInformationRepairCount(par1ItemStack, par2EntityPlayer, par3List, par4);
+                this.addInformationRangeAttack(par1ItemStack, par2EntityPlayer, par3List, par4);
+                this.addInformationSpecialEffec(par1ItemStack, par2EntityPlayer, par3List, par4);
+                this.addInformationMaxAttack(par1ItemStack, par2EntityPlayer, par3List, par4);
+                this.addInformationBladeLore(par1ItemStack, par2EntityPlayer, par3List, par4);
+                this.addInformationEffectLore(par1ItemStack, par2EntityPlayer, par3List, par4);
+                this.addInformationAttackLore(par1ItemStack, par2EntityPlayer, par3List, par4);
+                this.addInformationCrafting(par1ItemStack, par2EntityPlayer, par3List, par4);
+                if (tag.hasKey("adjustX")) {
+                    float ax = tag.getFloat("adjustX");
+                    float ay = tag.getFloat("adjustY");
+                    float az = tag.getFloat("adjustZ");
+                    par3List.add(String.format("adjust x:%.1f y:%.1f z:%.1f", ax, ay, az));
+                }
+                this.addInformationEnergy(par1ItemStack, par2EntityPlayer, par3List, par4);
+            }
         }
     }
 
@@ -113,6 +121,7 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
         if (this.isInCreativeTab(tab)) {
             for (String bladename : FdNamedBlades) {
                 ItemStack blade = getCustomBlade(bladename);
+//                开发者功能
                 if (!blade.isEmpty()) {
                     subItems.add(getCustomBlade(bladename));
                 }
@@ -184,11 +193,16 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
                                        EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
         NBTTagCompound tag = getItemTagCompound(par1ItemStack);
         String bladename = getUnlocalizedName(par1ItemStack);
+        int unlock = Math.max(0,unlockLevel.get(tag));
         if (isFdBlade.get(tag) && isInCreativeTab.get(tag)) {
             if (!Keyboard.isKeyDown(42) && !Keyboard.isKeyDown(54)) {
                 par3List.add(I18n.format(bladename + ".secret"));
             } else {
-                par3List.add(I18n.format(bladename + ".crafting"));
+                if (par2EntityPlayer.experienceLevel>=unlock){
+                    par3List.add(I18n.format(bladename + ".crafting"));
+                }else {
+                    par3List.add(I18n.format("item.tennouboshiuzume.slashblade.Locked.crafting"));
+                }
             }
 
         }
@@ -199,10 +213,8 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
         NBTTagCompound tag = getItemTagCompound(par1ItemStack);
         if (tag.hasUniqueId("Owner")){
             UUID ownerid = tag.getUniqueId("Owner");
-            if (ownerid.equals(par2EntityPlayer.getUniqueID())){
-                par3List.add("§6"+I18n.format("tennouboshiuzume.slashblade.info.BoundOnYou"));
-            }else {
-                par3List.add("§4"+I18n.format("tennouboshiuzume.slashblade.info.Bound")+":"+ownerid);
+            if (ownerid != null && ownerid.equals(par2EntityPlayer.getUniqueID())) {
+                par3List.add("§6" + I18n.format("tennouboshiuzume.slashblade.info.BoundOnYou"));
             }
         }else {
             par3List.add("§7"+I18n.format("tennouboshiuzume.slashblade.info.noBound"));

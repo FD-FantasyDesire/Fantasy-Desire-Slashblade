@@ -174,21 +174,17 @@ public class TargetUtils {
 
 //    更精确的视线检测
     public static boolean isObstructed(World world, Entity player, Entity target) {
-        // 玩家和实体的眼睛位置
         Vec3d playerPos = player.getPositionEyes(1.0F);
 
-        // 目标实体的顶部、中间和底部位置
         Vec3d targetTopPos = new Vec3d(target.posX, target.posY + target.height - 0.1f, target.posZ);
         Vec3d targetMidPos = new Vec3d(target.posX, target.posY + target.height / 2.0, target.posZ);
         Vec3d targetBottomPos = new Vec3d(target.posX, target.posY + 0.1f, target.posZ);
 
-        // 对三次位置进行 rayTraceBlocks 检查，任何一次不通过（有遮挡）则返回 true
         RayTraceResult resultTop = world.rayTraceBlocks(playerPos, targetTopPos);
         RayTraceResult resultMid = world.rayTraceBlocks(playerPos, targetMidPos);
         RayTraceResult resultBottom = world.rayTraceBlocks(playerPos, targetBottomPos);
 
-        // 如果任意一个位置检测结果为非空，说明存在遮挡
-        return resultTop != null || resultMid != null || resultBottom != null;
+        return resultTop != null && resultMid != null && resultBottom != null;
     }
 
 

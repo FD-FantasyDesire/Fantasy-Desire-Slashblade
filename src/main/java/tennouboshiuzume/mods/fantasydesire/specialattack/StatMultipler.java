@@ -13,7 +13,7 @@ public class StatMultipler extends SpecialAttackBase {
     public String toString() {
         return "StatMultipler";
     }
-
+//    测试用SA，用于快速提升拔刀剑属性
     @Override
     public void doSpacialAttack(ItemStack stack, EntityPlayer player) {
         World world = player.world;
