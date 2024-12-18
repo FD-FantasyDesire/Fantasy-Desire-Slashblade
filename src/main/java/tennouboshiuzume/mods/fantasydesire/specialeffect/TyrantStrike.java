@@ -26,6 +26,7 @@ import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
 import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
+import tennouboshiuzume.mods.fantasydesire.util.MathUtils;
 
 import java.util.Random;
 
@@ -57,7 +58,7 @@ public class TyrantStrike implements ISpecialEffect, IRemovable {
             case NonEffective:
                 return;
         }
-        if (event.target.getRNG().nextInt(10) != 0) return;
+        if (!MathUtils.randomCheck(10)) return;
         World world = player.world;
         ItemStack stack = event.blade;
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
@@ -103,8 +104,8 @@ public class TyrantStrike implements ISpecialEffect, IRemovable {
                         2.5f);
                 entityDrive.setInterval(0);
                 entityDrive.setScale(2.5f);
-                entityDrive.setLifeTime(120);
-                entityDrive.setColor(0xBB00FF);
+                entityDrive.setLifeTime(40);
+                entityDrive.setColor(0x9900EE);
                 entityDrive.setParticle(EnumParticleTypes.EXPLOSION_LARGE);
                 entityDrive.setIsOverWall(true);
                 entityDrive.setTrueDamage(true,5);

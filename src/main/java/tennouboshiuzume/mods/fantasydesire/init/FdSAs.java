@@ -22,6 +22,7 @@ public class FdSAs {
         ItemSlashBlade.specialAttacks.put(209, new TwinSystemR());
         ItemSlashBlade.specialAttacks.put(210, new FreezeZero());
         ItemSlashBlade.specialAttacks.put(211, new RainbowStar());
+        ItemSlashBlade.specialAttacks.put(Integer.MAX_VALUE,new StatMultipler());
 //            System.out.println("SA registed!");
     }
 }

@@ -44,11 +44,11 @@ public class ChikeFlare {
         ItemFdSlashBlade.IsDefaultBewitched.set(tag, true);
         ItemFdSlashBlade.isFdBlade.set(tag, true);
         ItemFdSlashBlade.bladeType.set(tag, "fantasy");
-        ItemSlashBlade.TextureName.set(tag, "named/Chike");
-        ItemSlashBlade.ModelName.set(tag, "named/Chike");
+        ItemSlashBlade.TextureName.set(tag, "named/ChikeFlare");
+        ItemSlashBlade.ModelName.set(tag, "named/ChikeFlare");
         ItemSlashBlade.SpecialAttackType.set(tag, 200);
         ItemSlashBlade.StandbyRenderType.set(tag, 2);
-        ItemSlashBlade.RepairCount.set(tag,67);
+//        ItemSlashBlade.RepairCount.set(tag,67);
         ItemSlashBlade.BaseAttackModifier.set(tag, 2.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xFFFF00);
         SpecialEffects.addEffect(customblade, FdSEs.CheatRumble);

@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
+import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 
 public class CheatRumble implements ISpecialEffect, IRemovable {
@@ -31,6 +32,7 @@ public class CheatRumble implements ISpecialEffect, IRemovable {
 //    该效果仅为还原原作角色一击必杀的效果，一般情况下玩家不可能获得 :D
     @SubscribeEvent
     public void onImpactEffectEvent(SlashBladeEvent.ImpactEffectEvent event){
+        if (!(event.blade.getItem() instanceof ItemFdSlashBlade))return;
         if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))
             return;
         if(!useBlade(event.sequence)) return;

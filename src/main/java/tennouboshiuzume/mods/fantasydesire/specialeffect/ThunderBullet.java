@@ -32,7 +32,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.*;
+import tennouboshiuzume.mods.fantasydesire.init.FdPotions;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
+import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.MathUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
@@ -68,6 +70,7 @@ public class ThunderBullet implements ISpecialEffect, IRemovable {
             case Effective:
                 break;
         }
+        if (!(event.blade.getItem() instanceof ItemFdSlashBlade))return;
         if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ModernGunblade", 1).getUnlocalizedName())
         ) {
             player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.GunbladeFail")), true);
@@ -86,10 +89,10 @@ public class ThunderBullet implements ISpecialEffect, IRemovable {
         if ( player.getDistance(target)>6 && MathUtils.randomCheck(10)){
             DamageSource HyperLightning = new EntityDamageSource("HyperLightning",player).setDamageBypassesArmor();
             Vec3d pos2 = new Vec3d(0, 0, 1);
-            for (int i = 0; i < 72; i++) {
-                Vec3d pos3 = pos2.rotateYaw((float) Math.toRadians(i*5f)).scale(10f);
+            for (int i = 0; i < 120; i++) {
+                Vec3d pos3 = pos2.rotateYaw((float) Math.toRadians(i*3f)).scale(10f);
                 ParticleUtils.spawnParticle(player.world, EnumParticleTypes.FIREWORKS_SPARK, true,
-                        pos3.x + target.posX, pos3.y + target.posY, pos3.z + target.posZ,
+                        pos3.x + target.posX, pos3.y + target.posY + target.height / 3, pos3.z + target.posZ,
                         1, 0, 0, 0, 0);
             }
             List<EntityLivingBase> targetList = TargetUtils.findAllHostileEntities(target,10,player,false);
@@ -97,8 +100,8 @@ public class ThunderBullet implements ISpecialEffect, IRemovable {
             target.attackEntityFrom(HyperLightning,magicDamage * 5f);
             if (!targetList.isEmpty()){
                 for (EntityLivingBase targetAOE:targetList){
-                    targetAOE.attackEntityFrom(HyperLightning,magicDamage * 5f);
-                    itemBlade.hitEntity(event.blade, targetAOE, player);
+                    targetAOE.addPotionEffect(new PotionEffect(FdPotions.THUNDER_LINK,20 * 5, (int) (magicDamage/2)));
+//                    itemBlade.hitEntity(event.blade, targetAOE, player);
                 }
             }
             target.world.addWeatherEffect(new EntityLightningBolt(target.world,target.posX,target.posY,target.posZ,true));

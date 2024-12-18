@@ -15,6 +15,7 @@ public class CommonProxy {
         new FdSAs();
         new FdEntitys();
         new FdSEs();
+        new FdPotions();
     }
 
     public void init(FMLInitializationEvent event){

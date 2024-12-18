@@ -29,6 +29,7 @@ import tennouboshiuzume.mods.fantasydesire.entity.EntityDriveEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityOverChargeBFG;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
+import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
@@ -59,8 +60,7 @@ public class EnergyBullet implements ISpecialEffect, IRemovable
     }
 
     @SubscribeEvent
-    public void onUpdateItemSlashBlade(SlashBladeEvent.OnUpdateEvent event)
-    {
+    public void onUpdateItemSlashBlade(SlashBladeEvent.OnUpdateEvent event) {
 
         if (!SpecialEffects.isPlayer(event.entity))
             return;
@@ -83,6 +83,7 @@ public class EnergyBullet implements ISpecialEffect, IRemovable
 
         if (player.swingProgressInt != check)
             return;
+        if (!(event.blade.getItem() instanceof ItemFdSlashBlade))return;
         if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ModernGunblade", 1).getUnlocalizedName())
         ) {
             player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.GunbladeFail")), true);

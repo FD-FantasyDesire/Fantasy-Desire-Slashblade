@@ -35,6 +35,7 @@ import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -75,7 +76,7 @@ public class EntityBeam extends Entity implements IProjectile, IThrowableEntity 
 
     protected float onHitParticleVec = 0.0f;
 
-    protected Entity targetingCenter = this;
+    protected Entity targetingCenter;
 
     protected float range = 0;
     /**
@@ -91,7 +92,6 @@ public class EntityBeam extends Entity implements IProjectile, IThrowableEntity 
         //■生存タイマーリセット
         ticksExisted = 0;
 
-        //■サイズ変更
         setSize(0.5F, 0.5F);
     }
 
@@ -243,6 +243,7 @@ public class EntityBeam extends Entity implements IProjectile, IThrowableEntity 
     private static final DataParameter<Float> ExpRadius = EntityDataManager.<Float>createKey(EntityBeam.class, DataSerializers.FLOAT);
     private static final DataParameter<Boolean> TrueDamage = EntityDataManager.<Boolean>createKey(EntityBeam.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> IS_MULTI_HIT = EntityDataManager.<Boolean>createKey(EntityBeam.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Integer> TARGETING_CENTER_ENTITY_ID = EntityDataManager.<Integer>createKey(EntityBeam.class, DataSerializers.VARINT);
 
 
     /**
@@ -262,6 +263,8 @@ public class EntityBeam extends Entity implements IProjectile, IThrowableEntity 
 
         //EntityId
         this.getDataManager().register(TARGET_ENTITY_ID, 0);
+
+        this.getDataManager().register(TARGETING_CENTER_ENTITY_ID,0);
 
         //interval
         this.getDataManager().register(INTERVAL, 7);
@@ -426,12 +429,12 @@ public class EntityBeam extends Entity implements IProjectile, IThrowableEntity 
     }
 
 
-    public Entity getTargetingCenter() {
-        return targetingCenter;
+    public int getTargetingCenterID() {
+        return this.getDataManager().get(TARGETING_CENTER_ENTITY_ID);
     }
 
-    public void setTargetingCenter(Entity targetingCenter) {
-        this.targetingCenter = targetingCenter;
+    public void setTargetingCenter(int targetingCenter) {
+        this.getDataManager().set(TARGETING_CENTER_ENTITY_ID,targetingCenter);
     }
 
     public float getRange() {
@@ -452,10 +455,17 @@ public class EntityBeam extends Entity implements IProjectile, IThrowableEntity 
         //boolean result = super.doTargeting();
 
         int targetid = this.getTargetEntityId();
+        if (getTargetEntityId()!=0){
+            targetingCenter = world.getEntityByID(this.getTargetingCenterID());
+        }else {
+            targetingCenter = this;
+        }
         if (targetid == 0) { // 如果当前没有目标实体（targetid == 0）
-
+            List<Entity> list = Collections.emptyList();
             // 在当前实体周围 expandFactor（30）范围内查找所有实体，并排除自身
-            List<Entity> list = TargetUtils.findAllHostileEntitiesE(targetingCenter,range,thrower,true);
+            if (this.targetingCenter!=null){
+                list = TargetUtils.findAllHostileEntitiesE(this.targetingCenter,range,thrower,true);
+            }
 
             // 如果实体不能多次命中（isMultiHit返回false），则移除已命中的实体
             if (!isMultiHit()) {
@@ -496,7 +506,7 @@ public class EntityBeam extends Entity implements IProjectile, IThrowableEntity 
 
         if(targetid != 0 && getInterval() < this.ticksExisted ){
             Entity target = world.getEntityByID(targetid);
-            System.out.println(target);
+//            System.out.println(target);
 
             if(target != null){
 
@@ -517,7 +527,7 @@ public class EntityBeam extends Entity implements IProjectile, IThrowableEntity 
                 speedFactor = ((0.75f * speedFactor) + lastSpeed * 9f) / 10.0f;
 
                 setDriveVector(speedFactor, false);
-            }else if (target == null || target.isDead){
+            }else if (target == null || !target.isEntityAlive()){
                 setTargetEntityId(0);
             }
         }

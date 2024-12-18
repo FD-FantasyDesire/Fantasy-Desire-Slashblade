@@ -3,6 +3,7 @@ package tennouboshiuzume.mods.fantasydesire.entity;
 import mods.flammpfeil.slashblade.entity.selector.EntitySelectorAttackable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -20,9 +21,7 @@ public class EntityPhantomSwordEx extends EntityPhantomSwordExBase {
 
     public EntityPhantomSwordEx(World par1World) {
         super(par1World);
-
         setInterval(0);
-
         hitStopFactor = rand.nextFloat();
     }
 
@@ -89,25 +88,23 @@ public class EntityPhantomSwordEx extends EntityPhantomSwordExBase {
     @Override
     protected boolean onImpact(RayTraceResult mop) {
         boolean result = true;
-
         if (mop.entityHit != null){
             Entity target = mop.entityHit;
 
             if(mop.hitInfo.equals(EntitySelectorAttackable.getInstance())){
-
                 attackEntity(target);
-
             }else{ //(mop.hitInfo.equals(ItemSlashBlade.getInstance)){
-
                 destructEntity(target);
             }
-
-
             hitTime = this.getEntityWorld().getTotalWorldTime();
         }else{
-            result = false;
+            if (!world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
+                if (this.getThrower() != null && this.getThrower() instanceof EntityPlayer)
+                    ((EntityPlayer) this.getThrower()).onCriticalHit(this);
+                //this.setDead();
+                result = false;
+            }
         }
-
         return result;
     }
 

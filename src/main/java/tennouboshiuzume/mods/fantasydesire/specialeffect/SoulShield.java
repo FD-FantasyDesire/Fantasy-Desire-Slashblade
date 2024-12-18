@@ -29,6 +29,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
+import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.MathUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
@@ -79,6 +80,7 @@ public class SoulShield implements ISpecialEffect, IRemovable {
         if (!(player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemSlashBlade)) return;
         ItemStack blade = player.getHeldItem(EnumHand.MAIN_HAND);
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(blade);
+        if (!(blade.getItem() instanceof ItemFdSlashBlade))return;
         if (!blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ChikeFlare", 1).getUnlocalizedName()))
             return;
         switch (SpecialEffects.isEffective(player, blade, FdSEs.SoulShield)) {

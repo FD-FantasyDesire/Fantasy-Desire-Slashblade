@@ -137,7 +137,8 @@ public class ChargeShot extends SpecialAttackBase implements ISuperSpecialAttack
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
 
         if(!world.isRemote){
-            List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(player, 60f, false);
+            List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(player,60f, player , false);
+//            target.remove(player);
             Collections.shuffle(target);
 
             int count = Math.max(3,Math.min(12,(int) Math.sqrt(player.experienceLevel)));
@@ -153,6 +154,7 @@ public class ChargeShot extends SpecialAttackBase implements ISuperSpecialAttack
             magicDamage*=Math.max(rank,1);
 
             if(!target.isEmpty()){
+                System.out.println(target);
                 for (int i = 0;i< count; i++){
                     EntityLivingBase CTarget = target.get(i % target.size());
                     EntityBeam entityBeam = new EntityBeam(world,player,magicDamage);
@@ -161,7 +163,7 @@ public class ChargeShot extends SpecialAttackBase implements ISuperSpecialAttack
                     entityBeam.setInterval(100);
                     entityBeam.setIsOverWall(true);
                     entityBeam.setMultiHit(true);
-                    entityBeam.setTargetingCenter(player);
+                    entityBeam.setTargetingCenter(player.getEntityId());
                     entityBeam.setRange(30f);
                     entityBeam.setColor(0xFFFFFF);
                     entityBeam.setOnHitParticle(EnumParticleTypes.EXPLOSION_LARGE,0);

@@ -1,5 +1,7 @@
 package tennouboshiuzume.mods.fantasydesire.specialeffect;
 
+import mods.flammpfeil.slashblade.ability.DefeatTheBoss;
+import mods.flammpfeil.slashblade.ability.SoulEater;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.entity.EntityBladeStand;
 import mods.flammpfeil.slashblade.specialeffect.IRemovable;
@@ -43,10 +45,12 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
 
     @SubscribeEvent
     public void onImpactEffectEvent(SlashBladeEvent.ImpactEffectEvent event) {
-        if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.OverCold", 1).getUnlocalizedName()))
-            return;
+
         if (!SpecialEffects.isPlayer(event.user)) return;
         EntityPlayer player = (EntityPlayer) event.user;
+        if (!(event.blade.getItem() instanceof ItemFdSlashBlade))return;
+        if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.OverCold", 1).getUnlocalizedName()))
+            return;
         switch (SpecialEffects.isEffective(player, event.blade, this)) {
             case None:
                 return;
@@ -77,8 +81,8 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
 
         if (proudSoul >= evo_3 && target.isEntityAlive()) {
 //            evo 3
-            ItemFdSlashBlade.bladeType.set(tag, "OverCold_3");
-            ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_3");
+//            ItemFdSlashBlade.bladeType.set(tag, "OverCold_3");
+//            ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_3");
             if (MathUtils.randomCheck(35)) return;
             summonFrostStar(world, player, target, 10, magicDamage * 2f, 3f, 4);
             if (target.getHealth() < magicDamage){
@@ -87,25 +91,25 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
             }
         } else if (proudSoul >= evo_2 && target.isEntityAlive()) {
 //            evo 2
-            ItemFdSlashBlade.bladeType.set(tag, "OverCold_2");
-            ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_2");
+//            ItemFdSlashBlade.bladeType.set(tag, "OverCold_2");
+//            ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_2");
             if (MathUtils.randomCheck(30)) return;
             summonFrostStar(world, player, target, 5, magicDamage * 1.5f, 1.5f, 2);
             if (target.getHealth() < magicDamage){
-                ItemSlashBlade.ProudSoul.tryAdd(tag, 3, false);
+                ItemSlashBlade.ProudSoul.tryAdd(tag, 5, false);
                 ItemSlashBlade.KillCount.tryAdd(tag, 1, false);
             }
         } else if (proudSoul >= evo_1 && target.isEntityAlive()) {
 //            evo 1
-            ItemFdSlashBlade.bladeType.set(tag, "OverCold_1");
-            ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_1");
+//            ItemFdSlashBlade.bladeType.set(tag, "OverCold_1");
+//            ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_1");
             if (!MathUtils.randomCheck(25)) return;
             target.attackEntityFrom(OverCold, magicDamage);
             target.hurtTime = 0;
         } else if (target.isEntityAlive()) {
 //            evo 0
-            ItemFdSlashBlade.bladeType.set(tag, "OverCold_0");
-            ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_0");
+//            ItemFdSlashBlade.bladeType.set(tag, "OverCold_0");
+//            ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_0");
             if (!MathUtils.randomCheck(20)) return;
             target.attackEntityFrom(OverCold, magicDamage * 0.5f);
             target.hurtTime = 0;
@@ -113,7 +117,7 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
         }
     }
 
-    private void summonFrostStar(World world, EntityPlayer player, EntityLivingBase target, int duration, float damage, float hitScale, int color) {
+    private void summonFrostStar(World world, EntityPlayer player, EntityLivingBase target, int duration, float damage, float scale, int color) {
         Random random = player.getRNG();
         if (!world.isRemote) {
             float yaw = (float) (random.nextInt(360));
@@ -137,7 +141,7 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
             );
             entityDrive.setInterval(duration);
             entityDrive.setColor(freezeColor[random.nextInt(color)]);
-            entityDrive.setScale(3f);
+            entityDrive.setScale(scale);
             entityDrive.setInterval(0);
             entityDrive.setSound(SoundEvents.BLOCK_GLASS_BREAK, 1, 0.5f);
             entityDrive.setTargetEntityId(target.getEntityId());

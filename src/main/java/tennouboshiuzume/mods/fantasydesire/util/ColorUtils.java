@@ -107,4 +107,36 @@ public class ColorUtils {
         return (r << 16) | (g << 8) | b;
     }
 
+    public static int getSmoothTransitionColor(int colorStart, int colorEnd, float step, int totalSteps) {
+        // 确保步数在0到2*totalSteps之间循环
+        step = step % (2 * totalSteps);
+        // 判断是前半段还是后半段
+        if (step > totalSteps) {
+            // 后半段则反向渐变
+            step = 2 * totalSteps - step;
+        }
+
+        // 计算颜色比例
+        float ratio = step / (float) totalSteps;
+
+        // 提取颜色1的RGB分量
+        int r1 = (colorStart >> 16) & 0xFF;
+        int g1 = (colorStart >> 8) & 0xFF;
+        int b1 = colorStart & 0xFF;
+
+        // 提取颜色2的RGB分量
+        int r2 = (colorEnd >> 16) & 0xFF;
+        int g2 = (colorEnd >> 8) & 0xFF;
+        int b2 = colorEnd & 0xFF;
+
+        // 根据比例计算新的RGB分量
+        int r = (int) Math.max(0, Math.min(255, r1 + (r2 - r1) * ratio));
+        int g = (int) Math.max(0, Math.min(255, g1 + (g2 - g1) * ratio));
+        int b = (int) Math.max(0, Math.min(255, b1 + (b2 - b1) * ratio));
+
+        // 合并RGB为颜色
+        return (r << 16) | (g << 8) | b;
+    }
+
+
 }

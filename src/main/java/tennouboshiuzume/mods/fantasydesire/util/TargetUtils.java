@@ -65,6 +65,7 @@ public class TargetUtils {
         }
         return hostileEntities;
     }
+
     public static List<Entity> findAllHostileEntitiesE(Entity player, float range, Entity nonTarget, boolean overWallCheck) {
         World world = player.world;
         List<Entity> hostileEntities = new ArrayList<>();

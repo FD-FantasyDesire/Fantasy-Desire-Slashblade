@@ -38,6 +38,7 @@ import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 /**
  * Created by Furia on 14/05/08.
@@ -116,29 +117,27 @@ public class EntityTwinSlashManager extends Entity implements IThrowableEntity {
                 thrower.rotationYaw,
                 thrower.rotationPitch);
     }
-
     //■毎回呼ばれる。移動処理とか当り判定とかもろもろ。
     @Override
     public void onUpdate()
     {
-        //super.onUpdate();
-
-
-        if(this.thrower == null && this.getThrowerEntityID() != 0){
+        if (this.thrower == null && this.getThrowerEntityID() != 0) {
             this.thrower = this.world.getEntityByID(this.getThrowerEntityID());
         }
-
-        if(this.blade.isEmpty() && this.getThrower() != null && this.getThrower() instanceof EntityPlayer){
-            EntityPlayer player = (EntityPlayer)this.getThrower();
+        if (this.blade.isEmpty() && this.getThrower() != null && this.getThrower() instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) this.getThrower();
             ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
-            if(stack.getItem() instanceof ItemSlashBlade)
+            if (stack.getItem() instanceof ItemSlashBlade)
                 this.blade = stack;
+        }
+        if (this.getThrower() != null && !blade.isEmpty()) {
+            EntityPlayer player = (EntityPlayer) this.getThrower();
+            ItemStack stack = this.blade;
             NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
-            if (thrower != null && !world.isRemote) {
-                ParticleUtils.spawnParticle(world,EnumParticleTypes.FIREWORKS_SPARK,true,thrower.posX,thrower.posY+thrower.height/4,thrower.posZ,10,0,0,0,0);
-            }
-            if(this.ticksExisted == 1 && this.getThrower() != null) {
 
+//            1
+
+            if(this.ticksExisted == 1 && this.getThrower() != null) {
                 if (player != null) {
                     player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw,0);
                     {
@@ -179,11 +178,8 @@ public class EntityTwinSlashManager extends Entity implements IThrowableEntity {
                             }
                         }
                     }
-
-
                     player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw-18,0);
                 }
-
                 ReflectionAccessHelper.setVelocity(this.getThrower(), 0, 0, 0);
                 double playerDist = 9;
                 if (!player.onGround)
@@ -233,6 +229,9 @@ public class EntityTwinSlashManager extends Entity implements IThrowableEntity {
                 UntouchableTime.setUntouchableTime(player, 20);
                 ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.SlashEdge);
             }
+
+//            2
+
             if(this.ticksExisted == 6 && this.getThrower() != null) {
                 if (player != null) {
                     player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw+180-36,0);
@@ -286,6 +285,9 @@ public class EntityTwinSlashManager extends Entity implements IThrowableEntity {
                 UntouchableTime.setUntouchableTime(player, 20);
                 ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.ReturnEdge);
             }
+
+//            3
+
             if(this.ticksExisted == 11 && this.getThrower() != null) {
                 if (player != null) {
                     player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw+180-36,0);
@@ -339,6 +341,9 @@ public class EntityTwinSlashManager extends Entity implements IThrowableEntity {
                 UntouchableTime.setUntouchableTime(player, 20);
                 ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.SlashEdge);
             }
+
+//            4
+
             if(this.ticksExisted == 16 && this.getThrower() != null) {
                 if (player != null) {
                     player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw+180-36,0);
@@ -392,6 +397,9 @@ public class EntityTwinSlashManager extends Entity implements IThrowableEntity {
                 UntouchableTime.setUntouchableTime(player, 20);
                 ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.ReturnEdge);
             }
+
+//            5
+
             if(this.ticksExisted == 21 && this.getThrower() != null) {
                 if (player != null) {
                     player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw+180-36,0);
@@ -445,16 +453,19 @@ public class EntityTwinSlashManager extends Entity implements IThrowableEntity {
                 UntouchableTime.setUntouchableTime(player, 20);
                 ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.SlashEdge);
             }
-
-            if (ticksExisted>=35||thrower==null){
-                if (player != null) {
-                    player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw-180-18,0);
-                }
-                this.setDead();
+        }
+        if (thrower != null && blade!=null && !world.isRemote) {
+            ParticleUtils.spawnParticle(world,EnumParticleTypes.FIREWORKS_SPARK,true,thrower.posX,thrower.posY+thrower.height/4,thrower.posZ,10,0,0,0,0);
+        }
+        if (ticksExisted>=35||thrower==null){
+            if (this.getThrower() != null && this.getThrower() instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) this.getThrower();
+                player.setPositionAndRotation(player.posX,player.posY,player.posZ,player.rotationYaw-180-18,0);
             }
-
+            this.setDead();
         }
     }
+
 
     /**
      * ■Random

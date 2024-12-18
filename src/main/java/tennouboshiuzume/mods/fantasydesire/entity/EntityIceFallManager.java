@@ -83,7 +83,6 @@ public class EntityIceFallManager extends EntityTwinSlashManager {
             if (stack.getItem() instanceof ItemSlashBlade) {
                 blade = (ItemSlashBlade) stack.getItem();
             } else {
-                System.out.println("DED");
                 this.setDead();
             }
 

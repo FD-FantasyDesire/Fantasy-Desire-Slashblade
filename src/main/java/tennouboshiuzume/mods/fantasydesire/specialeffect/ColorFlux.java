@@ -1,5 +1,7 @@
 package tennouboshiuzume.mods.fantasydesire.specialeffect;
 
+import mods.flammpfeil.slashblade.ability.DefeatTheBoss;
+import mods.flammpfeil.slashblade.ability.SoulEater;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.entity.EntityBladeStand;
 import mods.flammpfeil.slashblade.specialeffect.IRemovable;
@@ -44,7 +46,7 @@ public class ColorFlux implements ISpecialEffect, IRemovable {
     public void onImpactEffectEvent(SlashBladeEvent.ImpactEffectEvent event) {
         if (!SpecialEffects.isPlayer(event.user)) return;
         EntityPlayer player = (EntityPlayer) event.user;
-
+        if (!(event.blade.getItem() instanceof ItemFdSlashBlade))return;
         if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.PureSnow", 1).getUnlocalizedName()))
             return;
 
@@ -57,10 +59,23 @@ public class ColorFlux implements ISpecialEffect, IRemovable {
                 player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 * 2, 2));
                 return;
         }
+
         EntityLivingBase target = event.target;
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
         ItemSlashBlade.ProudSoul.tryAdd(tag,1,false);
-        summonRainbowPhantomSword(player.world, player,target,20,5f);
+
+        int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, event.blade));
+        float baseModif = ItemSlashBlade.BaseAttackModifier.get(tag);
+        float magicDamage = 1.0f + (baseModif / 2.0f);
+        int rank = StylishRankManager.getStylishRank(player);
+        if (5 <= rank)
+            magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+
+        if (target.getHealth() < magicDamage){
+            ItemSlashBlade.ProudSoul.tryAdd(tag, 5, false);
+            ItemSlashBlade.KillCount.tryAdd(tag, 1, false);
+        }
+        summonRainbowPhantomSword(player.world, player,target,20,magicDamage);
     }
 
     private void summonRainbowPhantomSword(World world,EntityPlayer player,EntityLivingBase target, int duration,float damage){
@@ -89,10 +104,10 @@ public class ColorFlux implements ISpecialEffect, IRemovable {
             entityDrive.setIsOverWall(true);
             entityDrive.setInterval(0);
             entityDrive.setColor(ColorUtils.getSmoothTransitionColor(yaw,120,true));
-            entityDrive.setRainbow(true,yaw,40,1f);
+            entityDrive.setRainbow(true,yaw,120,1f);
             entityDrive.setTargetEntityId(target.getEntityId());
             entityDrive.setIsNonPlayer(true);
-            entityDrive.setLifeTime(30);
+            entityDrive.setLifeTime(duration);
             world.spawnEntity(entityDrive);
         }
     }

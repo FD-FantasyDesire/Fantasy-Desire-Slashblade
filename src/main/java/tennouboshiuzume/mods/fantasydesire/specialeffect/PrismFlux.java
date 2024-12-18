@@ -1,5 +1,7 @@
 package tennouboshiuzume.mods.fantasydesire.specialeffect;
 
+import mods.flammpfeil.slashblade.ability.DefeatTheBoss;
+import mods.flammpfeil.slashblade.ability.SoulEater;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.entity.EntityBladeStand;
 import mods.flammpfeil.slashblade.specialeffect.IRemovable;
@@ -47,7 +49,7 @@ public class PrismFlux implements ISpecialEffect, IRemovable {
     public void onImpactEffectEvent(SlashBladeEvent.ImpactEffectEvent event) {
         if (!SpecialEffects.isPlayer(event.user)) return;
         EntityPlayer player = (EntityPlayer) event.user;
-
+        if (!(event.blade.getItem() instanceof ItemFdSlashBlade))return;
         if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.PureSnow", 1).getUnlocalizedName())) return;
 
         switch (SpecialEffects.isEffective(player, event.blade, FdSEs.RainbowFlux)) {
@@ -69,7 +71,14 @@ public class PrismFlux implements ISpecialEffect, IRemovable {
         }
         EntityLivingBase target = event.target;
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
-        ItemSlashBlade.ProudSoul.tryAdd(tag,1,false);
+
+        int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, event.blade));
+        float baseModif = ItemSlashBlade.BaseAttackModifier.get(tag);
+        float magicDamage = 1.0f + (baseModif / 2.0f);
+        int rank = StylishRankManager.getStylishRank(player);
+        if (5 <= rank)
+            magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+
 
         List<EntityLivingBase> PrismTarget = TargetUtils.findAllHostileEntities(target,15f,target,true);
         PrismTarget.remove(player);
@@ -77,7 +86,11 @@ public class PrismFlux implements ISpecialEffect, IRemovable {
         if (!PrismTarget.isEmpty()){
             for(int i=0;i<4;i++){
                 int index = i%PrismTarget.size();
-                summonPrismPhantomSword(event.blade,player.world, player,target, PrismTarget.get(index),5f);
+                if (target.getHealth() < magicDamage){
+                    ItemSlashBlade.ProudSoul.tryAdd(tag, 5, false);
+                    ItemSlashBlade.KillCount.tryAdd(tag, 1, false);
+                }
+                summonPrismPhantomSword(event.blade,player.world, player,target, PrismTarget.get(index),magicDamage);
             }
         }
     }

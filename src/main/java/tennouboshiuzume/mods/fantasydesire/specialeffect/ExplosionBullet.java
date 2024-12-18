@@ -9,6 +9,7 @@ import mods.flammpfeil.slashblade.specialeffect.ISpecialEffect;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import mods.flammpfeil.slashblade.util.SlashBladeEvent;
 import mods.flammpfeil.slashblade.util.SlashBladeHooks;
+import net.minecraft.client.renderer.tileentity.TileEntityBeaconRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -28,6 +29,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.*;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
+import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
@@ -62,6 +64,7 @@ public class ExplosionBullet implements ISpecialEffect, IRemovable {
             case Effective:
                 break;
         }
+        if (!(event.blade.getItem() instanceof ItemFdSlashBlade))return;
         if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ModernGunblade", 1).getUnlocalizedName())
         ) {
             player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.GunbladeFail")), true);

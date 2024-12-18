@@ -57,7 +57,7 @@ public class tesSA extends SpecialAttackBase {
                     entityBeam.setInterval(100);
                     entityBeam.setIsOverWall(true);
                     entityBeam.setMultiHit(true);
-                    entityBeam.setTargetingCenter(player);
+                    entityBeam.setTargetingCenter(player.getEntityId());
                     entityBeam.setRange(30f);
                     entityBeam.setColor(0xFFFFFF);
                     entityBeam.setOnHitParticle(EnumParticleTypes.EXPLOSION_LARGE,0);

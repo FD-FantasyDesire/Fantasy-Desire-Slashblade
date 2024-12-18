@@ -13,8 +13,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
+import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.*;
 
+import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
 
@@ -33,7 +35,6 @@ public class BladeEffectEvents {
         EntityPlayer player = (EntityPlayer) event.entity;
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
         player.getHeldEquipment();
-
         Vec3d pos1 = new Vec3d(0, 0, 1).rotateYaw((float) Math.toRadians(player.rotationYaw));
 
         if (SpecialEffects.isEffective(player, event.blade, FdSEs.ImmortalSoul) == SpecialEffects.State.Effective && (player.getHeldItemMainhand().equals(event.blade) || player.getHeldItemOffhand().equals(event.blade))) {
@@ -41,6 +42,7 @@ public class BladeEffectEvents {
             ParticleUtils.spawnParticle(player.world, EnumParticleTypes.REDSTONE, true,
                     pos2.x + player.posX, pos2.y + player.posY + player.height / 3, pos2.z + player.posZ,
                     0, 1, 1, 0.0001, 1);
+            ItemSlashBlade.SummonedSwordColor.set(tag, ColorUtils.getSmoothTransitionColor(0xFFFF00,0x00FFFF,player.world.getTotalWorldTime(),120));
         }
         if (!player.getHeldItemMainhand().equals(event.blade)) return;
         if (SpecialEffects.isEffective(player, event.blade, FdSEs.SoulShield) == SpecialEffects.State.Effective) {
@@ -197,5 +199,60 @@ public class BladeEffectEvents {
             }
         }
     }
+    @SubscribeEvent
+    public void OverCold(SlashBladeEvent.OnUpdateEvent event){
+        if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.OverCold", 1).getUnlocalizedName()))
+            return;
+        if (!SpecialEffects.isPlayer(event.entity)) return;
+        EntityPlayer player = (EntityPlayer) event.entity;
+        if (!player.getHeldItemMainhand().equals(event.blade)) return;
+        NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
 
+        Vec3d pos1 = new Vec3d(0, 1, 0);
+        Vec3d pos2 = new Vec3d(0, 0, 1);
+        Vec3d pos3 = new Vec3d(1, 0, 0);
+        if (SpecialEffects.isEffective(player, event.blade, FdSEs.EvolutionIce) == SpecialEffects.State.Effective) {
+            int evolutionStage = 0;
+
+            int evo_3 = 30000;
+            int evo_2 = 3000;
+            int evo_1 = 300;
+
+            int proudSoul = ItemSlashBlade.ProudSoul.get(tag);
+
+            if (proudSoul >= evo_3) {
+//            evo 3
+                ItemFdSlashBlade.bladeType.set(tag, "OverCold_3");
+                ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_3");
+                evolutionStage = 3;
+            } else if (proudSoul >= evo_2) {
+//            evo 2
+                ItemFdSlashBlade.bladeType.set(tag, "OverCold_2");
+                ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_2");
+                evolutionStage = 2;
+            } else if (proudSoul >= evo_1) {
+//            evo 1
+                ItemFdSlashBlade.bladeType.set(tag, "OverCold_1");
+                ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_1");
+                evolutionStage = 1;
+            } else {
+//            evo 0
+                ItemFdSlashBlade.bladeType.set(tag, "OverCold_0");
+                ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_0");
+            }
+            for (int i = 0; i < evolutionStage; i++) {
+                Vec3d pos4 = MathUtils.rotateAroundAxis(pos2,pos1,Math.toRadians(i * ((float) 360 / evolutionStage) + player.world.getTotalWorldTime() % 360 * 5))
+                        .scale(Math.abs((player.world.getTotalWorldTime() % 20) - 10) * 0.1f + 0.5f);
+                ParticleUtils.spawnParticle(player.world, EnumParticleTypes.SNOW_SHOVEL, false,
+                        pos4.x + player.posX, pos4.y + player.posY + player.height/3, pos4.z + player.posZ,
+                        evolutionStage, 0, 0, 0, 0.1f);
+            }
+        }
+        if (SpecialEffects.isEffective(player, event.blade, FdSEs.ColdLeak) == SpecialEffects.State.Effective) {
+            Vec3d pos4 = pos2.rotateYaw((float) Math.toRadians(player.world.getTotalWorldTime() % 120 * ((float) 360 / 120) + 240f));
+            ParticleUtils.spawnParticle(player.world, EnumParticleTypes.REDSTONE, true,
+                    pos4.x + player.posX, pos4.y + player.posY + player.height / 2, pos4.z + player.posZ,
+                    0, 0.001, 0.001, 1.0, 1);
+        }
+    }
 }

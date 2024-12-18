@@ -948,23 +948,15 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile, ITh
     }
 
     protected boolean onImpact(RayTraceResult mop) {
-
         boolean result = true;
-
         if (mop.entityHit != null) {
             Entity target = mop.entityHit;
-
             if (mop.hitInfo.equals(EntitySelectorAttackable.getInstance())) {
-
                 attackEntity(target);
-
             } else { //(mop.hitInfo.equals(ItemSlashBlade.getInstance)){
-
                 destructEntity(target);
             }
         } else {
-
-
             if (!world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
                 if (this.getThrower() != null && this.getThrower() instanceof EntityPlayer)
                     ((EntityPlayer) this.getThrower()).onCriticalHit(this);
@@ -972,7 +964,6 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile, ITh
                 result = false;
             }
         }
-
         return result;
     }
 
@@ -1294,7 +1285,10 @@ public class EntityPhantomSwordExBase extends Entity implements IProjectile, ITh
             double var4 = rand.nextGaussian() * 0.02D;
             double var6 = rand.nextGaussian() * 0.02D;
             double var8 = 10.0D;
-            this.world.spawnParticle(EnumParticleTypes.valueOf(particle), this.posX + (rand.nextFloat() * this.width * 2.0F) - this.width - var2 * var8, this.posY + (rand.nextFloat() * this.height) - var4 * var8, this.posZ + (rand.nextFloat() * this.width * 2.0F) - this.width - var6 * var8, var2, var4, var6);
+            this.world.spawnParticle(EnumParticleTypes.valueOf(particle), this.posX + (rand.nextFloat() * this.width * 2.0F) - this.width - var2 * var8,
+                    this.posY + (rand.nextFloat() * this.height) + this.height - var4 * var8,
+                    this.posZ + (rand.nextFloat() * this.width * 2.0F) - this.width - var6 * var8,
+                    var2, var4, var6);
         }
     }
 }

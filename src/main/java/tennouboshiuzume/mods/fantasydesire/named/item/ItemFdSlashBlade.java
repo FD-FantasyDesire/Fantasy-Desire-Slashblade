@@ -50,7 +50,6 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
     public static TagPropertyAccessor.TagPropertyString bladeType = new TagPropertyAccessor.TagPropertyString("bladeType");
     public static TagPropertyAccessor.TagPropertyFloat bladeScale = new TagPropertyAccessor.TagPropertyFloat("bladeScale");
 
-
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack par1ItemStack, World world, List par3List, ITooltipFlag inFlag) {
@@ -208,5 +207,91 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
         }else {
             par3List.add("¡ì7"+I18n.format("tennouboshiuzume.slashblade.info.noBound"));
         }
+    }
+    @Override
+    public AxisAlignedBB getBBofCombo(ItemStack itemStack, ComboSequence combo, EntityLivingBase user) {
+        NBTTagCompound tag = getItemTagCompound(itemStack);
+        EnumSet<SwordType> swordType = this.getSwordType(itemStack);
+        AxisAlignedBB bb = user.getEntityBoundingBox();
+        Vec3d vec = user.getLook(1.0F);
+        vec = new Vec3d(vec.x, 0.0, vec.z);
+        vec = vec.normalize();
+        switch (combo) {
+            case RisingStar:
+            case Stinger:
+            case ReturnEdge:
+            case Battou:
+            case Calibur:
+            case RapidSlash:
+            case SlashEdge:
+            case SSlashEdge:
+            case SReturnEdge:
+                if (swordType.contains(ItemSlashBlade.SwordType.Broken)) {
+                    bb = bb.grow(1.0, 0.0, 1.0);
+                    bb = bb.offset(vec.x * 1.0, 0.0, vec.z * 1.0);
+                } else if (swordType.containsAll(ItemSlashBlade.SwordType.BewitchedPerfect)) {
+                    bb = bb.grow(5.0, 0.75, 5.0);
+                } else {
+                    bb = bb.grow(2.0, 0.75, 2.0);
+                    bb = bb.offset(vec.x * 2.5, 0.0, vec.z * 2.5);
+                }
+                break;
+            case Kiriage:
+            case Kiriorosi:
+            case HiraTuki:
+            case Force1:
+            case Force2:
+            case Force5:
+            case Force6:
+            case ASlashEdge:
+            case AKiriorosi:
+            case AKiriage:
+            case AKiriorosiFinish:
+            case Force3:
+            case Force4:
+            default:
+                if (swordType.contains(ItemSlashBlade.SwordType.Broken)) {
+                    bb = bb.grow(1.0, 0.0, 1.0);
+                    bb = bb.offset(vec.x * 1.0, 0.0, vec.z * 1.0);
+                } else {
+                    bb = bb.grow(1.2000000476837158, 1.25, 1.2000000476837158);
+                    bb = bb.offset(vec.x * 2.0, 0.5, vec.z * 2.0);
+                }
+                break;
+            case SIai:
+            case Iai:
+                if (swordType.contains(ItemSlashBlade.SwordType.Broken)) {
+                    bb = bb.grow(1.0, 0.0, 1.0);
+                    bb = bb.offset(vec.x * 1.0, 0.0, vec.z * 1.0);
+                } else {
+                    bb = bb.grow(2.0, 1.0, 2.0);
+                    bb = bb.offset(vec.x * 2.5, 0.0, vec.z * 2.5);
+                }
+                break;
+            case SSlashBlade:
+                if (swordType.contains(ItemSlashBlade.SwordType.Broken)) {
+                    bb = bb.grow(1.0, 0.0, 1.0);
+                    bb = bb.offset(vec.x * 1.0, 0.0, vec.z * 1.0);
+                } else {
+                    bb = bb.grow(3.0, 1.0, 3.0);
+                    bb = bb.offset(vec.x * 2.5, 0.0, vec.z * 2.5);
+                }
+                break;
+            case HelmBraker:
+                if (swordType.contains(ItemSlashBlade.SwordType.Broken)) {
+                    bb = bb.grow(1.0, 0.0, 1.0);
+                    bb = bb.offset(vec.x * 1.0, 0.0, vec.z * 1.0);
+                } else {
+                    bb = bb.grow(2.0, 2.5, 2.0);
+                    bb = bb.offset(vec.x * 2.5, 0.0, vec.z * 2.5);
+                }
+                break;
+            case Saya1:
+            case Saya2:
+                bb = bb.grow(1.2000000476837158, 0.25, 1.2000000476837158);
+                bb = bb.offset(vec.x * 2.0, 0.0, vec.z * 2.0);
+        }
+
+        return bb;
     }
 }

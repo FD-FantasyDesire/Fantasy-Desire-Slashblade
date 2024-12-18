@@ -26,6 +26,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.*;
+import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
@@ -77,7 +78,7 @@ public class TripleBullet implements ISpecialEffect, IRemovable {
 
         if (player.swingProgressInt != check)
             return;
-
+        if (!(event.blade.getItem() instanceof ItemFdSlashBlade))return;
         if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ModernGunblade", 1).getUnlocalizedName())
         ) {
             player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.GunbladeFail")), true);
@@ -125,6 +126,7 @@ public class TripleBullet implements ISpecialEffect, IRemovable {
             EntitySeekSoulPhantomSword entityDrive = new EntitySeekSoulPhantomSword(world, player, magicDamage);
             entityDrive.setInterval(1 + i);
             entityDrive.setScale(0.2f);
+            entityDrive.setIsOverWall(true);
             entityDrive.setSound(SoundEvents.ENTITY_WITHER_SHOOT, 3f, 2f);
             entityDrive.setColor(color);
             entityDrive.setInitialPosition(player.getLookVec().x + player.posX,

@@ -122,6 +122,7 @@ flammpfeil.slashblade.specialattack.RainOfRainbow=§l§4天§6穹§e虹§a彩§b
 flammpfeil.slashblade.specialattack.FreezeZero=§3§kΩ§b永冻§3§kΩ§f：§9零世代
 flammpfeil.slashblade.specialattack.RainbowStar=§4I§cm§6a§eg§2i§an§ba§3t§1i§9o§dn §f虹色星海
 flammpfeil.slashblade.specialattack.SpikeOfAbyss=§4§kSpike Of Abyss
+flammpfeil.slashblade.specialattack.StatMultipler=§l主角外挂
 
 
 #Special Effect
@@ -174,7 +175,7 @@ tennouboshiuzume.info.Eshahar=§b永恒璀璨彗星
 tennouboshiuzume.info.ChikeFlare.crafting=如果你的拔刀非常珍贵，那么请对该SA有所了解再考虑使用
 tennouboshiuzume.info.NR.SMS=所以重置版作者为什么不直接把完整版做进重置版里呢？
 
-tennouboshiuzume.info.SoulForging.crafting=当你用铁砧砸到放在铁块上的刀挂台，就会消耗你大于10000的耀魂来锻造，基础只需要1000点，每多一次锻造就会获得一级该SE，每有一级该SE便需要额外花费50，直到2500点
+tennouboshiuzume.info.SoulForging.crafting=当你用铁砧砸到放在铁块上的刀挂台，消耗其大于10000的耀魂来锻造，基础只需要1000点，每多一次锻造就会获得一级该SE，每有一级该SE便需要额外花费50，直到2500点
 tennouboshiuzume.info.PrismFlux.crafting=覆盖虹光通量的效果，以取消剑气的代价换取攻击时发出折射幻影剑的能力
 tennouboshiuzume.info.SentientHook.crafting=鞘击挥砍时；拉近前方90°距离30米内的敌人
 tennouboshiuzume.info.ItemMagnet.crafting=在主手时：吸引15格范围内的经验球和可拾取物品
@@ -228,7 +229,7 @@ tennouboshiuzume.fantasydesire.advancement.OverDimension.Desc=与你灵魂深处
 tennouboshiuzume.fantasydesire.advancement.OverSoul=灵魂链接·MAX
 tennouboshiuzume.fantasydesire.advancement.OverSoul.Desc=被你永恒的伙伴拯救
 tennouboshiuzume.fantasydesire.advancement.AncientIntelligence=古代智能
-tennouboshiuzume.fantasydesire.advancement.AncientIntelligence.Desc=唤醒毁灭纪元的神明残存的一部分
+tennouboshiuzume.fantasydesire.advancement.AncientIntelligence.Desc=唤醒毁灭纪元的神明残余
 tennouboshiuzume.fantasydesire.advancement.CrimsonOne=深红一号
 tennouboshiuzume.fantasydesire.advancement.CrimsonOne.Desc=锻造收割一切的深红镰刀
 tennouboshiuzume.fantasydesire.advancement.Twinset=纷争双子
@@ -244,6 +245,9 @@ tennouboshiuzume.fantasydesire.advancement.ColdAndColder_3.Desc=进化到最终�
 tennouboshiuzume.fantasydesire.advancement.PureRainOfRainbow=纯净虹光
 tennouboshiuzume.fantasydesire.advancement.PureRainOfRainbow.Desc=转化绝对纯净的永恒光之刃
 
+#Potion
+potion.fantasydesire.immortal_soul.name=§e不屈之魂
+potion.fantasydesire.thunder_link.name=§e静电过载
 
 
 #代码 官方名称 MOTD代码

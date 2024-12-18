@@ -272,7 +272,6 @@ public class EntityOverChargeBFG extends EntityOverCharge {
             entityDrive.setScale(0.75f);
             entityDrive.setColor(this.getColor());
             entityDrive.setTargetEntityId(target2.getEntityId());
-//            entityDrive.setIsNonPlayer(true);
             entityDrive.setLifeTime(30);
             world.spawnEntity(entityDrive);
         }

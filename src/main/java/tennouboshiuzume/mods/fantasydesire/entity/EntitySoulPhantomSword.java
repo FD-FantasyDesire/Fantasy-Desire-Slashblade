@@ -4,22 +4,13 @@ package tennouboshiuzume.mods.fantasydesire.entity;
 import javafx.scene.effect.Lighting;
 import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
-//他妈的霓虹金，两个类弄一样名字干什么了
 import mods.flammpfeil.slashblade.util.ReflectionAccessHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.monster.EntityWitch;
-import net.minecraft.init.MobEffects;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
-import net.minecraft.network.datasync.DataParameter;
 
 public class EntitySoulPhantomSword extends EntityPhantomSwordExBase {
 
@@ -54,18 +45,17 @@ public class EntitySoulPhantomSword extends EntityPhantomSwordExBase {
             this.world.newExplosion(this, this.posX, this.posY, this.posZ, getExpRadius(), false, false);
         }
         if (!this.world.isRemote) {
-            if (getTrueDamage()){
-                if (target instanceof EntityLivingBase){
-                    EntityLivingBase entityTarget =(EntityLivingBase) target;
-                    entityTarget.setHealth(entityTarget.getHealth() - (entityTarget.getMaxHealth() * TrueDamageLevel / 100) );
+            if (getTrueDamage()) {
+                if (target instanceof EntityLivingBase) {
+                    EntityLivingBase entityTarget = (EntityLivingBase) target;
+                    entityTarget.setHealth(Math.max(1, entityTarget.getHealth() - (entityTarget.getMaxHealth() * TrueDamageLevel / 100)));
+                    System.out.println(((EntityLivingBase) target).getHealth());
                 }
             }
             float magicDamage = Math.max(1.0f, AttackLevel);
             target.hurtResistantTime = 0;
-            DamageSource ds = new EntityDamageSource("directMagic", this.getThrower()).setDamageIsAbsolute().setDamageAllowedInCreativeMode();
+            DamageSource ds = new EntityDamageSource("directMagic", this.getThrower()).setDamageBypassesArmor();
             target.attackEntityFrom(ds, magicDamage);
-
-
             if (!blade.isEmpty() && target instanceof EntityLivingBase && thrower != null && thrower instanceof EntityLivingBase) {
                 StylishRankManager.setNextAttackType(this.thrower, StylishRankManager.AttackTypes.PhantomSword);
                 StylishRankManager.doAttack(thrower);

@@ -173,6 +173,7 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
                     entityDrive.setColor(0xFF0000);
                     entityDrive.setIsOverWall(true);
                     entityDrive.setScale(2f);
+                    entityDrive.setParticle(EnumParticleTypes.FLAME);
                     entityDrive.setLifeTime(20);
                     world.spawnEntity(entityDrive);
                     count++;
@@ -203,13 +204,15 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
 
         magicDamage*=Math.max(rank,1);
         List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player, 30, player, true));
-        player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH,30 * 20,target.size()));
-        player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION,30 * 20,target.size()));
-        if (!world.isRemote) {
-            Random random = player.getRNG();
-            if (!target.isEmpty()) {
-                int count = 0;
-                for (EntityLivingBase targetEntity : target) {
+        if (!target.isEmpty()){
+            player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH,30 * 20,target.size()));
+            player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION,30 * 20,target.size()));
+            player.setAbsorptionAmount(player.getAbsorptionAmount()+target.size()*5);
+            if (!world.isRemote) {
+                Random random = player.getRNG();
+                if (!target.isEmpty()) {
+                    int count = 0;
+                    for (EntityLivingBase targetEntity : target) {
                         float yaw = 360f / target.size()* count;
                         float pitch = 90f+(float)(random.nextGaussian() * 10f);
                         float roll = (float) (random.nextInt(360) - 180);
@@ -241,8 +244,8 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
                     }
                 }
 
+            }
         }
-
         ItemSlashBlade.setComboSequence(tag, ItemSlashBlade.ComboSequence.Kiriorosi);
     }
 

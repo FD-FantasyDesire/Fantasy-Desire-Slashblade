@@ -26,6 +26,7 @@ import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
 import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
+import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 
 import java.util.Random;
@@ -47,6 +48,7 @@ public class BloodDrain implements ISpecialEffect, IRemovable {
     public void onImpactEffectEvent(SlashBladeEvent.ImpactEffectEvent event){
 
 //        if(!useBlade(event.sequence)) return;
+        if (!(event.blade.getItem() instanceof ItemFdSlashBlade))return;
         if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.CrimsonScythe", 1).getUnlocalizedName()))return;
         if(!SpecialEffects.isPlayer(event.user)) return;
         EntityPlayer player = (EntityPlayer) event.user;

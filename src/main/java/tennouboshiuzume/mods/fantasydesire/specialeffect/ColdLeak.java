@@ -36,7 +36,7 @@ public class ColdLeak implements ISpecialEffect, IRemovable {
 
     @SubscribeEvent
     public void onImpactEffectEvent(SlashBladeEvent.ImpactEffectEvent event) {
-
+        if (!(event.blade.getItem() instanceof ItemFdSlashBlade))return;
         if (!event.blade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.OverCold", 1).getUnlocalizedName()))
             return;
         if (!SpecialEffects.isPlayer(event.user)) return;

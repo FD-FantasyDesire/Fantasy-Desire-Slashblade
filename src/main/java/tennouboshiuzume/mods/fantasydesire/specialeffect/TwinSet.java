@@ -37,6 +37,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
 import tennouboshiuzume.mods.fantasydesire.entity.*;
+import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
 import tennouboshiuzume.mods.fantasydesire.util.MathUtils;
 import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
@@ -76,6 +77,7 @@ public class TwinSet implements ISpecialEffect
         if (!(player.getHeldItemOffhand().getItem() instanceof ItemSlashBlade))return;
         ItemStack offBlade = player.getHeldItemOffhand();
 
+        if (!(event.blade.getItem() instanceof ItemFdSlashBlade))return;
         if (!offBlade.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.TwinBlade", 1).getUnlocalizedName())
         ){
             return;
@@ -102,11 +104,8 @@ public class TwinSet implements ISpecialEffect
                 return;
         }
 
-
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(event.blade);
         NBTTagCompound offtag = ItemSlashBlade.getItemTagCompound(offBlade);
-
-
 
         ItemSlashBlade blade = (ItemSlashBlade)event.blade.getItem();
         int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, event.blade));

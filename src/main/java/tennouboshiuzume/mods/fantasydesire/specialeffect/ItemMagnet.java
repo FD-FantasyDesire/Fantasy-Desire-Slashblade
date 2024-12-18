@@ -7,12 +7,14 @@ import mods.flammpfeil.slashblade.specialeffect.ISpecialEffect;
 import mods.flammpfeil.slashblade.specialeffect.SpecialEffects;
 import mods.flammpfeil.slashblade.util.SlashBladeEvent;
 import mods.flammpfeil.slashblade.util.SlashBladeHooks;
+import net.minecraft.advancements.critereon.UsedTotemTrigger;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -91,7 +93,6 @@ public class ItemMagnet implements ISpecialEffect, IRemovable
             }
 
             for (Entity item : list){
-
                 if (MathUtils.getDistancePos(player.posX,player.posY+player.height/2,player.posZ,item.posX,item.posY+item.height/2,item.posZ) <=3 && item instanceof EntityXPOrb){
                     EntityXPOrb xpOrb = (EntityXPOrb) item;
                     player.xpCooldown = 10;
