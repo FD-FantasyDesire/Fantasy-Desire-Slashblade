@@ -66,7 +66,6 @@ public class FollowFire implements ISpecialEffect, IRemovable {
             case NonEffective:
                 return;
         }
-        World world = player.world;
         ItemStack stack = event.blade;
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
         boolean burning = player.isBurning() || player.isPotionActive(MobEffects.FIRE_RESISTANCE);
