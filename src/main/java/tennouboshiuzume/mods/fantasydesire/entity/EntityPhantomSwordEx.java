@@ -90,7 +90,6 @@ public class EntityPhantomSwordEx extends EntityPhantomSwordExBase {
         boolean result = true;
         if (mop.entityHit != null){
             Entity target = mop.entityHit;
-
             if(mop.hitInfo.equals(EntitySelectorAttackable.getInstance())){
                 attackEntity(target);
             }else{ //(mop.hitInfo.equals(ItemSlashBlade.getInstance)){
