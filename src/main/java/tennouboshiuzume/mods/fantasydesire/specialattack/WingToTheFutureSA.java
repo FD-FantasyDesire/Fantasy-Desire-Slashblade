@@ -140,6 +140,10 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
         World world = player.world;
         Random random = new Random();
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
+        final int cost = -20;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            ItemSlashBlade.damageItem(stack, 10, player);
+        }
         ItemSlashBlade blade = (ItemSlashBlade) stack.getItem();
         int wingCount = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel)) - 5, 1), 3);
         StylishRankManager.setNextAttackType(player, StylishRankManager.AttackTypes.PhantomSword);
@@ -186,7 +190,7 @@ public class WingToTheFutureSA extends SpecialAttackBase implements IJustSpecial
                         double targetZ = playerZ + dirZ * distance;
                         entityDrive.setPosition(targetX, targetY, targetZ);
                         entityDrive.setInterval(20 + countdownValue * 4);
-                        entityDrive.setLifeTime(200+ countdownValue * 4);
+                        entityDrive.setLifeTime(200 + countdownValue * 4);
                         entityDrive.setScale(1.5f);
                         entityDrive.setBurst(true);
                         entityDrive.setExpRadius(1);

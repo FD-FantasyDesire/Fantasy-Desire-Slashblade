@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -27,6 +28,7 @@ import tennouboshiuzume.mods.fantasydesire.entity.EntityOverChargeBFG;
 import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
+import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.util.ArrayList;
@@ -69,9 +71,10 @@ public class ABMS extends SpecialAttackBase implements ISuperSpecialAttack {
             List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player, 20, false));
             for (EntityLivingBase entity : target) {
                 DamageSource OverHeatFlame = new EntityDamageSource("OverHeatFlame", player).setDamageIsAbsolute();
+                System.out.println(magicDamage);
                 entity.attackEntityFrom(OverHeatFlame,magicDamage);
                 if (entity.isBurning()||entity.isImmuneToFire()){
-                    world.createExplosion(player, entity.posX, entity.posY + entity.height / 2f, entity.posZ, range , false);
+                    world.createExplosion(player, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, range , false);
                 }
             }
 
@@ -85,7 +88,6 @@ public class ABMS extends SpecialAttackBase implements ISuperSpecialAttack {
         if (!stack.getUnlocalizedName().equals(BladeUtils.findItemStack(FantasyDesire.MODID, "tennouboshiuzume.slashblade.ArdorBlossomStar", 1).getUnlocalizedName()))
             return;
         World world = player.world;
-        Random random = new Random();
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
         if (ItemFdSlashBlade.SpecialCharge.get(tag) < 9500) return;
         ItemSlashBlade blade = (ItemSlashBlade) stack.getItem();

@@ -113,11 +113,13 @@ item.tennouboshiuzume.slashblade.ArdorBlossomStar.desc0=§4个体的战斗威胁
 item.tennouboshiuzume.slashblade.ArdorBlossomStar.desc1=§4但考虑到其在特定场合中的自毁特性……
 item.tennouboshiuzume.slashblade.ArdorBlossomStar.desc2=§4红焰蛾最终判定，WAW-5。
 
-item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc0=§4渴火
-item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc1=      §4手持时：若自身处于燃烧状态或拥有抗火效果，提升感应度，攻击对敌人追加燃烧伤害
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc0=§4红艳煞
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc1=      §f手持时：若自身处于燃烧状态或拥有抗火效果，提升感应度
 item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc2=          §f感应度>50%%时：以降低感应度为代价回复耐久度
 item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc3=          §f感应度>75%%时：向周围敌人传播燃烧，侵蚀SA
 item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc4=          §f感应度>95%%时：§4§k侵蚀§r§4SA
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc5=§4渴火
+item.tennouboshiuzume.slashblade.ArdorBlossomStar.SEdesc6=      §f击中时：若敌人处于燃烧状态，将火焰熄灭并使自身感应度提升
 
 item.tennouboshiuzume.slashblade.ArdorBlossomStar.SAdesc0=§e§l点火
 item.tennouboshiuzume.slashblade.ArdorBlossomStar.SAdesc1=      若自身未处于燃烧状态，则点燃自身60秒，若已处于燃烧状态，则熄灭火焰
@@ -126,8 +128,6 @@ item.tennouboshiuzume.slashblade.ArdorBlossomStar.SAdesc3=      使周围处于�
 item.tennouboshiuzume.slashblade.ArdorBlossomStar.SAdesc4=      引爆会使自身遭受巨额伤害，并且可能致死
 item.tennouboshiuzume.slashblade.ArdorBlossomStar.SAdesc5=      使用后感应度降低为0%%
 item.tennouboshiuzume.slashblade.ArdorBlossomStar.SAdesc6=      如果以超SA形式施放，引发的爆炸会造成地形破坏
-
-
 
 #Special Attack
 
@@ -169,8 +169,8 @@ slashblade.seffect.name.ExplosionBullet=§4WG-HyperBlast 绝肃爆裂弹头
 slashblade.seffect.name.ThunderBullet=§eWG-FallenBlossom 宙霆能量电容
 slashblade.seffect.name.SoulForging=§5灵魂锻造负载
 slashblade.seffect.name.SoulReaper=§4灵魂劫掠
-slashblade.seffect.name.FollowFire=§4渴火
-
+slashblade.seffect.name.FollowFire=§4红艳煞
+slashblade.seffect.name.FlameDrain=§4渴火
 #Text
 tennouboshiuzume.tip.ImmortalSoulActive=§e同伴灵魂的炽热传达了过来……
 tennouboshiuzume.tip.ImmortalSoulActive1=§6同伴灵魂的炽热传达了过来……§4没有下次了！
@@ -179,7 +179,7 @@ tennouboshiuzume.tip.WingToTheFutureSuccess=§e§l接下来就是重头戏了！
 
 tennouboshiuzume.tip.TwinSetFail=§5没有同时装备对应的另一把双子拔刀…
 tennouboshiuzume.tip.BloodDrainEv=§d§l狩魂 Type-VI：§4§l+%s初始伤害
-tennouboshiuzume.tip.HeatRate=§6§lE.G.O. 红艳煞 当前感应度：§4§l+%s%%
+tennouboshiuzume.tip.HeatRate=§6§lE.G.O. 红艳煞 当前感应度：%s%%
 tennouboshiuzume.tip.TwinSetActive=§5双子系统：“追刃”效果发动，攻击追加斩击
 tennouboshiuzume.tip.GunbladeFail=§4当前的武器并不是一把“枪刃”！
 

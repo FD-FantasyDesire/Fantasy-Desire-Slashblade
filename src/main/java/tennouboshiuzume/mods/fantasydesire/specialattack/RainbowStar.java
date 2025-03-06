@@ -45,7 +45,7 @@ public class RainbowStar extends SpecialAttackBase implements IJustSpecialAttack
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
         final int cost = -20;
         if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
-            return;
+            ItemSlashBlade.damageItem(stack, 10, player);
         }
         int rains = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel)) - 2, 1), 6);
         int level = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
@@ -54,7 +54,6 @@ public class RainbowStar extends SpecialAttackBase implements IJustSpecialAttack
         if (5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
         Random random = player.getRNG();
-        magicDamage = 1;
 
         if (!world.isRemote) {
             List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player, 30, player, true));

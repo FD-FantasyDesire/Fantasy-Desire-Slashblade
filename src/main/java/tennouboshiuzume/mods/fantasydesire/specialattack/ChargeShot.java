@@ -139,6 +139,12 @@ public class ChargeShot extends SpecialAttackBase implements ISuperSpecialAttack
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
 
+        final int cost = -2000;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            return;
+        }
+        stack.setItemDamage(stack.getMaxDamage() / 2);
+
         if(!world.isRemote){
             List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(player,60f, player , false);
 //            target.remove(player);

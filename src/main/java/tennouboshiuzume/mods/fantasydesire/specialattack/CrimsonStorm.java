@@ -121,11 +121,10 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
 
-        final int cost = -2000;
+        final int cost = -20;
         if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
-            return;
+            ItemSlashBlade.damageItem(stack, 10, player);
         }
-        stack.setItemDamage(stack.getMaxDamage() / 2);
 
         ItemSlashBlade blade = (ItemSlashBlade) stack.getItem();
 
@@ -204,6 +203,12 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
 
         ItemSlashBlade blade = (ItemSlashBlade) stack.getItem();
 
+        final int cost = -20;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            return;
+        }
+        stack.setItemDamage(stack.getMaxDamage() / 2);
+
         float baseModif = blade.getBaseAttackModifiers(tag);
         int level = Math.max(1, EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack));
         float magicDamage = (baseModif / 2.0f);
@@ -211,6 +216,7 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
         int rank = StylishRankManager.getStylishRank(player);
         if (5 <= rank)
             magicDamage += ItemSlashBlade.AttackAmplifier.get(tag) * (0.25f + (level / 5.0f));
+
 
         magicDamage*=Math.max(rank,1);
         List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player, 30, player, true));

@@ -2,6 +2,9 @@ package tennouboshiuzume.mods.fantasydesire.named.item;
 
 import mods.flammpfeil.slashblade.ItemSlashBladeNamed;
 import mods.flammpfeil.slashblade.TagPropertyAccessor;
+import mods.flammpfeil.slashblade.ability.DefeatTheBoss;
+import mods.flammpfeil.slashblade.ability.SoulEater;
+import mods.flammpfeil.slashblade.ability.StylishRankManager;
 import mods.flammpfeil.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil.slashblade.util.ResourceLocationRaw;
 import net.minecraft.client.Minecraft;
@@ -16,13 +19,17 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
 import org.lwjgl.input.Keyboard;
+import scala.xml.Null;
 
 import static tennouboshiuzume.mods.fantasydesire.util.BladeUtils.*;
 import static tennouboshiuzume.mods.fantasydesire.util.ItemUtils.FD_BLADE;
@@ -305,5 +312,23 @@ public class ItemFdSlashBlade extends ItemSlashBladeNamed {
         }
 
         return bb;
+    }
+    @Override
+    public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase) {
+        NBTTagCompound targetTag = par2EntityLivingBase.getEntityData();
+        NBTTagCompound tag = getItemTagCompound(par1ItemStack);
+        if (!targetTag.getBoolean("DeadCountedSoul")){
+            updateKillCount(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
+            ComboSequence comboSec = getComboSequence(tag);
+            this.setImpactEffect(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase, comboSec);
+            if (!comboSec.useScabbard && comboSec.mainHandCombo == null || IsNoScabbard.get(tag)) {
+                damageItem(par1ItemStack, 1, par3EntityLivingBase);
+            }
+            StylishRankManager.doAttack(par3EntityLivingBase);
+            if (!par2EntityLivingBase.isEntityAlive()&&par2EntityLivingBase.deathTime==0&&!targetTag.getBoolean("DeadCountedSoul")){
+                targetTag.setBoolean("DeadCountedSoul",true);
+            }
+        }
+        return true;
     }
 }

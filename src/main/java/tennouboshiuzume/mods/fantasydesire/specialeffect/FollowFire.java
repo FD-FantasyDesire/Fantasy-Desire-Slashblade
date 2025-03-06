@@ -8,12 +8,15 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -29,6 +32,7 @@ import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordExBase;
 import tennouboshiuzume.mods.fantasydesire.entity.EntitySoulPhantomSword;
 import tennouboshiuzume.mods.fantasydesire.named.item.ItemFdSlashBlade;
 import tennouboshiuzume.mods.fantasydesire.util.BladeUtils;
+import tennouboshiuzume.mods.fantasydesire.util.ParticleUtils;
 import tennouboshiuzume.mods.fantasydesire.util.TargetUtils;
 
 import java.util.ArrayList;
@@ -68,40 +72,66 @@ public class FollowFire implements ISpecialEffect, IRemovable {
         }
         ItemStack stack = event.blade;
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
-        boolean burning = player.isBurning() || player.isPotionActive(MobEffects.FIRE_RESISTANCE);
+        boolean burning = player.isBurning() || player.isPotionActive(MobEffects.FIRE_RESISTANCE) || player.isInLava();
         if (burning) {
-            ItemFdSlashBlade.SpecialCharge.set(tag, Math.min(ItemFdSlashBlade.SpecialCharge.get(tag) + 5, 10000));
+            if (player.isBurning()){
+                ItemFdSlashBlade.SpecialCharge.set(tag, Math.min(ItemFdSlashBlade.SpecialCharge.get(tag) + 5, 10000));
+            }
+            if (player.isPotionActive(MobEffects.FIRE_RESISTANCE)){
+                ItemFdSlashBlade.SpecialCharge.set(tag, Math.min(ItemFdSlashBlade.SpecialCharge.get(tag) + 5, 10000));
+            }
+//            ÈÛÑÒ×ª»¯Ê®±¶¸ÐÓ¦¶È
+            if (player.isInLava()){
+                ItemFdSlashBlade.SpecialCharge.set(tag, Math.min(ItemFdSlashBlade.SpecialCharge.get(tag) + 50, 10000));
+            }
         } else {
             ItemFdSlashBlade.SpecialCharge.set(tag, Math.min(ItemFdSlashBlade.SpecialCharge.get(tag) - 2, 10000));
         }
 
         float heat = (float) ItemFdSlashBlade.SpecialCharge.get(tag) / 100;
         if (heat >= 95) {
-//            åŠ£ åŒ– ä¾µ èš€
+//            ÁÓ »¯ ÇÖ Ê´
             if (ItemSlashBlade.SpecialAttackType.get(tag) == 212) {
                 ItemSlashBlade.SpecialAttackType.set(tag, 213);
             }
-        }else {
+        } else {
             if (ItemSlashBlade.SpecialAttackType.get(tag) == 213) {
                 ItemSlashBlade.SpecialAttackType.set(tag, 212);
             }
         }
 
-        if (heat >= 75) {
+        if (heat >= 75 && player.world.getTotalWorldTime() % 40 == 0) {
             List<EntityLivingBase> target = new ArrayList<>(TargetUtils.findAllHostileEntities(player, 10, player, true));
             for (EntityLivingBase entity : target) {
                 entity.setFire(100);
-//                entity.attackEntityFrom(DamageSource.IN_FIRE, 2);
+                entity.playSound(SoundEvents.ITEM_FIRECHARGE_USE, 1, 1);
+                Vec3d pos1 = new Vec3d(0, 0, 5);
+                int particles = 6;
+                for (int i = 0; i < particles; i++) {
+                    Vec3d pos = pos1.rotateYaw(i * ((float) 360 / particles)).normalize().scale(0.25f);
+                    ParticleUtils.spawnParticle(player.world, EnumParticleTypes.FLAME, true,
+                            entity.posX, entity.posY + entity.height / 2, entity.posZ,
+                            0, pos.x, pos.y, pos.z, 0.5f);
+                }
+                DamageSource OverHeatFlame = new EntityDamageSource("OverHeatFlame", player).setDamageIsAbsolute();
+                entity.attackEntityFrom(OverHeatFlame,5);
             }
         }
-//        æ„Ÿåº”åº¦å¤§äºŽ50%æ—¶ï¼Œæ¶ˆè€—æ„Ÿåº”åº¦å›žå¤è€ä¹…
+//        ¸ÐÓ¦¶È´óÓÚ50%Ê±£¬ÏûºÄ¸ÐÓ¦¶È»Ø¸´ÄÍ¾Ã
         if (heat >= 50 && stack.getItemDamage() > 0) {
             stack.setItemDamage(stack.getItemDamage() - 1);
             ItemFdSlashBlade.SpecialCharge.set(tag, Math.min(ItemFdSlashBlade.SpecialCharge.get(tag) - 50, 10000));
         }
-//        çŠ¶æ€æ æç¤º
+//        ×´Ì¬À¸ÌáÊ¾
         if (heat > 0) {
             String formattedDamage = String.format("%.2f", heat);
+            if (heat >= 95) {
+                formattedDamage = "¡ìc¡ìl" + formattedDamage;
+            } else if (heat >= 75) {
+                formattedDamage = "¡ìe¡ìl" + formattedDamage;
+            } else {
+                formattedDamage = "¡ìa¡ìl" + formattedDamage;
+            }
             player.sendStatusMessage(new TextComponentString(I18n.format("tennouboshiuzume.tip.HeatRate", formattedDamage)), true);
         }
     }
@@ -113,7 +143,7 @@ public class FollowFire implements ISpecialEffect, IRemovable {
 
     @Override
     public int getDefaultRequiredLevel() {
-        return 60;
+        return -1;
     }
 
     @Override

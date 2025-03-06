@@ -54,8 +54,9 @@ public class ArdorBlossomStar  {
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xFFCC00);
         ItemFdSlashBlade.unlockLevel.set(tag,80);
         SpecialEffects.addEffect(customblade, FdSEs.FollowFire);
+        SpecialEffects.addEffect(customblade, FdSEs.FlameDrain);
         tag.setInteger("BladeLore", 3);
-        tag.setInteger("SpecialEffectLore",5);
+        tag.setInteger("SpecialEffectLore",7);
         tag.setInteger("SpecialAttackLore", 7);
         customblade.addEnchantment(Enchantments.FIRE_ASPECT, 10);
         customblade.addEnchantment(Enchantments.FIRE_PROTECTION,10);

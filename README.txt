@@ -8,7 +8,7 @@ Minecraft Mod Slashblade （拔刀剑）的附属mod
 -------------------------------------------
 模型素材来源:
 ChikeFlare:
-https://sketchfab.com/3d-models/cyber-katana-c606d6089a984cbfb82224e99163d87d
+https://sketchfab.com/3d-models/sci-fi-katana-sword-10-all-pbr-unity-ue-textures-f679d8c4092d4b0da9d6058f8c78c2d5
 SmartPistol:
 https://sketchfab.com/3d-models/smart-pistol-bt-variant-6a271d0096f5443ca7acce5097a8086c
 CrimsonScythe:

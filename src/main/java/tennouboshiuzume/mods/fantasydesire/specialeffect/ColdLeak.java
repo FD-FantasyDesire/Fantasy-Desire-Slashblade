@@ -10,6 +10,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -127,7 +128,6 @@ public class ColdLeak implements ISpecialEffect, IRemovable {
             }
 
             List<EntityLivingBase> target = TargetUtils.findAllHostileEntities(event.entityBladeStand, range, player,false);
-
             Boolean isDone = false;
 
             if (!target.isEmpty()) {

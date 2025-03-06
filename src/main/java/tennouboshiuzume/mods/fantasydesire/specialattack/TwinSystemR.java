@@ -179,6 +179,12 @@ public class TwinSystemR extends SpecialAttackBase implements ISuperSpecialAttac
             case NonEffective:
                 return;
         }
+        final int cost = -2000;
+        if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
+            return;
+        }
+        stack.setItemDamage(stack.getMaxDamage() / 2);
+
         if (!world.isRemote){
             EntityTwinSlashManager entitydrive = new EntityTwinSlashManager(world,player);
             world.spawnEntity(entitydrive);

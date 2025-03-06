@@ -48,7 +48,7 @@ public class ChikeFlare {
         ItemSlashBlade.ModelName.set(tag, "named/ChikeFlare");
         ItemSlashBlade.SpecialAttackType.set(tag, 200);
         ItemSlashBlade.StandbyRenderType.set(tag, 2);
-        ItemSlashBlade.BaseAttackModifier.set(tag, 2.0F);
+        ItemSlashBlade.BaseAttackModifier.set(tag, 1.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xFFFF00);
         ItemFdSlashBlade.unlockLevel.set(tag,67);
         SpecialEffects.addEffect(customblade, FdSEs.CheatRumble);

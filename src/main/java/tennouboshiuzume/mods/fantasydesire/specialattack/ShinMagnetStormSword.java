@@ -35,9 +35,9 @@ public class ShinMagnetStormSword extends SpecialAttackBase {
         Random random = new Random();
 
         NBTTagCompound tag = ItemSlashBlade.getItemTagCompound(stack);
-        final int cost = -2000;
+        final int cost = -200;
         if (!ItemSlashBlade.ProudSoul.tryAdd(tag, cost, false)) {
-            return;
+            ItemSlashBlade.damageItem(stack, 10, player);
         }
         int ringcount = Math.min(Math.max((int) Math.sqrt(Math.abs(player.experienceLevel))-2, 1),8);
         ItemSlashBlade blade = (ItemSlashBlade)stack.getItem();
