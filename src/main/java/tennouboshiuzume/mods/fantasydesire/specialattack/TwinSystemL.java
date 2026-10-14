@@ -120,6 +120,7 @@ public class TwinSystemL extends SpecialAttackBase implements ISuperSpecialAttac
                     entityDrive.setColor(0xFF0089);
                     entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,0.5f);
                     entityDrive.setParticle(EnumParticleTypes.END_ROD);
+                    entityDrive.setMaxDistance(30f);
                     world.spawnEntity(entityDrive);
                 }
                 {
@@ -131,6 +132,7 @@ public class TwinSystemL extends SpecialAttackBase implements ISuperSpecialAttac
                     entityDrive.setColor(0x00C8FF);
                     entityDrive.setSound(SoundEvents.ENTITY_BLAZE_HURT,2f,2f);
                     entityDrive.setParticle(EnumParticleTypes.END_ROD);
+                    entityDrive.setMaxDistance(30f);
                     world.spawnEntity(entityDrive);
                 }
             }

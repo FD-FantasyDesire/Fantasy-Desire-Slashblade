@@ -105,6 +105,7 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
                     entityDrive.setIsOverWall(true);
                     entityDrive.setScale(2f);
                     entityDrive.setLifeTime(40);
+                    entityDrive.setMaxDistance(25f);
                     world.spawnEntity(entityDrive);
                     count++;
                 }
@@ -184,6 +185,7 @@ public class CrimsonStorm extends SpecialAttackBase implements IJustSpecialAttac
                     entityDrive.setScale(2f);
                     entityDrive.setParticle(EnumParticleTypes.FLAME);
                     entityDrive.setLifeTime(20);
+                    entityDrive.setMaxDistance(25f);
                     world.spawnEntity(entityDrive);
                     count++;
                 }

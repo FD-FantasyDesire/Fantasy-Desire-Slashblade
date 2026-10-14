@@ -83,7 +83,7 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
 //            evo 3
 //            ItemFdSlashBlade.bladeType.set(tag, "OverCold_3");
 //            ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_3");
-            if (MathUtils.randomCheck(35)) return;
+            if (MathUtils.randomCheck(25)) return;
             summonFrostStar(world, player, target, 10, magicDamage * 2f, 3f, 4);
             if (target.getHealth() < magicDamage){
                 ItemSlashBlade.ProudSoul.tryAdd(tag, 5, false);
@@ -93,7 +93,7 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
 //            evo 2
 //            ItemFdSlashBlade.bladeType.set(tag, "OverCold_2");
 //            ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_2");
-            if (MathUtils.randomCheck(30)) return;
+            if (MathUtils.randomCheck(20)) return;
             summonFrostStar(world, player, target, 5, magicDamage * 1.5f, 1.5f, 2);
             if (target.getHealth() < magicDamage){
                 ItemSlashBlade.ProudSoul.tryAdd(tag, 5, false);
@@ -103,14 +103,14 @@ public class EvolutionIce implements ISpecialEffect, IRemovable {
 //            evo 1
 //            ItemFdSlashBlade.bladeType.set(tag, "OverCold_1");
 //            ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_1");
-            if (!MathUtils.randomCheck(25)) return;
+            if (!MathUtils.randomCheck(15)) return;
             target.attackEntityFrom(OverCold, magicDamage);
             target.hurtTime = 0;
         } else if (target.isEntityAlive()) {
 //            evo 0
 //            ItemFdSlashBlade.bladeType.set(tag, "OverCold_0");
 //            ItemFdSlashBlade.ModelName.set(tag, "named/OverCold_0");
-            if (!MathUtils.randomCheck(20)) return;
+            if (!MathUtils.randomCheck(10)) return;
             target.attackEntityFrom(OverCold, magicDamage * 0.5f);
             target.hurtTime = 0;
 

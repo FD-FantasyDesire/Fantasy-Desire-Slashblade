@@ -45,10 +45,10 @@ public class EntitySeekSoulPhantomSword extends EntityPhantomSwordEx {
         }
         if (!this.world.isRemote) {
             if (getTrueDamage()) {
-                if (target instanceof EntityLivingBase) {
+                if (target instanceof EntityLivingBase && ((EntityLivingBase) target).getHealth()>1) {
                     EntityLivingBase entityTarget = (EntityLivingBase) target;
                     entityTarget.setHealth(Math.max(1, entityTarget.getHealth() - (entityTarget.getMaxHealth() * TrueDamageLevel / 100)));
-                    System.out.println(((EntityLivingBase) target).getHealth());
+//                    System.out.println(((EntityLivingBase) target).getHealth());
                 }
             }
             float magicDamage = Math.max(1.0f, AttackLevel);

@@ -328,6 +328,7 @@ public class EntityOverChargeBFG extends EntityOverCharge {
                     entityDrive.setParticle(EnumParticleTypes.SNOW_SHOVEL);
                     entityDrive.setColor(freezeColor[i % freezeColor.length]);
                     entityDrive.setScale(this.getScale());
+                    entityDrive.setMaxDistance(30f);
                     entityDrive.setLifeTime(20);
                     world.spawnEntity(entityDrive);
                 }

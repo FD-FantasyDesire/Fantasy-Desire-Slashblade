@@ -75,6 +75,7 @@ public class ABMS extends SpecialAttackBase implements ISuperSpecialAttack {
                 entity.attackEntityFrom(OverHeatFlame,magicDamage);
                 if (entity.isBurning()||entity.isImmuneToFire()){
                     world.createExplosion(player, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, range , false);
+                    entity.addVelocity(0d,-0.3d,0d);
                 }
             }
 

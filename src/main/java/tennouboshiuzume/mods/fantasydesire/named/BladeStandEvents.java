@@ -24,11 +24,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.logging.log4j.core.jmx.Server;
-import scala.tools.nsc.doc.model.Public;
-import tennouboshiuzume.mods.fantasydesire.FantasyDesire;
-import tennouboshiuzume.mods.fantasydesire.entity.EntityPhantomSwordEx;
-import tennouboshiuzume.mods.fantasydesire.init.FdSEs;
 import tennouboshiuzume.mods.fantasydesire.util.*;
 
 import java.util.List;

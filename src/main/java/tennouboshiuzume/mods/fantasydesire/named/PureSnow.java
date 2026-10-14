@@ -30,9 +30,10 @@ import tennouboshiuzume.mods.fantasydesire.util.WorldBladeStandCrafting;
 public class PureSnow {
     String name = "tennouboshiuzume.slashblade.PureSnow";
     String materialName = "flammpfeil.slashblade.named.yamato";
+
     @SubscribeEvent
-    public void init(LoadEvent.InitEvent event){
-        ItemStack customblade = new ItemStack(FdBlades.Fd_BLADE,1,0);
+    public void init(LoadEvent.InitEvent event) {
+        ItemStack customblade = new ItemStack(FdBlades.Fd_BLADE, 1, 0);
         NBTTagCompound tag = new NBTTagCompound();
         customblade.setTagCompound(tag);
         ItemFdSlashBlade.CurrentItemName.set(tag, name);
@@ -40,57 +41,64 @@ public class PureSnow {
         ItemFdSlashBlade.IsDefaultBewitched.set(tag, true);
         ItemFdSlashBlade.isFdBlade.set(tag, true);
         ItemFdSlashBlade.bladeType.set(tag, "PureSnow");
-        ItemSlashBlade.TextureName.set(tag,"named/PureSnow");
-        ItemSlashBlade.ModelName.set(tag,"named/PureSnow");
+        ItemSlashBlade.TextureName.set(tag, "named/PureSnow");
+        ItemSlashBlade.ModelName.set(tag, "named/PureSnow");
         ItemSlashBlade.SpecialAttackType.set(tag, 211);
         ItemSlashBlade.StandbyRenderType.set(tag, 1);
         ItemSlashBlade.BaseAttackModifier.set(tag, 7.0F);
         ItemSlashBlade.SummonedSwordColor.set(tag, 0xFFFFFF);
-        ItemFdSlashBlade.unlockLevel.set(tag,60);
-        SpecialEffects.addEffect(customblade,FdSEs.RainbowFlux);
-        SpecialEffects.addEffect(customblade,FdSEs.ColorFlux);
-        tag.setInteger("BladeLore",  3);
+        ItemFdSlashBlade.unlockLevel.set(tag, 60);
+        SpecialEffects.addEffect(customblade, FdSEs.RainbowFlux);
+        SpecialEffects.addEffect(customblade, FdSEs.ColorFlux);
+        tag.setInteger("BladeLore", 3);
         tag.setInteger("SpecialEffectLore", 5);
         tag.setInteger("SpecialAttackLore", 4);
-        customblade.addEnchantment(Enchantments.SILK_TOUCH,1);
-        customblade.addEnchantment(Enchantments.INFINITY,1);
-        customblade.addEnchantment(Enchantments.FEATHER_FALLING,1);
-        customblade.addEnchantment(Enchantments.POWER,3);
-        customblade.addEnchantment(Enchantments.UNBREAKING,10);
+        customblade.addEnchantment(Enchantments.SILK_TOUCH, 1);
+        customblade.addEnchantment(Enchantments.INFINITY, 1);
+        customblade.addEnchantment(Enchantments.FEATHER_FALLING, 1);
+        customblade.addEnchantment(Enchantments.POWER, 3);
+        customblade.addEnchantment(Enchantments.UNBREAKING, 10);
 
         BladeUtils.registerCustomItemStack(name, customblade);
         BladeUtils.FdNamedBlades.add(name);
     }
+
     @SubscribeEvent
-    public void postinit(LoadEvent.PostInitEvent event){
+    public void postinit(LoadEvent.PostInitEvent event) {
         SlashBladeHooks.EventBus.register(this);
     }
+
     @SubscribeEvent
-    public void OnBladeStandUpdate(SlashBladeEvent.OnEntityBladeStandUpdateEvent event){
+    public void OnBladeStandUpdate(SlashBladeEvent.OnEntityBladeStandUpdateEvent event) {
 
-        if(!event.entityBladeStand.hasBlade()) return;
+        if (!event.entityBladeStand.hasBlade())
+            return;
 
-        if(EntityBladeStand.getType(event.entityBladeStand) != EntityBladeStand.StandType.Single) return;
+        if (EntityBladeStand.getType(event.entityBladeStand) != EntityBladeStand.StandType.Single)
+            return;
 
-        if (!(event.entityBladeStand.world.provider.getDimension() == 0)) return;
-
-        if (event.entityBladeStand.posY<250) return;
-
-        ItemStack targetBlade = SlashBlade.findItemStack(SlashBlade.modid,"slashbladeNamed",1);
+        if (!(event.entityBladeStand.world.provider.getDimension() == 0))
+            return;
+        if (event.entityBladeStand.posY < 250)
+            return;
+        ItemStack targetBlade = SlashBlade.findItemStack(SlashBlade.modid, "slashbladeNamed", 1);
 
         NBTTagCompound tag = event.blade.getTagCompound();
 
-        if (!(ItemSlashBlade.ProudSoul.get(tag)>=1000)) return;
+        if (!(ItemSlashBlade.ProudSoul.get(tag) >= 1000))
+            return;
 
-        if(!event.blade.getUnlocalizedName().equals(targetBlade.getUnlocalizedName())) return;
+        if (!event.blade.getUnlocalizedName().equals(targetBlade.getUnlocalizedName()))
+            return;
 
-        long currentTime = event.entityBladeStand.world.getWorldTime();
+        long currentTime = event.entityBladeStand.world.getWorldTime() % 24000;
 
-        if (!(currentTime>=5960 && currentTime <= 6040)) return;
+        if (!(currentTime >= 5960 && currentTime <= 6040))
+            return;
 
-        ItemStack resultBlade = WorldBladeStandCrafting.crafting(event.blade,name);
+        ItemStack resultBlade = WorldBladeStandCrafting.crafting(event.blade, name);
 
-        event.entityBladeStand.playSound(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE,1,1);
+        event.entityBladeStand.playSound(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
 
         ParticleUtils.spawnParticle(event.entityBladeStand.world, EnumParticleTypes.END_ROD,
                 false,

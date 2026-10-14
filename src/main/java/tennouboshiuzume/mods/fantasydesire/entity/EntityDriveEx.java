@@ -35,6 +35,8 @@ public class EntityDriveEx extends EntityBase
 
     private static final DataParameter<Integer> MULTHIT_TICK = EntityDataManager.<Integer>createKey(EntityDriveEx.class,DataSerializers.VARINT);
 
+    private static final DataParameter<Float> MAXDISTANCE = EntityDataManager.<Float>createKey(EntityDriveEx.class,DataSerializers.FLOAT);
+
     /**
      * コンストラクタ
      *
@@ -124,6 +126,13 @@ public class EntityDriveEx extends EntityBase
     public void setMultiHitTick(int value){
         this.getDataManager().set(MULTHIT_TICK,value);
     }
+
+    public float getMaxDistance(){
+        return this.getDataManager().get(MAXDISTANCE);
+    }
+    public void setMaxDistance(Float value){
+        this.getDataManager().set(MAXDISTANCE,value);
+    }
     /**
      * エンティティの更新処理.
      *
@@ -144,7 +153,7 @@ public class EntityDriveEx extends EntityBase
         if (sound!=null&&this.ticksExisted==getInterval())
             this.playSound(sound,volume,rate);
 
-        if (this.ticksExisted >= getLifeTime())
+        if (this.ticksExisted >= getLifeTime()||(this.thrower_!=null && (this.getDistance(thrower_)>=getMaxDistance())))
             setDead();
     }
 
